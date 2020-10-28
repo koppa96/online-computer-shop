@@ -18,6 +18,10 @@ namespace OnlineComputerShop.Dal.EntityConfiguration
             builder.HasMany(x => x.ProductSockets)
                 .WithOne(x => x.Product)
                 .HasForeignKey(x => x.ProductId);
+
+            builder.HasMany(x => x.Comments)
+                .WithOne(x => x.Product)
+                .HasForeignKey(x => x.ProductId);
         }
     }
 }

@@ -16,5 +16,6 @@ namespace OnlineComputerShop.Dal.Entities
 
         public virtual ICollection<PropertyValue> PropertyValues { get; set; }
         public virtual ICollection<ProductSocket> ProductSockets { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }
