@@ -183,6 +183,33 @@ namespace OnlineComputerShop.Dal.Migrations
                     b.ToTable("CategorySocket");
                 });
 
+            modelBuilder.Entity("OnlineComputerShop.Dal.Entities.Comment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comment");
+                });
+
             modelBuilder.Entity("OnlineComputerShop.Dal.Entities.Order", b =>
                 {
                     b.Property<Guid>("Id")
@@ -459,6 +486,21 @@ namespace OnlineComputerShop.Dal.Migrations
                     b.HasOne("OnlineComputerShop.Dal.Entities.Socket", "Socket")
                         .WithMany("CategorySockets")
                         .HasForeignKey("SocketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("OnlineComputerShop.Dal.Entities.Comment", b =>
+                {
+                    b.HasOne("OnlineComputerShop.Dal.Entities.Product", "Product")
+                        .WithMany("Comments")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineComputerShop.Dal.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
