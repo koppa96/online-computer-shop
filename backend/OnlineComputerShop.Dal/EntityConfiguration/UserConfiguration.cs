@@ -12,7 +12,7 @@ namespace OnlineComputerShop.Dal.EntityConfiguration
                 .WithOne(x => x.User)
                 .HasForeignKey(x => x.UserId);
 
-            builder.HasMany(x => x.OrderItems)
+            builder.HasMany(x => x.BasketItems)
                 .WithOne(x => x.User)
                 .HasForeignKey(x => x.UserId);
         }
