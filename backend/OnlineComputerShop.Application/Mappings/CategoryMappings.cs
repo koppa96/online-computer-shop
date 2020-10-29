@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using OnlineComputerShop.Application.Features.Admin.Categories;
+using OnlineComputerShop.Application.Features.Common.Categories;
 using OnlineComputerShop.Dal.Entities;
 
 namespace OnlineComputerShop.Application.Mappings

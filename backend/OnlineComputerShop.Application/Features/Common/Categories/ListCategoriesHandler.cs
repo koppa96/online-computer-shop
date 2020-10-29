@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using OnlineComputerShop.Dal;
 
-namespace OnlineComputerShop.Application.Features.Admin.Categories
+namespace OnlineComputerShop.Application.Features.Common.Categories
 {
     public class CategoryListQuery : IRequest<IEnumerable<CategoryListResponse>>
     {
