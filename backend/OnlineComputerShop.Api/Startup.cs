@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -79,7 +82,7 @@ namespace OnlineComputerShop.Api
                                 { "adminapi.readwrite", "adminapi.readwrite" },
                                 { "webshopapi.readwrite", "webshopapi.readwrite" },
                                 { "openid", "openid" },
-                                { "name", "name" }
+                                { "profile", "profile" }
                             }
                         }
                     }
@@ -87,6 +90,9 @@ namespace OnlineComputerShop.Api
                 
                 config.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("OAuth2"));
             });
+
+            services.AddMediatR(Assembly.Load("OnlineComputerShop.Application"));
+            services.AddAutoMapper(Assembly.Load("OnlineComputerShop.Application"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

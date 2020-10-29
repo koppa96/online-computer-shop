@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace OnlineComputerShop.Api.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Admin")]
+    [Authorize("Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
