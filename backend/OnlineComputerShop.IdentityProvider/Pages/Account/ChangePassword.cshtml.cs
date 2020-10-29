@@ -9,7 +9,7 @@ using OnlineComputerShop.Dal.Entities;
 
 namespace OnlineComputerShop.IdentityProvider.Pages.Account
 {
-    [Authorize("MyCookiePolicy")]
+    [Authorize]
     public class ChangePasswordModel : PageModel
     {
         private readonly UserManager<User> userManager;
