@@ -22,8 +22,8 @@ namespace OnlineComputerShop.Api.Controllers.Admin
             throw new NotImplementedException();
         }
 
-        [HttpDelete("{id}")]
-        public Task DeleteAdministrator(Guid id)
+        [HttpDelete("{administratorId}")]
+        public Task DeleteAdministrator(Guid administratorId)
         {
             throw new NotImplementedException();
         }

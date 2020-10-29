@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OnlineComputerShop.Application.Features.Admin.Categories;
+using OnlineComputerShop.Application.Features.Common.Categories;
 
 namespace OnlineComputerShop.Api.Controllers.Admin
 {
@@ -26,8 +26,8 @@ namespace OnlineComputerShop.Api.Controllers.Admin
             return mediator.Send(new CategoryListQuery());
         }
 
-        [HttpGet("{id}")]
-        public Task GetCategory(Guid id)
+        [HttpGet("{categoryId}")]
+        public Task GetCategory(Guid categoryId)
         {
             throw new NotImplementedException();
         }
@@ -38,14 +38,26 @@ namespace OnlineComputerShop.Api.Controllers.Admin
             throw new NotImplementedException();
         }
 
-        [HttpPut("{id}")]
-        public Task EditCategory(Guid id)
+        [HttpPut("{categoryId}")]
+        public Task EditCategory(Guid categoryId)
         {
             throw new NotImplementedException();
         }
 
-        [HttpDelete("{id}")]
-        public Task DeleteCategory(Guid id)
+        [HttpDelete("{categoryId}")]
+        public Task DeleteCategory(Guid categoryId)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet("{categoryId}/products")]
+        public Task ListProducts(Guid categoryId)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpPost("{categoryId}/products")]
+        public Task CreateProduct(Guid categoryId)
         {
             throw new NotImplementedException();
         }

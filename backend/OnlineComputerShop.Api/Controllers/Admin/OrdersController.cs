@@ -16,20 +16,20 @@ namespace OnlineComputerShop.Api.Controllers.Admin
             throw new NotImplementedException();
         }
 
-        [HttpGet("{id}")]
-        public Task GetOrder(Guid id)
+        [HttpGet("{orderId}")]
+        public Task GetOrder(Guid orderId)
         {
             throw new NotImplementedException();
         }
 
-        [HttpPut("{id}")]
-        public Task EditOrder(Guid id)
+        [HttpPut("{orderId}")]
+        public Task EditOrder(Guid orderId)
         {
             throw new NotImplementedException();
         }
 
-        [HttpDelete("{id}")]
-        public Task DeleteOrder(Guid id)
+        [HttpDelete("{orderId}")]
+        public Task DeleteOrder(Guid orderId)
         {
             throw new NotImplementedException();
         }
