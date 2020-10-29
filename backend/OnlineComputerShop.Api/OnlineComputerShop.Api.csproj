@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\Webshop\CategoryProductsController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Controllers\Webshop\ProductsController" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\OnlineComputerShop.Application\OnlineComputerShop.Application.csproj" />
   </ItemGroup>
 
@@ -13,10 +21,6 @@
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.9" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.8.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\Webshop" />
   </ItemGroup>
 
 
