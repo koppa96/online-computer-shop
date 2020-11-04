@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -33,7 +34,7 @@ namespace OnlineComputerShop.Application.Features.Common.Categories
         public async Task<IEnumerable<CategoryListResponse>> Handle(CategoryListQuery request, CancellationToken cancellationToken)
         {
             var categories = await context.Categories.ToListAsync(cancellationToken);
-            
+
             // Ezek ekvivalensek
             // return categories.Select(mapper.Map<CategoryListResponse>);
             // return categories.Select(x => mapper.Map<CategoryListResponse>(x));
