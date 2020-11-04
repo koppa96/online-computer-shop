@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OnlineComputerShop.Application.Features.Admin.Orders;
+using OnlineComputerShop.Application.Features.Common.Orders;
 
 namespace OnlineComputerShop.Api.Controllers.Admin
 {
@@ -10,28 +15,45 @@ namespace OnlineComputerShop.Api.Controllers.Admin
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        [HttpGet]
-        public Task ListOrders()
+        private readonly IMediator mediator;
+
+        public OrdersController(IMediator mediator)
         {
-            throw new NotImplementedException();
+            this.mediator = mediator;
+        }
+        [HttpGet]
+        public Task<IEnumerable<OrderListResponse>> ListOrders([FromQuery] string userName)
+        {
+            return mediator.Send(new OrderListQuery { UserName = userName });
         }
 
         [HttpGet("{orderId}")]
-        public Task GetOrder(Guid orderId)
+        public Task<OrderGetResponse> GetOrder(Guid orderId)
         {
-            throw new NotImplementedException();
+            return mediator.Send(new OrderGetQuery { OrderId = orderId });
         }
 
         [HttpPut("{orderId}")]
-        public Task EditOrder(Guid orderId)
+        public Task EditOrderState(Guid orderId, [FromBody] OrderStateEditCommand orderStateEditCommand)
         {
-            throw new NotImplementedException();
+            if (orderId != orderStateEditCommand.Id)
+                throw new Exception();
+            return mediator.Send(orderStateEditCommand);
         }
 
-        [HttpDelete("{orderId}")]
-        public Task DeleteOrder(Guid orderId)
+        [HttpPut("{orderId}")]
+        public Task EditOrderAddress(Guid orderId, [FromBody] OrderAddressEditCommand orderAddressEditCommand)
         {
-            throw new NotImplementedException();
+            if (orderId != orderAddressEditCommand.Id)
+                throw new Exception();
+            return mediator.Send(orderAddressEditCommand);
+        }
+
+
+        [HttpDelete("{orderId}")]
+        public Task RemoveOrder(Guid orderId)
+        {
+            return mediator.Send(new OrderRemoveCommand { Id = orderId });
         }
     }
 }

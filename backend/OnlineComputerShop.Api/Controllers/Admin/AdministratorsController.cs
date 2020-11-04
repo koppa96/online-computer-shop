@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OnlineComputerShop.Application.Features.Admin.Administrators;
 
 namespace OnlineComputerShop.Api.Controllers.Admin
 {
@@ -10,8 +15,14 @@ namespace OnlineComputerShop.Api.Controllers.Admin
     [ApiController]
     public class AdministratorsController : ControllerBase
     {
+        private readonly IMediator mediator;
+
+        public AdministratorsController(IMediator mediator)
+        {
+            this.mediator = mediator;
+        }
         [HttpGet]
-        public Task ListAdministrators()
+        public Task<IEnumerable<AdministratorListResponse>> ListAdministrators()
         {
             throw new NotImplementedException();
         }
@@ -23,7 +34,7 @@ namespace OnlineComputerShop.Api.Controllers.Admin
         }
 
         [HttpDelete("{administratorId}")]
-        public Task DeleteAdministrator(Guid administratorId)
+        public Task RemoveAdministrator(Guid administratorId)
         {
             throw new NotImplementedException();
         }

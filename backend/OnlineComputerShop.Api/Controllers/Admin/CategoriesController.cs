@@ -4,7 +4,10 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OnlineComputerShop.Application.Features.Admin.Categories;
+using OnlineComputerShop.Application.Features.Admin.Products;
 using OnlineComputerShop.Application.Features.Common.Categories;
+using OnlineComputerShop.Application.Features.Common.Products;
 
 namespace OnlineComputerShop.Api.Controllers.Admin
 {
@@ -27,39 +30,43 @@ namespace OnlineComputerShop.Api.Controllers.Admin
         }
 
         [HttpGet("{categoryId}")]
-        public Task GetCategory(Guid categoryId)
+        public Task<CategoryGetResponse> GetCategory(Guid categoryId)
         {
-            throw new NotImplementedException();
+            return mediator.Send(new CategoryGetQuery { Id = categoryId });
         }
 
         [HttpPost]
-        public Task CreateCategory()
+        public Task CreateCategory([FromBody] CategoryCreateCommand categoryCreateCommand)
         {
-            throw new NotImplementedException();
+            return mediator.Send(categoryCreateCommand);
         }
 
         [HttpPut("{categoryId}")]
-        public Task EditCategory(Guid categoryId)
+        public Task EditCategory(Guid categoryId, [FromBody] CategoryEditCommand categoryEditCommand)
         {
-            throw new NotImplementedException();
+            if (categoryId != categoryEditCommand.Id)
+                throw new Exception();
+            return mediator.Send(categoryEditCommand);
         }
 
         [HttpDelete("{categoryId}")]
-        public Task DeleteCategory(Guid categoryId)
+        public Task RemoveCategory(Guid categoryId)
         {
-            throw new NotImplementedException();
+            return mediator.Send(new CategoryRemoveCommand { Id = categoryId });
         }
 
         [HttpGet("{categoryId}/products")]
-        public Task ListProducts(Guid categoryId)
+        public Task<IEnumerable<ProductListResponse>> ListProducts(Guid categoryId, [FromQuery] List<Guid> socketIds)
         {
-            throw new NotImplementedException();
+            return mediator.Send(new ProductListQuery { CategoryId = categoryId, SocketIds = socketIds });
         }
 
         [HttpPost("{categoryId}/products")]
-        public Task CreateProduct(Guid categoryId)
+        public Task CreateProduct(Guid categoryId, [FromBody] ProductCreateCommand productCreateCommand)
         {
-            throw new NotImplementedException();
+            if (productCreateCommand.CategoryId != categoryId)
+                throw new Exception();
+            return mediator.Send(productCreateCommand);
         }
     }
 }

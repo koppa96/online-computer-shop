@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OnlineComputerShop.Application.Features.Common.Categories;
+using OnlineComputerShop.Application.Features.Common.Products;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -27,9 +28,12 @@ namespace OnlineComputerShop.Api.Controllers.Webshop
         }
 
         [HttpGet("{categoryId}/products")]
-        public Task ListProducts(Guid categoryId, [FromQuery] List<Guid> socketIds)
+        public Task<IEnumerable<ProductListResponse>> ListProducts(Guid categoryId, [FromQuery] List<Guid> socketIds)
         {
-            throw new NotImplementedException();
+            return mediator.Send(new ProductListQuery { 
+                CategoryId = categoryId,
+                SocketIds = socketIds
+            });
         }
     }
 }

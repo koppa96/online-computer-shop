@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OnlineComputerShop.Application.Features.Common.Orders;
+using OnlineComputerShop.Application.Features.Webshop.Orders;
 
 namespace OnlineComputerShop.Api.Controllers.Webshop
 {
@@ -13,22 +16,28 @@ namespace OnlineComputerShop.Api.Controllers.Webshop
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        [HttpGet]
-        public Task ListOrders()
+        private readonly IMediator mediator;
+
+        public OrdersController(IMediator mediator)
         {
-            throw new NotImplementedException();
+            this.mediator = mediator;
+        }
+        [HttpGet]
+        public Task<IEnumerable<OrderListResponse>> ListOrders()
+        {
+            return mediator.Send(new OrderListQuery());
         }
         
         [HttpGet("{orderId}")]
-        public Task GetOrder(Guid orderId)
+        public Task<OrderGetResponse> GetOrder(Guid orderId)
         {
-            throw new NotImplementedException();
+            return mediator.Send(new OrderGetQuery { OrderId = orderId });
         }
         
         [HttpPost]
-        public Task CreateOrder()
+        public Task CreateOrder([FromBody] OrderCreateCommand orderCreateCommand)
         {
-            throw new NotImplementedException();
+            return mediator.Send(orderCreateCommand);
         }
     }
 }

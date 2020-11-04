@@ -7,12 +7,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnlineComputerShop.Application.Features.Common.Comments;
-using OnlineComputerShop.Application.Features.Webshop.Comments;
 
-namespace OnlineComputerShop.Api.Controllers.Webshop
+namespace OnlineComputerShop.Api.Controllers.Admin
 {
-    [Authorize("Webshop")]
-    [Route("api/webshop/[controller]")]
+    [Authorize("Admin")]
+    [Route("api/[controller]")]
     [ApiController]
     public class CommentsController : ControllerBase
     {
@@ -23,22 +22,13 @@ namespace OnlineComputerShop.Api.Controllers.Webshop
             this.mediator = mediator;
         }
 
-        [HttpPut("{commentId}")]
-        public Task EditComment(Guid commentId, [FromBody] CommentEditCommand commentEditCommand)
-        {
-            if (commentId != commentEditCommand.Id)
-                throw new Exception();
-
-            return mediator.Send(commentEditCommand);
-        }
 
         [HttpDelete("{commentId}")]
         public Task RemoveComment(Guid commentId)
         {
-            return mediator.Send(new CommentRemoveCommand
-            {
-                Id = commentId
-            });
+            return mediator.Send(new CommentRemoveCommand { Id = commentId });
         }
+
+
     }
 }

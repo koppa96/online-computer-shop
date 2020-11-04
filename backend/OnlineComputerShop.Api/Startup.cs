@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +19,10 @@ using Microsoft.IdentityModel.Tokens;
 using NSwag;
 using NSwag.AspNetCore;
 using NSwag.Generation.Processors.Security;
+using OnlineComputerShop.Api.Services;
+using OnlineComputerShop.Application.Services.Interfaces;
 using OnlineComputerShop.Dal;
+using OnlineComputerShop.Dal.Entities;
 
 namespace OnlineComputerShop.Api
 {
@@ -36,6 +40,10 @@ namespace OnlineComputerShop.Api
         {
             services.AddDbContext<OnlineComputerShopContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<User, IdentityRole<Guid>>()
+                .AddDefaultTokenProviders()
+                .AddEntityFrameworkStores<OnlineComputerShopContext>();
 
             services.AddAuthentication()
                 .AddJwtBearer("Admin", config =>
@@ -93,6 +101,8 @@ namespace OnlineComputerShop.Api
 
             services.AddMediatR(Assembly.Load("OnlineComputerShop.Application"));
             services.AddAutoMapper(Assembly.Load("OnlineComputerShop.Application"));
+            services.AddHttpContextAccessor();
+            services.AddTransient<IIdentityService, IdentityService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

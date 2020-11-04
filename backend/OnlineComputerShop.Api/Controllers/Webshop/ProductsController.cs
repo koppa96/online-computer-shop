@@ -1,10 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OnlineComputerShop.Application.Features.Common.Products;
+using OnlineComputerShop.Application.Features.Webshop.Products;
+using OnlineComputerShop.Application.Services.Interfaces;
 
 namespace OnlineComputerShop.Api.Controllers.Webshop
 {
@@ -13,16 +16,23 @@ namespace OnlineComputerShop.Api.Controllers.Webshop
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        [HttpGet("{productId}")]
-        public Task GetProduct(Guid productId)
+        private readonly IMediator mediator;
+
+        public ProductsController(IMediator mediator)
         {
-            throw new NotImplementedException();
+            this.mediator = mediator;
+        }
+        
+        [HttpGet("{productId}")]
+        public Task<ProductGetResponse> GetProduct(Guid productId)
+        {
+            return mediator.Send(new ProductGetQuery { ProductId = productId });
         }
 
         [HttpPost("{productId}/comments")]
-        public Task CreateComment(Guid productId)
+        public Task CreateComment([FromBody] CommentCreateCommand commentCreateCommand)
         {
-            throw new NotImplementedException();
+            return mediator.Send(commentCreateCommand);
         }
     }
 }

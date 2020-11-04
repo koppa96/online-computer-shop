@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OnlineComputerShop.Application.Features.Webshop.BasketItems;
 
 namespace OnlineComputerShop.Api.Controllers.Webshop
 {
@@ -22,33 +23,41 @@ namespace OnlineComputerShop.Api.Controllers.Webshop
         }
 
         [HttpGet]
-        public Task ListItems()
+        public Task<IEnumerable<BasketItemListResponse>> ListItems()
         {
-            throw new NotImplementedException();
+            return mediator.Send(new BasketItemListQuery());
+        }
+
+        [HttpGet("{itemId}")]
+        public Task<BasketItemGetResponse> GetItem(Guid itemId)
+        {
+            return mediator.Send(new BasketItemGetQuery { Id = itemId });
         }
 
         [HttpPost]
-        public Task AddItem()
+        public Task AddItem([FromBody] BasketItemAddCommand basketItemAddCommand)
         {
-            throw new NotImplementedException();
+            return mediator.Send(basketItemAddCommand);
         }
 
         [HttpPut("{itemId}")]
-        public Task EditItem(Guid itemId)
+        public Task EditItem(Guid itemId, [FromBody] BasketItemEditCommand basketItemEditCommand)
         {
-            throw new NotImplementedException();
+            if (itemId != basketItemEditCommand.Id)
+                throw new Exception();
+            return mediator.Send(basketItemEditCommand);
         }
 
         [HttpDelete("{itemId}")]
         public Task RemoveItem(Guid itemId)
         {
-            throw new NotImplementedException();
+            return mediator.Send(new BasketItemRemoveCommand { Id = itemId });
         }
 
         [HttpDelete]
         public Task RemoveItems()
         {
-            throw new NotImplementedException();
+            return mediator.Send(new BasketItemsRemoveCommand());
         }
     }
 }
