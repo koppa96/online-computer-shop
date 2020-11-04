@@ -7,14 +7,14 @@ using System.Text;
 
 namespace OnlineComputerShop.Dal.EntityConfiguration
 {
-    public class OrderConfiguration : IEntityTypeConfiguration<Order>
+    public class BasketItemConfiguration : IEntityTypeConfiguration<BasketItem>
     {
-        public void Configure(EntityTypeBuilder<Order> builder)
+        public void Configure(EntityTypeBuilder<BasketItem> builder)
         {
-            builder.HasMany(x => x.OrderItems)
-                .WithOne(x => x.Order)
-                .HasForeignKey(x => x.OrderId);
-
+            builder.HasOne(x => x.Product)
+                .WithMany()
+                .HasForeignKey(x => x.ProductId);
         }
     }
+
 }

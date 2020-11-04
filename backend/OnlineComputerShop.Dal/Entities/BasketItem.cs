@@ -1,20 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace OnlineComputerShop.Dal.Entities
 {
-    public class Comment
+    public class BasketItem
     {
         public Guid Id { get; set; }
-
-        public string Text { get; set; }
-        public int? Rating { get; set; }
-
         public Guid UserId { get; set; }
         public virtual User User { get; set; }
-
         public Guid ProductId { get; set; }
         public virtual Product Product { get; set; }
-
-        public DateTime DateTimeOfCreation { get; set; } = DateTime.UtcNow;
+        public int Quantity { get; set; }
     }
 }
