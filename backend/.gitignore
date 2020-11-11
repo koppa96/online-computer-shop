@@ -338,3 +338,6 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+OnlineComputerShop.Api/swagger-admin.json
+OnlineComputerShop.Api/swagger-webshop.json
