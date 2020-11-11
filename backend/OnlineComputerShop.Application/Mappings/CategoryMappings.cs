@@ -15,9 +15,9 @@ namespace OnlineComputerShop.Application.Mappings
             CreateMap<PropertyType, CategoryGetResponse.PropertyTypeGetResponse>();
             CreateMap<CategorySocket, CategoryGetResponse.CategorySocketGetResponse>()
                 .ForMember(dst => dst.SocketName, opt => opt.MapFrom(src => src.Socket.Name));
-            CreateMap<CategoryCreateCommand, Category>();
+
             CreateMap<CategoryEditCommand.PropertyTypeEditCommand, PropertyType>()
-                .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id == null ? Guid.NewGuid() : src.Id));
+                .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id.HasValue ? src.Id : default));
         }
     }
 }

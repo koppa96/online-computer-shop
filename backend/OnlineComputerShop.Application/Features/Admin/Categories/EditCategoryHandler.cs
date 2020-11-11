@@ -5,9 +5,11 @@ using OnlineComputerShop.Dal;
 using OnlineComputerShop.Dal.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using OnlineComputerShop.Dal.Exceptions;
 
 namespace OnlineComputerShop.Application.Features.Admin.Categories
 {
@@ -47,12 +49,40 @@ namespace OnlineComputerShop.Application.Features.Admin.Categories
             var category = await context.Categories
                 .Include(x => x.PropertyTypes)
                 .Include(x => x.CategorySockets)
-                .SingleOrDefaultAsync(x => x.Id == request.Id);
+                .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            
             if (category == null)
-                throw new Exception();
+                throw new EntityNotFoundException("No category with the given id was found.");
+            
             category.Name = request.Name;
-            category.PropertyTypes = mapper.Map<List<PropertyType>>(request.PropertyTypes);
-            category.CategorySockets = mapper.Map<List<CategorySocket>>(request.CategorySockets);
+            // Property types
+            // Remove property types to be removed
+            context.PropertyTypes.RemoveRange(
+                category.PropertyTypes.Where(x => request.PropertyTypes.All(pt => pt.Id != x.Id)));
+            
+            // Update existing property types
+            foreach (var propertyType in category.PropertyTypes)
+            {
+                propertyType.Name = request.PropertyTypes.SingleOrDefault(x => x.Id == propertyType.Id)?.Name;
+            }
+            
+            // Add property types to be added
+            context.PropertyTypes.AddRange(
+                request.PropertyTypes.Where(x => category.PropertyTypes.All(pt => pt.Id != x.Id))
+                    .Select(x => new PropertyType
+                    {
+                        CategoryId = category.Id,
+                        Name = x.Name
+                    }));
+
+            // Category Sockets
+            context.CategorySockets.RemoveRange(category.CategorySockets);
+            context.CategorySockets.AddRange(request.CategorySockets.Select(x => new CategorySocket
+            {
+                SocketId = x.SocketId
+            }));
+            
+            await context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
     }
