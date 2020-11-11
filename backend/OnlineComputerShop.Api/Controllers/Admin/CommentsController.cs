@@ -10,6 +10,7 @@ using OnlineComputerShop.Application.Features.Common.Comments;
 
 namespace OnlineComputerShop.Api.Controllers.Admin
 {
+    [ApiExplorerSettings(GroupName = "admin")]
     [Authorize("Admin")]
     [Route("api/[controller]")]
     [ApiController]

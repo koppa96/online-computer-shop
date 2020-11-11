@@ -22,7 +22,7 @@ namespace OnlineComputerShop.Api.Services
             return Guid.Parse(
                 httpContextAccessor.HttpContext.User.Claims
                 .SingleOrDefault(x => x.Type.ToLower() == "sub")
-                .Value
+                ?.Value ?? throw new Exception()
             );
         }
     }

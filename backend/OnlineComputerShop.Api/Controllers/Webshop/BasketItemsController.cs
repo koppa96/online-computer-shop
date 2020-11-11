@@ -10,6 +10,7 @@ using OnlineComputerShop.Application.Features.Webshop.BasketItems;
 
 namespace OnlineComputerShop.Api.Controllers.Webshop
 {
+    [ApiExplorerSettings(GroupName = "webshop")]
     [Authorize("Webshop")]
     [Route("api/webshop/basket-items")]
     [ApiController]

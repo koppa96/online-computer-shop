@@ -10,6 +10,7 @@ using OnlineComputerShop.Application.Features.Common.Orders;
 
 namespace OnlineComputerShop.Api.Controllers.Admin
 {
+    [ApiExplorerSettings(GroupName = "admin")]
     [Authorize("Admin")]
     [Route("api/admin/[controller]")]
     [ApiController]
@@ -33,7 +34,7 @@ namespace OnlineComputerShop.Api.Controllers.Admin
             return mediator.Send(new OrderGetQuery { OrderId = orderId });
         }
 
-        [HttpPut("{orderId}")]
+        [HttpPut("{orderId}/state")]
         public Task EditOrderState(Guid orderId, [FromBody] OrderStateEditCommand orderStateEditCommand)
         {
             if (orderId != orderStateEditCommand.Id)
@@ -41,7 +42,7 @@ namespace OnlineComputerShop.Api.Controllers.Admin
             return mediator.Send(orderStateEditCommand);
         }
 
-        [HttpPut("{orderId}")]
+        [HttpPut("{orderId}/address")]
         public Task EditOrderAddress(Guid orderId, [FromBody] OrderAddressEditCommand orderAddressEditCommand)
         {
             if (orderId != orderAddressEditCommand.Id)

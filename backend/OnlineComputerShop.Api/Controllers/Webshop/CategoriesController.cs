@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace OnlineComputerShop.Api.Controllers.Webshop
 {
+    [ApiExplorerSettings(GroupName = "webshop")]
     [Authorize("Webshop")]
     [Route("api/webshop/[controller]")]
     [ApiController]

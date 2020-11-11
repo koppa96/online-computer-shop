@@ -11,6 +11,7 @@ using OnlineComputerShop.Application.Features.Common.Products;
 
 namespace OnlineComputerShop.Api.Controllers.Admin
 {
+    [ApiExplorerSettings(GroupName = "admin")]
     [Authorize("Admin")]
     [Route("api/admin/[controller]")]
     [ApiController]

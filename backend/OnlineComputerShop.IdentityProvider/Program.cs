@@ -24,9 +24,9 @@ namespace OnlineComputerShop.IdentityProvider
                 var dbContext = services.ServiceProvider.GetRequiredService<OnlineComputerShopContext>();
                 await dbContext.Database.MigrateAsync();
 
-                var roleMgr = services.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                var roleMgr = services.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
-                var adminRole = new IdentityRole("Admin");
+                var adminRole = new IdentityRole<Guid>("Admin");
 
                 if (!dbContext.Roles.Any())
                 {

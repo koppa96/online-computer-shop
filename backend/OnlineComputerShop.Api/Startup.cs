@@ -1,24 +1,18 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using NSwag;
 using NSwag.AspNetCore;
 using NSwag.Generation.Processors.Security;
+using OnlineComputerShop.Api.Middlewares;
 using OnlineComputerShop.Api.Services;
 using OnlineComputerShop.Application.Services.Interfaces;
 using OnlineComputerShop.Dal;
@@ -71,19 +65,24 @@ namespace OnlineComputerShop.Api
             services.AddControllers();
             services.AddOpenApiDocument(config =>
             {
-                config.Title = "OnlineComputerShop API";
-                config.Description = "A simple api for a webshop selling computer parts.";
+                config.Title = "OnlineComputerShop Admin API";
+                config.Description = "A simple api for the administrators of a webshop selling computer parts.";
+                config.DocumentName = "Admin";
+                config.ApiGroupNames = new[] { "admin" };
+                config.UseRouteNameAsOperationId = true;
 
                 config.AddSecurity("OAuth2", new OpenApiSecurityScheme
                 {
-                    OpenIdConnectUrl = $"{Configuration.GetValue<string>("Authentication:Authority")}/.well-known/openid-configuration",
+                    OpenIdConnectUrl =
+                        $"{Configuration.GetValue<string>("Authentication:Authority")}/.well-known/openid-configuration",
                     Scheme = "Bearer",
                     Type = OpenApiSecuritySchemeType.OAuth2,
                     Flows = new OpenApiOAuthFlows
                     {
                         AuthorizationCode = new OpenApiOAuthFlow
                         {
-                            AuthorizationUrl = $"{Configuration.GetValue<string>("Authentication:Authority")}/connect/authorize",
+                            AuthorizationUrl =
+                                $"{Configuration.GetValue<string>("Authentication:Authority")}/connect/authorize",
                             TokenUrl = $"{Configuration.GetValue<string>("Authentication:Authority")}/connect/token",
                             Scopes = new Dictionary<string, string>
                             {
@@ -95,7 +94,41 @@ namespace OnlineComputerShop.Api
                         }
                     }
                 });
-                
+
+                config.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("OAuth2"));
+            });
+            services.AddOpenApiDocument(config =>
+            {
+                config.Title = "OnlineComputerShop Webshop API";
+                config.Description = "A simple api for the customers of a webshop selling computer parts.";
+                config.DocumentName = "Webshop";
+                config.ApiGroupNames = new[] { "webshop" };
+                config.UseRouteNameAsOperationId = true;
+
+                config.AddSecurity("OAuth2", new OpenApiSecurityScheme
+                {
+                    OpenIdConnectUrl =
+                        $"{Configuration.GetValue<string>("Authentication:Authority")}/.well-known/openid-configuration",
+                    Scheme = "Bearer",
+                    Type = OpenApiSecuritySchemeType.OAuth2,
+                    Flows = new OpenApiOAuthFlows
+                    {
+                        AuthorizationCode = new OpenApiOAuthFlow
+                        {
+                            AuthorizationUrl =
+                                $"{Configuration.GetValue<string>("Authentication:Authority")}/connect/authorize",
+                            TokenUrl = $"{Configuration.GetValue<string>("Authentication:Authority")}/connect/token",
+                            Scopes = new Dictionary<string, string>
+                            {
+                                { "adminapi.readwrite", "adminapi.readwrite" },
+                                { "webshopapi.readwrite", "webshopapi.readwrite" },
+                                { "openid", "openid" },
+                                { "profile", "profile" }
+                            }
+                        }
+                    }
+                });
+
                 config.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("OAuth2"));
             });
 
@@ -108,10 +141,7 @@ namespace OnlineComputerShop.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             app.UseHttpsRedirection();
             

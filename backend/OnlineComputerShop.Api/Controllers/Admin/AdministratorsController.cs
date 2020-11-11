@@ -10,6 +10,7 @@ using OnlineComputerShop.Application.Features.Admin.Administrators;
 
 namespace OnlineComputerShop.Api.Controllers.Admin
 {
+    [ApiExplorerSettings(GroupName = "admin")]
     [Authorize("Admin")]
     [Route("api/admin/[controller]")]
     [ApiController]

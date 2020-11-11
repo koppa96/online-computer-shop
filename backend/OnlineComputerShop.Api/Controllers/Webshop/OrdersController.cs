@@ -11,6 +11,7 @@ using OnlineComputerShop.Application.Features.Webshop.Orders;
 
 namespace OnlineComputerShop.Api.Controllers.Webshop
 {
+    [ApiExplorerSettings(GroupName = "webshop")]
     [Authorize("Webshop")]
     [Route("api/webshop/[controller]")]
     [ApiController]
