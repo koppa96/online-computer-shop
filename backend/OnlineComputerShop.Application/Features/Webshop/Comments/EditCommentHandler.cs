@@ -42,7 +42,7 @@ namespace OnlineComputerShop.Application.Features.Webshop.Comments
                 context.Comments.Add(mapper.Map<Comment>(request));
             }
 
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
     }

@@ -25,14 +25,11 @@ namespace OnlineComputerShop.Application.Features.Admin.Categories
         public async Task<Unit> Handle(CategoryRemoveCommand request, CancellationToken cancellationToken)
         {
             var category = await context.Categories
-                .Include(x => x.Products)
-                .Include(x => x.PropertyTypes)
-                .Include(x => x.CategorySockets)
-                .SingleOrDefaultAsync(x => x.Id == request.Id);
-            context.Categories.Remove(category);
-            await context.SaveChangesAsync();
-            return Unit.Value;
+                .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
             
+            context.Categories.Remove(category);
+            await context.SaveChangesAsync(cancellationToken);
+            return Unit.Value;
         }
     }
 }

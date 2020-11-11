@@ -35,7 +35,7 @@ namespace OnlineComputerShop.Application.Features.Webshop.BasketItems
         }
         public async Task<Unit> Handle(BasketItemEditCommand request, CancellationToken cancellationToken)
         {
-            var user = await context.Users.Include(x => x.BasketItems).SingleOrDefaultAsync(x => x.Id == identityService.GetUserId());
+            var user = await context.Users.Include(x => x.BasketItems).SingleOrDefaultAsync(x => x.Id == identityService.GetUserId(), cancellationToken);
             var basketItem = user.BasketItems.SingleOrDefault(x => x.Id == request.Id);
 
             if (basketItem == null)
@@ -49,7 +49,7 @@ namespace OnlineComputerShop.Application.Features.Webshop.BasketItems
                 basketItem.Quantity = request.Quantity;
             }
 
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;
         }

@@ -28,7 +28,7 @@ namespace OnlineComputerShop.Application.Features.Common.Comments
         {
             var comment = await context.Comments.FindAsync(request.Id);
             context.Comments.Remove(comment);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
     }

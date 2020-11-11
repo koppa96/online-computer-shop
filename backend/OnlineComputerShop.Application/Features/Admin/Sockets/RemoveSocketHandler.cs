@@ -26,7 +26,7 @@ namespace OnlineComputerShop.Application.Features.Admin.Sockets
         {
             var socket = await context.Sockets.FindAsync(request.Id);
             context.Sockets.Remove(socket);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;
         }

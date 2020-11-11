@@ -33,7 +33,7 @@ namespace OnlineComputerShop.Application.Features.Admin.Sockets
         public async Task<Unit> Handle(SocketCreateCommand request, CancellationToken cancellationToken)
         {
             context.Sockets.Add(mapper.Map<Socket>(request));
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
             
         }

@@ -39,7 +39,7 @@ namespace OnlineComputerShop.Application.Features.Admin.Orders
             var orders = await context.Orders
                 .Include(x => x.User)
                 .Where(x => x.User.UserName == request.UserName)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
             return mapper.Map<List<OrderListResponse>>(orders);
         }
     }

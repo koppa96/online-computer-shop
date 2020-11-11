@@ -9,7 +9,8 @@ namespace OnlineComputerShop.Application.Mappings
     {
         public ProductMappings()
         {
-            CreateMap<Product, ProductGetResponse>();
+            CreateMap<Product, ProductGetResponse>()
+                .ForMember(dst => dst.Category, opt => opt.MapFrom(src => src.Category.Name));
             CreateMap<Product, ProductListResponse>();
             CreateMap<ProductCreateCommand, Product>();
             CreateMap<PropertyValue, ProductGetResponse.PropertyValueResponse>()

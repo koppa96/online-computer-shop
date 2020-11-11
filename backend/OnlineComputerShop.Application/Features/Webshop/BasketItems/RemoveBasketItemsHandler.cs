@@ -27,10 +27,10 @@ namespace OnlineComputerShop.Application.Features.Webshop.BasketItems
         {
             var user = await context.Users
                 .Include(x => x.BasketItems)
-                .SingleOrDefaultAsync(x => x.Id == request.UserId);
+                .SingleOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
             if (user != null)
                 context.BasketItems.RemoveRange(user.BasketItems);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
     }

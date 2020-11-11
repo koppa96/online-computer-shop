@@ -33,7 +33,7 @@ namespace OnlineComputerShop.Application.Features.Webshop.Products
         public async Task<Unit> Handle(CommentCreateCommand request, CancellationToken cancellationToken)
         {
             context.Comments.Add(mapper.Map<Comment>(request));          
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
     }

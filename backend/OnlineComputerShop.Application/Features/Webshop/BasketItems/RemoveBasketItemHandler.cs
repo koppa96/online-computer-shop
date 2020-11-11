@@ -29,7 +29,7 @@ namespace OnlineComputerShop.Application.Features.Webshop.BasketItems
             var item = await context.OrderItems.FindAsync(request.Id);
             if (item != null)
                 context.OrderItems.Remove(item);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
     }

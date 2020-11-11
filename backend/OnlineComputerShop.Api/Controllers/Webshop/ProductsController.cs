@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -25,15 +26,15 @@ namespace OnlineComputerShop.Api.Controllers.Webshop
         }
         
         [HttpGet("{productId}")]
-        public Task<ProductGetResponse> GetProduct(Guid productId)
+        public Task<ProductGetResponse> GetProduct(Guid productId, CancellationToken cancellationToken)
         {
-            return mediator.Send(new ProductGetQuery { ProductId = productId });
+            return mediator.Send(new ProductGetQuery { ProductId = productId }, cancellationToken);
         }
 
         [HttpPost("{productId}/comments")]
-        public Task CreateComment([FromBody] CommentCreateCommand commentCreateCommand)
+        public Task CreateComment([FromBody] CommentCreateCommand commentCreateCommand, CancellationToken cancellationToken)
         {
-            return mediator.Send(commentCreateCommand);
+            return mediator.Send(commentCreateCommand, cancellationToken);
         }
     }
 }

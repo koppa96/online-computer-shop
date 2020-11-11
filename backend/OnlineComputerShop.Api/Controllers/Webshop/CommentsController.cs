@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -25,21 +26,21 @@ namespace OnlineComputerShop.Api.Controllers.Webshop
         }
 
         [HttpPut("{commentId}")]
-        public Task EditComment(Guid commentId, [FromBody] CommentEditCommand commentEditCommand)
+        public Task EditComment(Guid commentId, [FromBody] CommentEditCommand commentEditCommand, CancellationToken cancellationToken)
         {
             if (commentId != commentEditCommand.Id)
                 throw new Exception();
 
-            return mediator.Send(commentEditCommand);
+            return mediator.Send(commentEditCommand, cancellationToken);
         }
 
         [HttpDelete("{commentId}")]
-        public Task RemoveComment(Guid commentId)
+        public Task RemoveComment(Guid commentId, CancellationToken cancellationToken)
         {
             return mediator.Send(new CommentRemoveCommand
             {
                 Id = commentId
-            });
+            }, cancellationToken);
         }
     }
 }

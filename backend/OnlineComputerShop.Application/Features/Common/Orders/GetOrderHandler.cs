@@ -53,7 +53,7 @@ namespace OnlineComputerShop.Application.Features.Common.Orders
                 .Include(x => x.User)
                 .Include(x => x.OrderItems)
                     .ThenInclude(x => x.Product)
-                .SingleOrDefaultAsync(x => x.Id == request.OrderId);
+                .SingleOrDefaultAsync(x => x.Id == request.OrderId, cancellationToken);
 
             return mapper.Map<OrderGetResponse>(order);
         }

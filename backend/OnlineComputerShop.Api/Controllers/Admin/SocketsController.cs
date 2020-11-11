@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -24,27 +25,27 @@ namespace OnlineComputerShop.Api.Controllers.Admin
         }
 
         [HttpPost]
-        public Task CreateSocket([FromBody] SocketCreateCommand socketCreateCommand)
+        public Task CreateSocket([FromBody] SocketCreateCommand socketCreateCommand, CancellationToken cancellationToken)
         {
-            return mediator.Send(socketCreateCommand);
+            return mediator.Send(socketCreateCommand, cancellationToken);
         }
 
         [HttpGet]
-        public Task<IEnumerable<SocketListResponse>> ListSockets()
+        public Task<IEnumerable<SocketListResponse>> ListSockets(CancellationToken cancellationToken)
         {
-            return mediator.Send(new SocketListQuery());
+            return mediator.Send(new SocketListQuery(), cancellationToken);
         }
 
         [HttpGet("{socketId}")]
-        public Task<SocketGetResponse> GetSocket(Guid socketId)
+        public Task<SocketGetResponse> GetSocket(Guid socketId, CancellationToken cancellationToken)
         {
-            return mediator.Send(new SocketGetQuery { Id = socketId });
+            return mediator.Send(new SocketGetQuery { Id = socketId }, cancellationToken);
         }
 
         [HttpDelete("{socketId}")]
-        public Task RemoveSocket(Guid socketId)
+        public Task RemoveSocket(Guid socketId, CancellationToken cancellationToken)
         {
-            return mediator.Send(new SocketRemoveCommand { Id = socketId });
+            return mediator.Send(new SocketRemoveCommand { Id = socketId }, cancellationToken);
         }
 
 

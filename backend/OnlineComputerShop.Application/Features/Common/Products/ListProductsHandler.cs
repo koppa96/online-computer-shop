@@ -40,9 +40,13 @@ namespace OnlineComputerShop.Application.Features.Common.Products
         {
             List<Product> products = null;
             if (request.SocketIds == null || request.SocketIds.Count == 0)
+            {
                 products = await context.Products.ToListAsync(cancellationToken);
+            }
             else
+            {
                 products = await context.Products.Where(x => x.CategoryId == request.CategoryId && x.ProductSockets.Any(ps => request.SocketIds.Contains(ps.SocketId))).ToListAsync(cancellationToken);
+            }
             
             return mapper.Map<List<ProductListResponse>>(products);
         }

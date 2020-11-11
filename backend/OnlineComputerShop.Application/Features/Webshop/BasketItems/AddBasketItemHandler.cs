@@ -37,10 +37,10 @@ namespace OnlineComputerShop.Application.Features.Webshop.BasketItems
         {
             var user = await context.Users
                 .Include(x => x.BasketItems)
-                .SingleOrDefaultAsync(x => x.Id == identityService.GetUserId());
+                .SingleOrDefaultAsync(x => x.Id == identityService.GetUserId(), cancellationToken);
 
             user.BasketItems.Add(mapper.Map<BasketItem>(request));
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
     }

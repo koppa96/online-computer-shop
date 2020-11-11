@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -22,23 +23,23 @@ namespace OnlineComputerShop.Api.Controllers.Admin
         }
 
         [HttpGet("{productId}")]
-        public Task<ProductGetResponse> GetProduct(Guid productId)
+        public Task<ProductGetResponse> GetProduct(Guid productId, CancellationToken cancellationToken)
         {
-            return mediator.Send(new ProductGetQuery { ProductId = productId });
+            return mediator.Send(new ProductGetQuery { ProductId = productId }, cancellationToken);
         }
 
         [HttpPut("{productId}")]
-        public Task EditProduct(Guid productId, ProductEditCommand productEditCommand)
+        public Task EditProduct(Guid productId, ProductEditCommand productEditCommand, CancellationToken cancellationToken)
         {
             if (productId != productEditCommand.Id)
                 throw new Exception();
-            return mediator.Send(productEditCommand);
+            return mediator.Send(productEditCommand, cancellationToken);
         }
 
         [HttpDelete("{productId}")]
-        public Task RemoveProduct(Guid productId)
+        public Task RemoveProduct(Guid productId, CancellationToken cancellationToken)
         {
-            return mediator.Send(new ProductRemoveCommand { ProductId = productId });
+            return mediator.Send(new ProductRemoveCommand { ProductId = productId }, cancellationToken);
         }
     }
 }

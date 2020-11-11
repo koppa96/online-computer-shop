@@ -69,6 +69,7 @@ namespace OnlineComputerShop.Application.Features.Common.Products
             var product = await context.Products
                 .Include(x => x.Category)
                 .Include(x => x.PropertyValues)
+                    .ThenInclude(x => x.PropertyType)
                 .Include(x => x.ProductSockets)
                 .Include(x => x.Comments)
                 .ThenInclude(x => x.User)

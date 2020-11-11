@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -24,21 +25,21 @@ namespace OnlineComputerShop.Api.Controllers.Webshop
         }
 
         [HttpGet]
-        public Task<IEnumerable<BasketItemListResponse>> ListItems()
+        public Task<IEnumerable<BasketItemListResponse>> ListItems(CancellationToken cancellationToken)
         {
-            return mediator.Send(new BasketItemListQuery());
+            return mediator.Send(new BasketItemListQuery(), cancellationToken);
         }
 
         [HttpGet("{itemId}")]
-        public Task<BasketItemGetResponse> GetItem(Guid itemId)
+        public Task<BasketItemGetResponse> GetItem(Guid itemId, CancellationToken cancellationToken)
         {
-            return mediator.Send(new BasketItemGetQuery { Id = itemId });
+            return mediator.Send(new BasketItemGetQuery { Id = itemId }, cancellationToken);
         }
 
         [HttpPost]
-        public Task AddItem([FromBody] BasketItemAddCommand basketItemAddCommand)
+        public Task AddItem([FromBody] BasketItemAddCommand basketItemAddCommand, CancellationToken cancellationToken)
         {
-            return mediator.Send(basketItemAddCommand);
+            return mediator.Send(basketItemAddCommand, cancellationToken);
         }
 
         [HttpPut("{itemId}")]

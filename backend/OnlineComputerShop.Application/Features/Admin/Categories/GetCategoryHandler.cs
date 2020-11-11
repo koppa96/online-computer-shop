@@ -22,8 +22,7 @@ namespace OnlineComputerShop.Application.Features.Admin.Categories
         public string Name { get; set; }
         public List<PropertyTypeGetResponse> PropertyTypes { get; set; }
         public List<CategorySocketGetResponse> CategorySockets { get; set; }
-
-
+        
         public class PropertyTypeGetResponse
         {
             public Guid Id { get; set; }
@@ -37,7 +36,6 @@ namespace OnlineComputerShop.Application.Features.Admin.Categories
             public string SocketName { get; set; }
         }
     }
-
 
     public class GetCategoryHandler : IRequestHandler<CategoryGetQuery, CategoryGetResponse>
     {
@@ -55,7 +53,7 @@ namespace OnlineComputerShop.Application.Features.Admin.Categories
                 .Include(x => x.PropertyTypes)
                 .Include(x => x.CategorySockets)
                     .ThenInclude(x => x.Socket)
-                .SingleOrDefaultAsync(x => x.Id == request.Id);
+                .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
             return mapper.Map<CategoryGetResponse>(category);
         }

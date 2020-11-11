@@ -56,7 +56,7 @@ namespace OnlineComputerShop.Application.Features.Webshop.Orders
             
             context.Orders.Add(order);
             context.BasketItems.RemoveRange(basketItems);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken);
             
             return Unit.Value;
         }

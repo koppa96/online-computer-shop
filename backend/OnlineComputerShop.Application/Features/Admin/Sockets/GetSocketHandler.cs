@@ -43,7 +43,7 @@ namespace OnlineComputerShop.Application.Features.Admin.Sockets
         {
             var socket = await context.Sockets
                 .Include(x => x.CategorySockets)
-                .SingleOrDefaultAsync(x => x.Id == request.Id);
+                .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
             return mapper.Map<SocketGetResponse>(socket);
         }

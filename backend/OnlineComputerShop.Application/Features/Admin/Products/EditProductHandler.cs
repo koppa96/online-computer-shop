@@ -48,6 +48,7 @@ namespace OnlineComputerShop.Application.Features.Admin.Products
             var product = await context.Products.FindAsync(request.Id);
             if (product != null)
             {
+                context.PropertyValues.RemoveRange(product.PropertyValues);
                 product.Name = request.Name;
                 product.Price = request.Price;
                 product.ProductSockets = mapper.Map<List<ProductSocket>>(request.ProductSockets);
@@ -58,7 +59,7 @@ namespace OnlineComputerShop.Application.Features.Admin.Products
                 context.Products.Add(mapper.Map<Product>(request));
             }
 
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
     }

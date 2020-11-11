@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -22,14 +23,11 @@ namespace OnlineComputerShop.Api.Controllers.Admin
         {
             this.mediator = mediator;
         }
-
-
+        
         [HttpDelete("{commentId}")]
-        public Task RemoveComment(Guid commentId)
+        public Task RemoveComment(Guid commentId, CancellationToken cancellationToken)
         {
-            return mediator.Send(new CommentRemoveCommand { Id = commentId });
+            return mediator.Send(new CommentRemoveCommand { Id = commentId }, cancellationToken);
         }
-
-
     }
 }

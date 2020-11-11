@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -25,49 +26,49 @@ namespace OnlineComputerShop.Api.Controllers.Admin
         }
         
         [HttpGet]
-        public Task<IEnumerable<CategoryListResponse>> ListCategories()
+        public Task<IEnumerable<CategoryListResponse>> ListCategories(CancellationToken cancellationToken)
         {
-            return mediator.Send(new CategoryListQuery());
+            return mediator.Send(new CategoryListQuery(), cancellationToken);
         }
 
         [HttpGet("{categoryId}")]
-        public Task<CategoryGetResponse> GetCategory(Guid categoryId)
+        public Task<CategoryGetResponse> GetCategory(Guid categoryId, CancellationToken cancellationToken)
         {
-            return mediator.Send(new CategoryGetQuery { Id = categoryId });
+            return mediator.Send(new CategoryGetQuery { Id = categoryId }, cancellationToken);
         }
 
         [HttpPost]
-        public Task CreateCategory([FromBody] CategoryCreateCommand categoryCreateCommand)
+        public Task CreateCategory([FromBody] CategoryCreateCommand categoryCreateCommand, CancellationToken cancellationToken)
         {
-            return mediator.Send(categoryCreateCommand);
+            return mediator.Send(categoryCreateCommand, cancellationToken);
         }
 
         [HttpPut("{categoryId}")]
-        public Task EditCategory(Guid categoryId, [FromBody] CategoryEditCommand categoryEditCommand)
+        public Task EditCategory(Guid categoryId, [FromBody] CategoryEditCommand categoryEditCommand, CancellationToken cancellationToken)
         {
             if (categoryId != categoryEditCommand.Id)
                 throw new Exception();
-            return mediator.Send(categoryEditCommand);
+            return mediator.Send(categoryEditCommand, cancellationToken);
         }
 
         [HttpDelete("{categoryId}")]
-        public Task RemoveCategory(Guid categoryId)
+        public Task RemoveCategory(Guid categoryId, CancellationToken cancellationToken)
         {
-            return mediator.Send(new CategoryRemoveCommand { Id = categoryId });
+            return mediator.Send(new CategoryRemoveCommand { Id = categoryId }, cancellationToken);
         }
 
         [HttpGet("{categoryId}/products")]
-        public Task<IEnumerable<ProductListResponse>> ListProducts(Guid categoryId, [FromQuery] List<Guid> socketIds)
+        public Task<IEnumerable<ProductListResponse>> ListProducts(Guid categoryId, [FromQuery] List<Guid> socketIds, CancellationToken cancellationToken)
         {
-            return mediator.Send(new ProductListQuery { CategoryId = categoryId, SocketIds = socketIds });
+            return mediator.Send(new ProductListQuery { CategoryId = categoryId, SocketIds = socketIds }, cancellationToken);
         }
 
         [HttpPost("{categoryId}/products")]
-        public Task CreateProduct(Guid categoryId, [FromBody] ProductCreateCommand productCreateCommand)
+        public Task CreateProduct(Guid categoryId, [FromBody] ProductCreateCommand productCreateCommand, CancellationToken cancellationToken)
         {
             if (productCreateCommand.CategoryId != categoryId)
                 throw new Exception();
-            return mediator.Send(productCreateCommand);
+            return mediator.Send(productCreateCommand, cancellationToken);
         }
     }
 }

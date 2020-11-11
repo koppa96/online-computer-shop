@@ -46,7 +46,7 @@ namespace OnlineComputerShop.Application.Features.Admin.Products
         public async Task<Unit> Handle(ProductCreateCommand request, CancellationToken cancellationToken)
         {
             context.Products.Add(mapper.Map<Product>(request));
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
     }

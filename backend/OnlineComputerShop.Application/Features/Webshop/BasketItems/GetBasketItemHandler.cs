@@ -44,7 +44,7 @@ namespace OnlineComputerShop.Application.Features.Webshop.BasketItems
                 .Include(x => x.BasketItems)
                 .Where(x => x.Id == identityService.GetUserId())
                 .SelectMany(x => x.BasketItems)
-                .SingleOrDefaultAsync(x => x.Id == request.Id);
+                .SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
             return mapper.Map<BasketItemGetResponse>(item);
         }

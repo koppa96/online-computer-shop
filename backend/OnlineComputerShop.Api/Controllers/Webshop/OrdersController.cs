@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -24,21 +25,21 @@ namespace OnlineComputerShop.Api.Controllers.Webshop
             this.mediator = mediator;
         }
         [HttpGet]
-        public Task<IEnumerable<OrderListResponse>> ListOrders()
+        public Task<IEnumerable<OrderListResponse>> ListOrders(CancellationToken cancellationToken)
         {
-            return mediator.Send(new OrderListQuery());
+            return mediator.Send(new OrderListQuery(), cancellationToken);
         }
         
         [HttpGet("{orderId}")]
-        public Task<OrderGetResponse> GetOrder(Guid orderId)
+        public Task<OrderGetResponse> GetOrder(Guid orderId, CancellationToken cancellationToken)
         {
-            return mediator.Send(new OrderGetQuery { OrderId = orderId });
+            return mediator.Send(new OrderGetQuery { OrderId = orderId }, cancellationToken);
         }
         
         [HttpPost]
-        public Task CreateOrder([FromBody] OrderCreateCommand orderCreateCommand)
+        public Task CreateOrder([FromBody] OrderCreateCommand orderCreateCommand, CancellationToken cancellationToken)
         {
-            return mediator.Send(orderCreateCommand);
+            return mediator.Send(orderCreateCommand, cancellationToken);
         }
     }
 }

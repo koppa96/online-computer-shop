@@ -25,7 +25,7 @@ namespace OnlineComputerShop.Application.Features.Admin.Orders
         {
             var order = await context.Orders.FindAsync(request.Id);
             context.Orders.Remove(order);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
     }
