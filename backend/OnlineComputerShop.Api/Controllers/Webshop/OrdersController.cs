@@ -24,6 +24,7 @@ namespace OnlineComputerShop.Api.Controllers.Webshop
         {
             this.mediator = mediator;
         }
+        
         [HttpGet]
         public Task<IEnumerable<OrderListResponse>> ListOrders(CancellationToken cancellationToken)
         {

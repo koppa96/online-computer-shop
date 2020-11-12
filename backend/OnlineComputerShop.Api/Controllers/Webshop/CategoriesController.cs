@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 namespace OnlineComputerShop.Api.Controllers.Webshop
 {
     [ApiExplorerSettings(GroupName = "webshop")]
-    [Authorize("Webshop")]
     [Route("api/webshop/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase
@@ -32,7 +31,8 @@ namespace OnlineComputerShop.Api.Controllers.Webshop
         [HttpGet("{categoryId}/products")]
         public Task<IEnumerable<ProductListResponse>> ListProducts(Guid categoryId, [FromQuery] List<Guid> socketIds, CancellationToken cancellationToken)
         {
-            return mediator.Send(new ProductListQuery { 
+            return mediator.Send(new ProductListQuery
+            { 
                 CategoryId = categoryId,
                 SocketIds = socketIds
             }, cancellationToken);

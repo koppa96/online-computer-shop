@@ -13,7 +13,6 @@ using OnlineComputerShop.Application.Services.Interfaces;
 namespace OnlineComputerShop.Api.Controllers.Webshop
 {
     [ApiExplorerSettings(GroupName = "webshop")]
-    [Authorize("Webshop")]
     [Route("api/webshop/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
@@ -32,6 +31,7 @@ namespace OnlineComputerShop.Api.Controllers.Webshop
         }
 
         [HttpPost("{productId}/comments")]
+        [Authorize("Webshop")]
         public Task CreateComment([FromBody] CommentCreateCommand commentCreateCommand, CancellationToken cancellationToken)
         {
             return mediator.Send(commentCreateCommand, cancellationToken);

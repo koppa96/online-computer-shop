@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnlineComputerShop.Application.Features.Webshop.BasketItems;
+using OnlineComputerShop.Dal.Exceptions;
 
 namespace OnlineComputerShop.Api.Controllers.Webshop
 {
@@ -46,7 +47,7 @@ namespace OnlineComputerShop.Api.Controllers.Webshop
         public Task EditItem(Guid itemId, [FromBody] BasketItemEditCommand basketItemEditCommand)
         {
             if (itemId != basketItemEditCommand.Id)
-                throw new Exception();
+                throw new ValidationException("The item id's don't match.");
             return mediator.Send(basketItemEditCommand);
         }
 

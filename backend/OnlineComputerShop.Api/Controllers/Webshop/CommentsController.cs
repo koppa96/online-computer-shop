@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnlineComputerShop.Application.Features.Common.Comments;
 using OnlineComputerShop.Application.Features.Webshop.Comments;
+using OnlineComputerShop.Dal.Exceptions;
 
 namespace OnlineComputerShop.Api.Controllers.Webshop
 {
@@ -29,7 +30,7 @@ namespace OnlineComputerShop.Api.Controllers.Webshop
         public Task EditComment(Guid commentId, [FromBody] CommentEditCommand commentEditCommand, CancellationToken cancellationToken)
         {
             if (commentId != commentEditCommand.Id)
-                throw new Exception();
+                throw new ValidationException("The comment id's don't match.");
 
             return mediator.Send(commentEditCommand, cancellationToken);
         }
