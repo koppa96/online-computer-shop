@@ -1,0 +1,18 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  .small {
+    font-size: 1.8rem;
+  }
+
+  .mr {
+    margin-right: 5px;
+  }
+
+  .ml {
+    margin-left: 5px;;
+  }
+}
