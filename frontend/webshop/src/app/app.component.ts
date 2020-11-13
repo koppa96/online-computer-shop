@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { NbMenuItem, NbThemeService } from '@nebular/theme';
+import { merge, Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { CategoriesClient, CategoryListResponse } from './shared/clients';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +10,8 @@ import { NbMenuItem, NbThemeService } from '@nebular/theme';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  menuItems: NbMenuItem[] = [
+  menuItems$: Observable<NbMenuItem[]>;
+  topMenuItems: NbMenuItem[] = [
     {
       title: 'Kezdőlap',
       icon: 'home-outline'
@@ -19,43 +23,9 @@ export class AppComponent {
     {
       title: 'TERMÉKEINK',
       group: true
-    },
-    {
-      title: 'Alaplapok',
-      icon: 'hard-drive-outline'
-    },
-    {
-      title: 'Processzorok',
-      icon: 'hard-drive-outline'
-    },
-    {
-      title: 'Memóriák',
-      icon: 'hard-drive-outline'
-    },
-    {
-      title: 'Videókártyák',
-      icon: 'hard-drive-outline'
-    },
-    {
-      title: 'Tápegységek',
-      icon: 'hard-drive-outline'
-    },
-    {
-      title: 'Gépházak',
-      icon: 'hard-drive-outline'
-    },
-    {
-      title: "Monitorok",
-      icon: 'hard-drive-outline'
-    },
-    {
-      title: "Billentyűzetek",
-      icon: 'hard-drive-outline'
-    },
-    {
-      title: "Egerek",
-      icon: 'hard-drive-outline'
-    },
+    }
+  ];
+  bottomMenuItems: NbMenuItem[] = [
     {
       title: "EGYÉB",
       group: true
@@ -68,8 +38,18 @@ export class AppComponent {
       title: 'Garancia',
       icon: 'file-text-outline'
     }
-  ]
+  ];
 
-  constructor() {
+
+  constructor(categoriesClient: CategoriesClient) {
+    this.menuItems$ = merge(of([]), categoriesClient.listCategories().pipe(
+      map(categories => this.topMenuItems.concat(categories.map(x => ({
+        title: x.name,
+        icon: 'hard-drive-outline',
+        data: {
+          categoryId: x.id
+        }
+      }))).concat(this.bottomMenuItems))
+    ));
   }
 }

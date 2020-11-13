@@ -62,6 +62,17 @@ namespace OnlineComputerShop.Api
                     .AddAuthenticationSchemes("Webshop"));
             });
             
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins(Configuration.GetSection("AllowedOrigins").Get<string[]>())
+                        .AllowCredentials()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+            
             services.AddControllers();
             services.AddOpenApiDocument(config =>
             {
@@ -142,7 +153,7 @@ namespace OnlineComputerShop.Api
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<ExceptionHandlingMiddleware>();
-
+            app.UseCors();
             app.UseHttpsRedirection();
             
             app.UseOpenApi();

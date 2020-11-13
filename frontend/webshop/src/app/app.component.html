@@ -5,12 +5,10 @@
   </nb-layout-header>
 
   <nb-sidebar>
-    <nb-menu [items]="menuItems"></nb-menu>
+    <nb-menu [items]="menuItems$ | async"></nb-menu>
   </nb-sidebar>
 
   <nb-layout-column>
-    Content
-
     <router-outlet></router-outlet>
   </nb-layout-column>
 

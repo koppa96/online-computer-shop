@@ -11,6 +11,7 @@ import { CoreModule } from './core/core.module';
 import { API_BASE_URL } from './shared/clients';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 export function initializeAuthentication(oauthService: OAuthService) {
   return () => {
@@ -55,6 +56,11 @@ export function initializeAuthentication(oauthService: OAuthService) {
       provide: APP_INITIALIZER,
       useFactory: initializeAuthentication,
       deps: [OAuthService],
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
       multi: true
     }
   ],
