@@ -14,11 +14,13 @@ export class AppComponent {
   topMenuItems: NbMenuItem[] = [
     {
       title: 'Kezdőlap',
-      icon: 'home-outline'
+      icon: 'home-outline',
+      link: '/'
     },
     {
       title: "Számítógép összerakó",
-      icon: 'settings-2-outline'
+      icon: 'settings-2-outline',
+      link: '/computer-assembler'
     },
     {
       title: 'TERMÉKEINK',
@@ -39,7 +41,6 @@ export class AppComponent {
       icon: 'file-text-outline'
     }
   ];
-
 
   constructor(categoriesClient: CategoriesClient) {
     this.menuItems$ = merge(of([]), categoriesClient.listCategories().pipe(

@@ -7,14 +7,19 @@
       <nb-icon class="small ml" icon="moon-outline"></nb-icon>
     </nb-action>
     <nb-action icon="shopping-cart-outline"></nb-action>
-    <nb-action class="no-padding">
+    <nb-action *ngIf="!isLoggedIn" class="no-padding">
       <button nbButton ghost (click)="onLogin()">
         Bejelentkezés
       </button>
     </nb-action>
-    <nb-action class="no-padding" status="primary">
+    <nb-action *ngIf="!isLoggedIn" class="no-padding">
       <button nbButton ghost>
         Regisztráció
+      </button>
+    </nb-action>
+    <nb-action class="no-padding">
+      <button nbButton ghost (click)="onLogout()">
+        Kijelentkezés
       </button>
     </nb-action>
   </nb-actions>
