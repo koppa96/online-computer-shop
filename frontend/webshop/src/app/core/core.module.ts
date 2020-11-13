@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { NbActionsModule, NbButtonModule, NbIconModule, NbToggleModule } from '@nebular/theme';
+import { NbActionsModule, NbButtonModule, NbCardModule, NbIconModule, NbToggleModule } from '@nebular/theme';
 import { HeaderComponent } from './components/header/header.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   imports: [
@@ -9,9 +10,10 @@ import { HeaderComponent } from './components/header/header.component';
     NbActionsModule,
     NbToggleModule,
     NbIconModule,
-    NbButtonModule
+    NbButtonModule,
+    NbCardModule
   ],
-  declarations: [HeaderComponent],
-  exports: [HeaderComponent]
+  declarations: [HeaderComponent, HomeComponent],
+  exports: [HeaderComponent, HomeComponent]
 })
 export class CoreModule { }
