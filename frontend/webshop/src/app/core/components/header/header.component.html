@@ -8,7 +8,8 @@
       <nb-toggle [(checked)]="isDarkTheme" (checkedChange)="onThemeSwitch()"></nb-toggle>
       <nb-icon class="small ml" icon="moon-outline"></nb-icon>
     </nb-action>
-    <nb-action icon="shopping-cart-outline"></nb-action>
+    <nb-action link="/basket" nbTooltip="Kosár" nbTooltipPlacement="bottom" icon="shopping-cart-outline"></nb-action>
+    <nb-action link="/orders" nbTooltip="Rendeléseim" nbTooltipPlacement="bottom" icon="archive-outline"></nb-action>
     <nb-action *ngIf="!isLoggedIn" class="no-padding">
       <button nbButton ghost (click)="onLogin()">
         Bejelentkezés

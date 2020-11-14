@@ -5,6 +5,7 @@ import { BasketPageComponent } from './pages/basket-page/basket-page.component';
 export const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
     component: BasketPageComponent
   }
 ];

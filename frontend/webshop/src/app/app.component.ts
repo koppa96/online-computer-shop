@@ -15,7 +15,7 @@ export class AppComponent {
     {
       title: 'Kezdőlap',
       icon: 'home-outline',
-      link: '/'
+      link: '/home'
     },
     {
       title: "Számítógép összerakó",
@@ -47,7 +47,7 @@ export class AppComponent {
       map(categories => this.topMenuItems.concat(categories.map(x => ({
         title: x.name,
         icon: 'hard-drive-outline',
-        link: `categories/${x.id}`
+        link: ['categories', x.id, 'products'] as any
       }))).concat(this.bottomMenuItems))
     ));
   }
