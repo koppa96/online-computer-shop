@@ -1,5 +1,7 @@
 <div class="header">
-  <h1>Awesome Computer Shop</h1>
+  <h1>
+    Awesome Computer Shop
+  </h1>
   <nb-actions size="medium">
     <nb-action>
       <nb-icon class="small mr" icon="sun-outline"></nb-icon>
@@ -17,7 +19,7 @@
         Regisztráció
       </button>
     </nb-action>
-    <nb-action class="no-padding">
+    <nb-action *ngIf="isLoggedIn" class="no-padding">
       <button nbButton ghost (click)="onLogout()">
         Kijelentkezés
       </button>

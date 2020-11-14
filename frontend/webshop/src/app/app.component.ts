@@ -47,9 +47,7 @@ export class AppComponent {
       map(categories => this.topMenuItems.concat(categories.map(x => ({
         title: x.name,
         icon: 'hard-drive-outline',
-        data: {
-          categoryId: x.id
-        }
+        link: `categories/${x.id}`
       }))).concat(this.bottomMenuItems))
     ));
   }
