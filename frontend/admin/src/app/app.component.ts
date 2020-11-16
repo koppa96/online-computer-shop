@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { NbMenuItem } from '@nebular/theme';
+import { title } from 'process';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,21 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'admin';
+  menuItems: NbMenuItem[] = [
+    {
+      title: 'Kategóriák'
+    },
+    {
+      title: 'Termékek'
+    },
+    {
+      title: 'Socketek'
+    },
+    {
+      title: 'Rendelések'
+    },
+    {
+      title: 'Felhasználókezelés'
+    },
+  ]
 }
