@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 @Component({
   selector: 'app-header',
@@ -9,12 +10,14 @@ import { NbThemeService } from '@nebular/theme';
 export class HeaderComponent implements OnInit {
   isDarkTheme = false;
 
-  constructor(private themeService: NbThemeService) { }
+  constructor(
+    private themeService: NbThemeService,
+    private oauthService: OAuthService
+  ) { }
 
   ngOnInit() {
     this.isDarkTheme = localStorage.getItem('isDarkTheme') === 'true';
     this.onThemeSwitch();
-    
   }
 
   onThemeSwitch() {
@@ -24,5 +27,9 @@ export class HeaderComponent implements OnInit {
       this.themeService.changeTheme('dark');
     }
     localStorage.setItem('isDarkTheme', this.isDarkTheme.toString());
+  }
+
+  onLogout() {
+    this.oauthService.logOut();
   }
 }
