@@ -26,7 +26,7 @@ export function initializeAuthentication(oauthService: OAuthService) {
       useSilentRefresh: true
     });
     return oauthService.loadDiscoveryDocumentAndTryLogin();
-  }
+  };
 }
 
 @NgModule({

@@ -32,9 +32,6 @@ namespace OnlineComputerShop.IdentityProvider
                 {
                     await roleMgr.CreateAsync(adminRole);
                 }
-
-                
-               
             }            
             
             host.Run();
