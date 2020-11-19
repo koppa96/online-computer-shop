@@ -1,0 +1,25 @@
+.list-item-content {
+  display: flex;
+
+  .list-item-content-container {
+    flex-grow: 1;
+    margin-left: 10px;
+  }
+
+  .list-item-actions-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-right: 20px;
+    margin-bottom: 20px;
+
+    .list-item-actions {
+      display: flex;
+
+      button {
+        margin: 0 10px;
+      }
+    }
+  }
+}

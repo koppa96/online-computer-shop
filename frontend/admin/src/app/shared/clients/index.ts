@@ -1673,6 +1673,8 @@ export interface ICategorySocketEditCommand {
 export class ProductListResponse implements IProductListResponse {
     id?: string;
     name?: string | undefined;
+    description?: string | undefined;
+    price?: number;
 
     constructor(data?: IProductListResponse) {
         if (data) {
@@ -1687,6 +1689,8 @@ export class ProductListResponse implements IProductListResponse {
         if (_data) {
             this.id = _data["id"];
             this.name = _data["name"];
+            this.description = _data["description"];
+            this.price = _data["price"];
         }
     }
 
@@ -1701,6 +1705,8 @@ export class ProductListResponse implements IProductListResponse {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["name"] = this.name;
+        data["description"] = this.description;
+        data["price"] = this.price;
         return data; 
     }
 }
@@ -1708,6 +1714,8 @@ export class ProductListResponse implements IProductListResponse {
 export interface IProductListResponse {
     id?: string;
     name?: string | undefined;
+    description?: string | undefined;
+    price?: number;
 }
 
 export class ProductCreateCommand implements IProductCreateCommand {
@@ -2486,7 +2494,6 @@ export interface IProductSocketEditCommand {
 
 export class SocketCreateCommand implements ISocketCreateCommand {
     name?: string | undefined;
-    categorySockets?: CategorySocketCreateCommand[] | undefined;
 
     constructor(data?: ISocketCreateCommand) {
         if (data) {
@@ -2500,11 +2507,6 @@ export class SocketCreateCommand implements ISocketCreateCommand {
     init(_data?: any) {
         if (_data) {
             this.name = _data["name"];
-            if (Array.isArray(_data["categorySockets"])) {
-                this.categorySockets = [] as any;
-                for (let item of _data["categorySockets"])
-                    this.categorySockets!.push(CategorySocketCreateCommand.fromJS(item));
-            }
         }
     }
 
@@ -2518,54 +2520,12 @@ export class SocketCreateCommand implements ISocketCreateCommand {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
-        if (Array.isArray(this.categorySockets)) {
-            data["categorySockets"] = [];
-            for (let item of this.categorySockets)
-                data["categorySockets"].push(item.toJSON());
-        }
         return data; 
     }
 }
 
 export interface ISocketCreateCommand {
     name?: string | undefined;
-    categorySockets?: CategorySocketCreateCommand[] | undefined;
-}
-
-export class CategorySocketCreateCommand implements ICategorySocketCreateCommand {
-    categoryId?: string;
-
-    constructor(data?: ICategorySocketCreateCommand) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.categoryId = _data["categoryId"];
-        }
-    }
-
-    static fromJS(data: any): CategorySocketCreateCommand {
-        data = typeof data === 'object' ? data : {};
-        let result = new CategorySocketCreateCommand();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["categoryId"] = this.categoryId;
-        return data; 
-    }
-}
-
-export interface ICategorySocketCreateCommand {
-    categoryId?: string;
 }
 
 export class SocketListResponse implements ISocketListResponse {

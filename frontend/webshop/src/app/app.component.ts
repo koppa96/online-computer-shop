@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NbMenuItem, NbThemeService } from '@nebular/theme';
 import { merge, Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, startWith, tap } from 'rxjs/operators';
 import { CategoriesClient, CategoryListResponse } from './shared/clients';
 
 @Component({
@@ -18,7 +18,7 @@ export class AppComponent {
       link: '/home'
     },
     {
-      title: "Számítógép összerakó",
+      title: 'Számítógép összerakó',
       icon: 'settings-2-outline',
       link: '/computer-assembler'
     },
@@ -29,7 +29,7 @@ export class AppComponent {
   ];
   bottomMenuItems: NbMenuItem[] = [
     {
-      title: "EGYÉB",
+      title: 'EGYÉB',
       group: true
     },
     {
@@ -43,12 +43,13 @@ export class AppComponent {
   ];
 
   constructor(categoriesClient: CategoriesClient) {
-    this.menuItems$ = merge(of([]), categoriesClient.listCategories().pipe(
+    this.menuItems$ = categoriesClient.listCategories().pipe(
+      startWith([] as CategoryListResponse[]),
       map(categories => this.topMenuItems.concat(categories.map(x => ({
         title: x.name,
         icon: 'hard-drive-outline',
         link: ['categories', x.id, 'products'] as any
       }))).concat(this.bottomMenuItems))
-    ));
+    );
   }
 }

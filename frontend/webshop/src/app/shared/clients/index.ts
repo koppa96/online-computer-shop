@@ -1068,6 +1068,8 @@ export interface ICategoryListResponse {
 export class ProductListResponse implements IProductListResponse {
     id?: string;
     name?: string | undefined;
+    description?: string | undefined;
+    price?: number;
 
     constructor(data?: IProductListResponse) {
         if (data) {
@@ -1082,6 +1084,8 @@ export class ProductListResponse implements IProductListResponse {
         if (_data) {
             this.id = _data["id"];
             this.name = _data["name"];
+            this.description = _data["description"];
+            this.price = _data["price"];
         }
     }
 
@@ -1096,6 +1100,8 @@ export class ProductListResponse implements IProductListResponse {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["name"] = this.name;
+        data["description"] = this.description;
+        data["price"] = this.price;
         return data; 
     }
 }
@@ -1103,6 +1109,8 @@ export class ProductListResponse implements IProductListResponse {
 export interface IProductListResponse {
     id?: string;
     name?: string | undefined;
+    description?: string | undefined;
+    price?: number;
 }
 
 export class CommentEditCommand implements ICommentEditCommand {
