@@ -13,13 +13,8 @@ namespace OnlineComputerShop.Application.Features.Admin.Sockets
     public class SocketCreateCommand : IRequest
     {
         public string Name { get; set; }
-        public List<CategorySocketCreateCommand> CategorySockets { get; set; }
-
-        public class CategorySocketCreateCommand
-        {
-            public Guid CategoryId { get; set; }
-        }
     }
+
     public class CreateSocketHandler : IRequestHandler<SocketCreateCommand>
     {
         private readonly OnlineComputerShopContext context;
@@ -35,7 +30,6 @@ namespace OnlineComputerShop.Application.Features.Admin.Sockets
             context.Sockets.Add(mapper.Map<Socket>(request));
             await context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
-            
         }
     }
 }
