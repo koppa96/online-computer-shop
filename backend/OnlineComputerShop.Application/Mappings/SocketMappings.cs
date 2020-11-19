@@ -16,7 +16,6 @@ namespace OnlineComputerShop.Application.Mappings
             CreateMap<CategorySocket, SocketGetResponse.CategorySocketGetResponse>()
                 .ForMember(dst => dst.CategoryName, opt => opt.MapFrom(src => src.Category.Name));
             CreateMap<SocketCreateCommand, Socket>();
-            CreateMap<SocketCreateCommand.CategorySocketCreateCommand, CategorySocket>();
         }
     }
 }
