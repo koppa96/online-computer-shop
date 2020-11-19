@@ -4,7 +4,7 @@ import { ProductListPageComponent } from './pages/product-list-page/product-list
 import { ProductDetailsPageComponent } from './pages/product-details-page/product-details-page.component';
 import { CategoryProductBrowserRoutingModule } from './category-product-browser-routing.module';
 import { ProductListItemComponent } from './components/product-list-item/product-list-item.component';
-import { NbButtonModule, NbCardModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbInputModule } from '@nebular/theme';
 
 @NgModule({
   declarations: [ProductListPageComponent, ProductDetailsPageComponent, ProductListItemComponent],
@@ -12,7 +12,8 @@ import { NbButtonModule, NbCardModule } from '@nebular/theme';
     CommonModule,
     CategoryProductBrowserRoutingModule,
     NbCardModule,
-    NbButtonModule
+    NbButtonModule,
+    NbInputModule
   ]
 })
 export class CategoryProductBrowserModule { }

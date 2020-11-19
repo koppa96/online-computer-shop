@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { OAuthService } from 'angular-oauth2-oidc';
 import { merge, Observable, of } from 'rxjs';
 import { startWith } from 'rxjs/operators';
-import { CategoriesClient, ProductListResponse } from 'src/app/shared/clients';
+import { BasketItemAddCommand, BasketItemsClient, CategoriesClient, ProductListResponse } from 'src/app/shared/clients';
 
 @Component({
   selector: 'app-product-list-page',
@@ -10,17 +11,28 @@ import { CategoriesClient, ProductListResponse } from 'src/app/shared/clients';
   styleUrls: ['./product-list-page.component.scss']
 })
 export class ProductListPageComponent implements OnInit {
+  isLoggedIn = false;
   products$: Observable<ProductListResponse[]>;
 
   constructor(
-    private client: CategoriesClient,
-    private route: ActivatedRoute
+    private categoriesClient: CategoriesClient,
+    private basketItemsClient: BasketItemsClient,
+    private route: ActivatedRoute,
+    private oauthService: OAuthService
   ) { }
 
   ngOnInit(): void {
+    this.isLoggedIn = this.oauthService.hasValidAccessToken();
     const categoryId = this.route.snapshot.params.categoryId;
-    this.products$ = this.client.listProducts(categoryId, []).pipe(
+    this.products$ = this.categoriesClient.listProducts(categoryId, []).pipe(
       startWith([] as ProductListResponse[])
     );
+  }
+
+  addToCart(product: ProductListResponse) {
+    this.basketItemsClient.addItem(new BasketItemAddCommand({
+      productId: product.id,
+      quantity: 1
+    }));
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ProductListResponse } from 'src/app/shared/clients';
 
 @Component({
@@ -8,6 +8,8 @@ import { ProductListResponse } from 'src/app/shared/clients';
 })
 export class ProductListItemComponent implements OnInit {
   @Input() item: ProductListResponse;
+  @Input() isLoggedIn: boolean;
+  @Output() cartButtonClicked = new EventEmitter<void>();
 
   constructor() { }
 

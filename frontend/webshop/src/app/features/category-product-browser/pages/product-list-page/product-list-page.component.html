@@ -1,1 +1,4 @@
-<app-product-list-item *ngFor="let product of products$ | async" [item]="product"></app-product-list-item>
+<app-product-list-item *ngFor="let product of products$ | async" 
+  [isLoggedIn]="isLoggedIn"
+  [item]="product"
+  (cartButtonClicked)="addToCart(product)"></app-product-list-item>

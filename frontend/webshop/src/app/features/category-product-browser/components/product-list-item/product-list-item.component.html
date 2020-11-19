@@ -9,7 +9,7 @@
       <h2>{{ item.price }} Ft</h2>
       <div class="list-item-actions">
         <button nbButton status="primary">Részletek</button>
-        <button nbButton status="success">Kosárba</button>
+        <button *ngIf="isLoggedIn" nbButton status="success" (click)="cartButtonClicked.emit()">Kosárba</button>
       </div>
     </div>
   </div>
