@@ -31,6 +31,6 @@ export class ProductListPageComponent implements OnInit {
     this.basketItemsClient.addItem(new BasketItemAddCommand({
       productId: product.id,
       quantity: 1
-    }));
+    })).subscribe();
   }
 }

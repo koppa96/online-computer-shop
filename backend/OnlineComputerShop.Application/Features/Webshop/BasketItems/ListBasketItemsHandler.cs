@@ -21,6 +21,8 @@ namespace OnlineComputerShop.Application.Features.Webshop.BasketItems
     {
         public Guid Id { get; set; }
         public Guid ProductId { get; set; }
+        public Guid CategoryId { get; set; }
+        public string CategoryName { get; set; }
         public string ProductName { get; set; }
         public int Quantity { get; set; }
         public int PricePerPiece { get; set; }
@@ -43,6 +45,8 @@ namespace OnlineComputerShop.Application.Features.Webshop.BasketItems
         public async Task<IEnumerable<BasketItemListResponse>> Handle(BasketItemListQuery request, CancellationToken cancellationToken)
         {
             var items = await context.BasketItems
+                .Include(x => x.Product)
+                    .ThenInclude(x => x.Category)
                 .Where(x => x.UserId == identityService.GetUserId())
                 .ToListAsync(cancellationToken);
 

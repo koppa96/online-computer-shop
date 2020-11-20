@@ -47,6 +47,10 @@ namespace OnlineComputerShop.Application.Features.Webshop.BasketItems
                 if (basketItem.ProductId != request.ProductId)
                     throw new Exception();
                 basketItem.Quantity = request.Quantity;
+                if (basketItem.Quantity == 0)
+                {
+                    context.BasketItems.Remove(basketItem);
+                }
             }
 
             await context.SaveChangesAsync(cancellationToken);

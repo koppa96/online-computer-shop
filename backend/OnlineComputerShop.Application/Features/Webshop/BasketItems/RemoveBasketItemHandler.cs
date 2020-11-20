@@ -26,9 +26,9 @@ namespace OnlineComputerShop.Application.Features.Webshop.BasketItems
 
         public async Task<Unit> Handle(BasketItemRemoveCommand request, CancellationToken cancellationToken)
         {
-            var item = await context.OrderItems.FindAsync(request.Id);
+            var item = await context.BasketItems.FindAsync(request.Id);
             if (item != null)
-                context.OrderItems.Remove(item);
+                context.BasketItems.Remove(item);
             await context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }

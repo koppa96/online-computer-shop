@@ -1,0 +1,33 @@
+.item-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+
+  .grow {
+    flex-grow: 1;
+  }
+
+  .flex-container {
+    display: flex;
+    align-items: center;
+
+    &:not(:first-child) {
+      margin-left: 20px;
+    }
+
+    &:not(:last-child) {
+      margin-right: 20px;
+    }
+
+    h5 {
+      margin-left: 15px;
+    }
+
+    button {
+      &:last-child {
+        margin-left: 10px;
+      }
+    }
+  }
+}

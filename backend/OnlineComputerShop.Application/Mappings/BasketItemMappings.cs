@@ -13,7 +13,9 @@ namespace OnlineComputerShop.Application.Mappings
         {
             CreateMap<BasketItem, BasketItemListResponse>()
                 .ForMember(dst => dst.ProductName, opt => opt.MapFrom(src => src.Product.Name))
-                .ForMember(dst => dst.PricePerPiece, opt => opt.MapFrom(src => src.Product.Price));
+                .ForMember(dst => dst.PricePerPiece, opt => opt.MapFrom(src => src.Product.Price))
+                .ForMember(dst => dst.CategoryId, opt => opt.MapFrom(src => src.Product.CategoryId))
+                .ForMember(dst => dst.CategoryName, opt => opt.MapFrom(src => src.Product.Category.Name));
             CreateMap<BasketItem, BasketItemGetResponse>()
                 .ForMember(dst => dst.ProductName, opt => opt.MapFrom(src => src.Product.Name))
                 .ForMember(dst => dst.PricePerPiece, opt => opt.MapFrom(src => src.Product.Price));

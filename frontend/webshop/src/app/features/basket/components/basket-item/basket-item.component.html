@@ -1,0 +1,28 @@
+<div class="item-container">
+  <div class="flex-container grow">
+    <img src="/assets/placeholder-150x100.png">
+    <h5>{{ item.productName }}</h5>
+  </div>
+  
+  <div class="flex-container">
+    <button nbButton ghost status="success" (click)="increaseClicked.emit()">
+      <nb-icon icon="plus-outline"></nb-icon>
+    </button>
+    <span>{{ item.quantity }} darab</span>
+    <button nbButton ghost status="danger" (click)="decreaseClicked.emit()">
+      <nb-icon icon="minus-outline"></nb-icon>
+    </button>
+  </div>
+
+  <span class="price"><strong>Egységár:</strong> {{ item.pricePerPiece }} Ft</span>
+  <span class="price"><strong>Összérték:</strong> {{ item.pricePerPiece * item.quantity }} Ft</span>
+
+  <div class="flex-container">
+    <a [routerLink]="['/categories', item.categoryId, 'products', item.productId]" nbButton status="primary" ghost nbTooltip="Részletek">
+      <nb-icon icon="file-text-outline"></nb-icon>
+    </a>
+    <button nbButton status="danger" ghost (click)="deleteClicked.emit()" nbTooltip="Törlés">
+      <nb-icon icon="trash-2-outline"></nb-icon>
+    </button>
+  </div>
+</div>

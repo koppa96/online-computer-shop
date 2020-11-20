@@ -840,6 +840,8 @@ export class ProductsClient {
 export class BasketItemListResponse implements IBasketItemListResponse {
     id?: string;
     productId?: string;
+    categoryId?: string;
+    categoryName?: string | undefined;
     productName?: string | undefined;
     quantity?: number;
     pricePerPiece?: number;
@@ -857,6 +859,8 @@ export class BasketItemListResponse implements IBasketItemListResponse {
         if (_data) {
             this.id = _data["id"];
             this.productId = _data["productId"];
+            this.categoryId = _data["categoryId"];
+            this.categoryName = _data["categoryName"];
             this.productName = _data["productName"];
             this.quantity = _data["quantity"];
             this.pricePerPiece = _data["pricePerPiece"];
@@ -874,6 +878,8 @@ export class BasketItemListResponse implements IBasketItemListResponse {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["productId"] = this.productId;
+        data["categoryId"] = this.categoryId;
+        data["categoryName"] = this.categoryName;
         data["productName"] = this.productName;
         data["quantity"] = this.quantity;
         data["pricePerPiece"] = this.pricePerPiece;
@@ -884,6 +890,8 @@ export class BasketItemListResponse implements IBasketItemListResponse {
 export interface IBasketItemListResponse {
     id?: string;
     productId?: string;
+    categoryId?: string;
+    categoryName?: string | undefined;
     productName?: string | undefined;
     quantity?: number;
     pricePerPiece?: number;
