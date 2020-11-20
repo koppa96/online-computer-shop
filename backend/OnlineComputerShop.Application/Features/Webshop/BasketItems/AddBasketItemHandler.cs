@@ -39,7 +39,16 @@ namespace OnlineComputerShop.Application.Features.Webshop.BasketItems
                 .Include(x => x.BasketItems)
                 .SingleOrDefaultAsync(x => x.Id == identityService.GetUserId(), cancellationToken);
 
-            user.BasketItems.Add(mapper.Map<BasketItem>(request));
+            var existingBasketItem = user.BasketItems.SingleOrDefault(x => x.ProductId == request.ProductId);
+            if (existingBasketItem == null)
+            {
+                user.BasketItems.Add(mapper.Map<BasketItem>(request));
+            }
+            else
+            {
+                existingBasketItem.Quantity += request.Quantity;
+            }
+            
             await context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
