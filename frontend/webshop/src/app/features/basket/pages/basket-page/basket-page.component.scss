@@ -4,4 +4,11 @@ app-basket-item {
 
 nb-card-body {
   padding: 0;
+
+  .empty-basket {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding: 20px;
+  }
 }

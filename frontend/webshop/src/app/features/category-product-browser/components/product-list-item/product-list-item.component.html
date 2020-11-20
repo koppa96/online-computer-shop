@@ -8,8 +8,8 @@
     <div class="list-item-actions-container">
       <h2>{{ item.price }} Ft</h2>
       <div class="list-item-actions">
-        <button nbButton status="primary">Részletek</button>
-        <button *ngIf="isLoggedIn" nbButton status="success" (click)="cartButtonClicked.emit()">Kosárba</button>
+        <a nbButton status="primary" hero [routerLink]="[item.id]">Részletek</a>
+        <button *ngIf="isLoggedIn" nbButton status="success" (click)="cartButtonClicked.emit()" hero>Kosárba</button>
       </div>
     </div>
   </div>

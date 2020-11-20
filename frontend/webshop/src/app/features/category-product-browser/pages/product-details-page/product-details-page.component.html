@@ -1,1 +1,35 @@
-<p>product-details-page works!</p>
+<div class="grid">
+  <nb-card class="main-card">
+    <nb-card-header>
+      <h4>
+        {{ (product$ | async).name }}
+      </h4>
+    </nb-card-header>
+    <nb-card-body class="body">
+      <img src="/assets/placeholder-800x600.png">
+      <p>{{ (product$ | async).description }}</p>
+    </nb-card-body>
+  </nb-card>
+  <nb-card class="comments-card">
+    <nb-card-header>
+      <h5>Megjegyzések</h5>
+    </nb-card-header>
+    <nb-card-body>
+    </nb-card-body>
+  </nb-card>
+  <nb-card class="properties-card">
+    <nb-card-header>
+      <h5>Tulajdonságok</h5>
+    </nb-card-header>
+    <nb-card-body>
+      <nb-list>
+        <nb-list-item *ngFor="let property of (product$ | async).propertyValues">
+          <div class="property-container">
+            <strong>{{ property.name }}</strong>
+            <span>{{ property.value }}</span>
+          </div>
+        </nb-list-item>
+      </nb-list>
+    </nb-card-body>
+  </nb-card>
+</div>
