@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { NbMenuItem, NbThemeService } from '@nebular/theme';
-import { merge, Observable, of } from 'rxjs';
-import { map, startWith, tap } from 'rxjs/operators';
+import { NbMenuItem } from '@nebular/theme';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { CategoriesClient, CategoryListResponse } from './shared/clients';
 
 @Component({

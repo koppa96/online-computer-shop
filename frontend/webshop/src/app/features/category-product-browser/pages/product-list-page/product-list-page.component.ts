@@ -24,9 +24,7 @@ export class ProductListPageComponent implements OnInit {
   ngOnInit(): void {
     this.isLoggedIn = this.oauthService.hasValidAccessToken();
     const categoryId = this.route.snapshot.params.categoryId;
-    this.products$ = this.categoriesClient.listProducts(categoryId, []).pipe(
-      startWith([] as ProductListResponse[])
-    );
+    this.products$ = this.categoriesClient.listProducts(categoryId, []);
   }
 
   addToCart(product: ProductListResponse) {
