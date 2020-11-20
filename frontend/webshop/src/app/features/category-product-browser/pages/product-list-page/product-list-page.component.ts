@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NbToastrService } from '@nebular/theme';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { merge, Observable, of } from 'rxjs';
 import { startWith } from 'rxjs/operators';
@@ -18,7 +19,8 @@ export class ProductListPageComponent implements OnInit {
     private categoriesClient: CategoriesClient,
     private basketItemsClient: BasketItemsClient,
     private route: ActivatedRoute,
-    private oauthService: OAuthService
+    private oauthService: OAuthService,
+    private toastrService: NbToastrService
   ) { }
 
   ngOnInit(): void {
@@ -31,6 +33,8 @@ export class ProductListPageComponent implements OnInit {
     this.basketItemsClient.addItem(new BasketItemAddCommand({
       productId: product.id,
       quantity: 1
-    })).subscribe();
+    })).subscribe(() => {
+      this.toastrService.success(`A termék: ${product.name} sikeresen hozzá lett adva a kosaradhoz.`, 'Siker');
+    });
   }
 }

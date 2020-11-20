@@ -11,17 +11,17 @@
     <nb-action link="/basket" nbTooltip="Kosár" nbTooltipPlacement="bottom" icon="shopping-cart-outline"></nb-action>
     <nb-action link="/orders" nbTooltip="Rendeléseim" nbTooltipPlacement="bottom" icon="archive-outline"></nb-action>
     <nb-action *ngIf="!isLoggedIn" class="no-padding">
-      <button nbButton ghost (click)="onLogin()">
+      <button nbButton ghost (click)="onLogin()" status="primary">
         Bejelentkezés
       </button>
     </nb-action>
     <nb-action *ngIf="!isLoggedIn" class="no-padding">
-      <button nbButton ghost>
+      <button nbButton ghost status="info">
         Regisztráció
       </button>
     </nb-action>
     <nb-action *ngIf="isLoggedIn" class="no-padding">
-      <button nbButton ghost (click)="onLogout()">
+      <button status="danger" nbButton ghost (click)="onLogout()">
         Kijelentkezés
       </button>
     </nb-action>
