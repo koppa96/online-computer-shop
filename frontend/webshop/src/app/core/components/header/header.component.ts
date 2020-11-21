@@ -10,6 +10,8 @@ import { OAuthService } from 'angular-oauth2-oidc';
 export class HeaderComponent implements OnInit {
   isDarkTheme = false;
   isLoggedIn = false;
+  userName: string;
+  email: string;
 
   constructor(
     private themeService: NbThemeService,
@@ -20,8 +22,14 @@ export class HeaderComponent implements OnInit {
     this.isDarkTheme = localStorage.getItem('isDarkTheme') === 'true';
     this.onThemeSwitch();
 
-    this.isLoggedIn = this.oauthService.hasValidAccessToken();
-    console.log(this.isLoggedIn);
+    if (this.oauthService.hasValidAccessToken()) {
+      this.isLoggedIn = true;
+      const token = this.oauthService.getAccessToken();
+      const content = JSON.parse(atob(token.split('.')[1]));
+
+      this.userName = content.userName;
+      this.email = content.email;
+    }
   }
 
   onThemeSwitch() {

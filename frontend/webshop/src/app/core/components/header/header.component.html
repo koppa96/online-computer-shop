@@ -8,22 +8,13 @@
       <nb-toggle [(checked)]="isDarkTheme" (checkedChange)="onThemeSwitch()"></nb-toggle>
       <nb-icon class="small ml" icon="moon-outline"></nb-icon>
     </nb-action>
-    <nb-action link="/basket" nbTooltip="Kosár" nbTooltipPlacement="bottom" icon="shopping-cart-outline"></nb-action>
-    <nb-action link="/orders" nbTooltip="Rendeléseim" nbTooltipPlacement="bottom" icon="archive-outline"></nb-action>
-    <nb-action *ngIf="!isLoggedIn" class="no-padding">
-      <button nbButton ghost (click)="onLogin()" status="primary">
-        Bejelentkezés
-      </button>
+    <nb-action *ngIf="isLoggedIn" link="/basket" nbTooltip="Kosár" nbTooltipPlacement="bottom" icon="shopping-cart-outline"></nb-action>
+    <nb-action *ngIf="isLoggedIn" link="/orders" nbTooltip="Rendeléseim" nbTooltipPlacement="bottom" icon="archive-outline"></nb-action>
+    <nb-action *ngIf="!isLoggedIn" nbTooltip="Bejelentkezés" nbTooltipPlacement="bottom" icon="log-in-outline" (click)="onLogin()"></nb-action>
+    <nb-action *ngIf="!isLoggedIn" nbTooltip="Regisztráció" nbTooltipPlacement="bottom" icon="edit-2-outline"></nb-action>
+    <nb-action *ngIf="isLoggedIn" status="danger">
+      <nb-user [name]="userName" [title]="email"></nb-user>
     </nb-action>
-    <nb-action *ngIf="!isLoggedIn" class="no-padding">
-      <button nbButton ghost status="info">
-        Regisztráció
-      </button>
-    </nb-action>
-    <nb-action *ngIf="isLoggedIn" class="no-padding">
-      <button status="danger" nbButton ghost (click)="onLogout()">
-        Kijelentkezés
-      </button>
-    </nb-action>
+    <nb-action *ngIf="isLoggedIn" nbTooltip="Kijelentkezés" nbTooltipPlacement="bottom" icon="log-out-outline" (click)="onLogout()"></nb-action>
   </nb-actions>
 </div>
