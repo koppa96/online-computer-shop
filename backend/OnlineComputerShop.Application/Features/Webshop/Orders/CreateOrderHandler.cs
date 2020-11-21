@@ -15,6 +15,8 @@ namespace OnlineComputerShop.Application.Features.Webshop.Orders
 {
     public class OrderCreateCommand : IRequest
     {
+        public string Name { get; set; }
+        public string PhoneNumber { get; set; }
         public string Address { get; set; }
     }
     public class CreateOrderHandler : IRequestHandler<OrderCreateCommand>
@@ -49,6 +51,8 @@ namespace OnlineComputerShop.Application.Features.Webshop.Orders
             {
                 UserId = userId,
                 OrderItems = orderItems,
+                Name = request.Name,
+                PhoneNumber = request.PhoneNumber,
                 Address = request.Address,
                 State = Order.OrderState.Unsent,
                 DateTimeOfOrder = DateTime.UtcNow
