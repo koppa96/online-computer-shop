@@ -1328,6 +1328,8 @@ export interface IOrderItemGetResponse {
 }
 
 export class OrderCreateCommand implements IOrderCreateCommand {
+    name?: string | undefined;
+    phoneNumber?: string | undefined;
     address?: string | undefined;
 
     constructor(data?: IOrderCreateCommand) {
@@ -1341,6 +1343,8 @@ export class OrderCreateCommand implements IOrderCreateCommand {
 
     init(_data?: any) {
         if (_data) {
+            this.name = _data["name"];
+            this.phoneNumber = _data["phoneNumber"];
             this.address = _data["address"];
         }
     }
@@ -1354,12 +1358,16 @@ export class OrderCreateCommand implements IOrderCreateCommand {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["phoneNumber"] = this.phoneNumber;
         data["address"] = this.address;
         return data; 
     }
 }
 
 export interface IOrderCreateCommand {
+    name?: string | undefined;
+    phoneNumber?: string | undefined;
     address?: string | undefined;
 }
 

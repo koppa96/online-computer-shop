@@ -25,6 +25,7 @@ export function initializeAuthentication(oauthService: OAuthService) {
       scope: 'openid profile webshopapi.readwrite',
       useSilentRefresh: true
     });
+    oauthService.setupAutomaticSilentRefresh();
     return oauthService.loadDiscoveryDocumentAndTryLogin();
   };
 }

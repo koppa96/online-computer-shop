@@ -3,7 +3,9 @@ app-basket-item {
 }
 
 nb-card-body {
-  padding: 0;
+  &.basket-list {
+    padding: 0;
+  }
 
   .empty-basket {
     display: flex;
@@ -11,4 +13,10 @@ nb-card-body {
     justify-content: center;
     padding: 20px;
   }
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }

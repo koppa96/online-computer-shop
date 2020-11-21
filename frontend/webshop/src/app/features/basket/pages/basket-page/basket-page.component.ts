@@ -10,6 +10,7 @@ import { BasketItemEditCommand, BasketItemListResponse, BasketItemsClient } from
 })
 export class BasketPageComponent implements AfterViewInit {
   sum = 0;
+  flipped = false;
   loadItems$: Subject<void>;
   basketItems$: Observable<BasketItemListResponse[]>;
 

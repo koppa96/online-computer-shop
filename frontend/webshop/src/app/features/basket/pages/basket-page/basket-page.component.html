@@ -1,18 +1,44 @@
-<nb-card>
-  <nb-card-header>
-    <h4>Kosár</h4>
-  </nb-card-header>
-  <nb-card-body>
-    <div class="empty-basket" *ngIf="!(basketItems$ | async)">
-      <h5>A kosarad jelenleg üres.</h5>
-    </div>
-    <nb-list>
-      <nb-list-item *ngFor="let item of basketItems$ | async">
-        <app-basket-item [item]="item" (deleteClicked)="deleteItem(item)" (increaseClicked)="changeQuantity(item, 1)" (decreaseClicked)="changeQuantity(item, -1)"></app-basket-item>
-      </nb-list-item>
-    </nb-list>
-  </nb-card-body>
-  <nb-card-footer>
-    <app-basket-footer [sum]="sum" [isEmpty]="!(basketItems$ | async)" (deleteItemsClicked)="deleteItems()"></app-basket-footer>
-  </nb-card-footer>
-</nb-card>
+<nb-flip-card [showToggleButton]="false" [flipped]="flipped">
+  <nb-card-front>
+    <nb-card>
+      <nb-card-header>
+        <h4>Kosár</h4>
+      </nb-card-header>
+      <nb-card-body class="basket-list">
+        <div class="empty-basket" *ngIf="!(basketItems$ | async)">
+          <h5>A kosarad jelenleg üres.</h5>
+        </div>
+        <nb-list>
+          <nb-list-item *ngFor="let item of basketItems$ | async">
+            <app-basket-item [item]="item" (deleteClicked)="deleteItem(item)" (increaseClicked)="changeQuantity(item, 1)" (decreaseClicked)="changeQuantity(item, -1)"></app-basket-item>
+          </nb-list-item>
+        </nb-list>
+      </nb-card-body>
+      <nb-card-footer>
+        <app-basket-footer [sum]="sum" [isEmpty]="!(basketItems$ | async)" (deleteItemsClicked)="deleteItems()" (orderClicked)="flipped = true"></app-basket-footer>
+      </nb-card-footer>
+    </nb-card>
+  </nb-card-front>
+  <nb-card-back>
+    <nb-card>
+      <nb-card-header>
+        <h4>Megrendelés</h4>
+      </nb-card-header>
+      <nb-card-body>
+        <app-order-create [items]="basketItems$ | async"></app-order-create>
+      </nb-card-body>
+      <nb-card-footer>
+        <div class="footer-container">
+          <button nbButton hero status="danger" (click)="flipped = false">
+            <nb-icon icon="arrow-ios-back-outline"></nb-icon>
+            Vissza
+          </button>
+          <button nbButton hero status="primary">
+            <nb-icon icon="shopping-bag-outline"></nb-icon>
+            Megrendelés
+          </button>
+        </div>
+      </nb-card-footer>
+    </nb-card>
+  </nb-card-back>
+</nb-flip-card>

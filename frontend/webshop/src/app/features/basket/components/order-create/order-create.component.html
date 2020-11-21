@@ -1,0 +1,16 @@
+<div>
+  <div>
+    <label for="name">Megrendelő neve</label><br>
+    <input id="name" name="name" type="text" nbInput [(ngModel)]="name" (ngModelChange)="nameChanged.emit($event)">
+  </div>
+  
+  <div>
+    <label for="address">Szállítási cím</label><br>
+    <input id="address" name="address" type="text" nbInput [(ngModel)]="address" (ngModelChange)="addressChanged.emit($event)">
+  </div>
+  
+  <div>
+    <label for="phone">Telefonszám</label><br>
+    <input id="phone" name="phone" type="tel" nbInput [(ngModel)]="phoneNumber" (ngModelChange)="phoneNumberChanged.emit($event)">
+  </div>
+</div>
