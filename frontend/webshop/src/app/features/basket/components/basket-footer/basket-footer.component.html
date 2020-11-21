@@ -1,11 +1,11 @@
 <div class="item-container">
   <h4 class="grow">Végösszeg: {{ sum }} Ft</h4>
   <div class="flex-container">
-    <button nbButton status="danger" hero (click)="deleteItemsClicked.emit()">
+    <button nbButton status="danger" hero (click)="deleteItemsClicked.emit()" [disabled]="isEmpty">
       <nb-icon icon="trash-2-outline"></nb-icon>
       Kosár kiürítése
     </button>
-    <button nbButton status="primary" hero (click)="orderClicked.emit()">
+    <button nbButton status="primary" hero (click)="orderClicked.emit()" [disabled]="isEmpty">
       <nb-icon icon="shopping-bag-outline"></nb-icon>
       Megrendelés
     </button>

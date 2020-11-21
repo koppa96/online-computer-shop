@@ -13,6 +13,6 @@
     </nb-list>
   </nb-card-body>
   <nb-card-footer>
-    <app-basket-footer [sum]="sum" (deleteItemsClicked)="deleteItems()"></app-basket-footer>
+    <app-basket-footer [sum]="sum" [isEmpty]="basketItems.length === 0" (deleteItemsClicked)="deleteItems()"></app-basket-footer>
   </nb-card-footer>
 </nb-card>

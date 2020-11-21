@@ -7,6 +7,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class BasketFooterComponent implements OnInit {
   @Input() sum: number;
+  @Input() isEmpty: boolean;
   @Output() orderClicked = new EventEmitter<void>();
   @Output() deleteItemsClicked = new EventEmitter<void>();
 
