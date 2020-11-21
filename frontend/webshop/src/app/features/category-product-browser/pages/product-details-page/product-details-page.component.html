@@ -2,12 +2,12 @@
   <nb-card class="main-card">
     <nb-card-header>
       <h4>
-        {{ product?.name }}
+        {{ (product$ | async)?.name }}
       </h4>
     </nb-card-header>
     <nb-card-body class="body">
       <img src="/assets/placeholder-800x600.png">
-      <p>{{ product?.description }}</p>
+      <p>{{ (product$ | async)?.description }}</p>
     </nb-card-body>
   </nb-card>
   <nb-card class="comments-card">
@@ -24,11 +24,11 @@
       </div>
     </nb-card-body>
     <nb-card-footer>
-      <div *ngIf="!product?.comments.length" class="empty-list-container">
+      <div *ngIf="!(product$ | async)?.comments" class="empty-list-container">
         <h6>Még nem érkezett megjegyzés a termékhez.</h6>
       </div>
-      <nb-list *ngIf="product?.comments?.length">
-        <nb-list-item *ngFor="let comment of product?.comments">
+      <nb-list>
+        <nb-list-item *ngFor="let comment of (product$ | async)?.comments">
           <div>
             <nb-user [name]="comment.userName"></nb-user>
             <p>{{ comment.text }}</p>
@@ -43,7 +43,7 @@
     </nb-card-header>
     <nb-card-body>
       <nb-list>
-        <nb-list-item *ngFor="let property of product?.propertyValues">
+        <nb-list-item *ngFor="let property of (product$ | async)?.propertyValues">
           <div class="property-container">
             <strong>{{ property.name }}</strong>
             <span>{{ property.value }}</span>

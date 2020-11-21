@@ -15,9 +15,6 @@ namespace OnlineComputerShop.Application.Mappings
             CreateMap<CommentEditCommand, Comment>();
             CreateMap<CommentCreateCommand, Comment>()
                 .ForMember(dst => dst.UserId, opt => opt.MapFrom<UserIdResolver>());
-
-            CreateMap<Comment, ProductGetResponse.CommentResponse>()
-                .ForMember(dst => dst.UserName, opt => opt.MapFrom(src => src.User.UserName));
         }
     }
 }
