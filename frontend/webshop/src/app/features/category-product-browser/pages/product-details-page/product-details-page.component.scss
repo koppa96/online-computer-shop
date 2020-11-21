@@ -22,6 +22,25 @@
   .comments-card {
     grid-row: 2;
     grid-column: 1;
+
+    textarea {
+      resize: none;
+    }
+
+    .send-container {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .empty-list-container {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+
+      h6 {
+        margin: 5px;
+      }
+    }
   }
 
   nb-card {
