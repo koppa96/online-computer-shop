@@ -49,7 +49,6 @@ namespace OnlineComputerShop.Application.Features.Common.Products
             public string UserName { get; set; }
             public DateTime DateTimeOfCreation { get; set; }
         }
-
     }
 
 

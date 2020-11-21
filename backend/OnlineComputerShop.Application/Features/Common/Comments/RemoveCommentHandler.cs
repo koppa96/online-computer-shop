@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using OnlineComputerShop.Application.Services.Interfaces;
 using OnlineComputerShop.Dal;
 using System;
 using System.Collections.Generic;
@@ -18,10 +19,12 @@ namespace OnlineComputerShop.Application.Features.Common.Comments
     public class RemoveCommentHandler : IRequestHandler<CommentRemoveCommand>
     {
         private readonly OnlineComputerShopContext context;
+        private readonly IIdentityService identityService;
 
-        public RemoveCommentHandler(OnlineComputerShopContext context)
+        public RemoveCommentHandler(OnlineComputerShopContext context, IIdentityService identityService)
         {
             this.context = context;
+            this.identityService = identityService;
         }
 
         public async Task<Unit> Handle(CommentRemoveCommand request, CancellationToken cancellationToken)

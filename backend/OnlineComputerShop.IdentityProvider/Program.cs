@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OnlineComputerShop.Dal;
+using OnlineComputerShop.Dal.Entities;
 
 namespace OnlineComputerShop.IdentityProvider
 {
@@ -19,18 +20,30 @@ namespace OnlineComputerShop.IdentityProvider
         {
             var host = CreateHostBuilder(args).Build();
 
-            using (var services = host.Services.CreateScope())
+            using (var scope = host.Services.CreateScope())
             {
-                var dbContext = services.ServiceProvider.GetRequiredService<OnlineComputerShopContext>();
+                var dbContext = scope.ServiceProvider.GetRequiredService<OnlineComputerShopContext>();
                 await dbContext.Database.MigrateAsync();
 
-                var roleMgr = services.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+                var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 
                 var adminRole = new IdentityRole<Guid>("Admin");
 
                 if (!dbContext.Roles.Any())
                 {
                     await roleMgr.CreateAsync(adminRole);
+                }
+
+                if (!dbContext.Users.Any(x => x.UserName == "admin"))
+                {
+                    var user = new User
+                    {
+                        UserName = "admin",
+                        Email = "admin@teszt.hu"
+                    };
+                    await userManager.CreateAsync(user);
+                    await userManager.AddToRoleAsync(user, "Admin");
                 }
             }            
             

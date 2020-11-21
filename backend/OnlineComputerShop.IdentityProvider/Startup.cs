@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityServer4.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -14,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OnlineComputerShop.Dal;
 using OnlineComputerShop.Dal.Entities;
+using OnlineComputerShop.IdentityProvider.Infrastructure;
 
 namespace OnlineComputerShop.IdentityProvider
 {
@@ -44,6 +46,7 @@ namespace OnlineComputerShop.IdentityProvider
                 .AddInMemoryApiScopes(Configuration.GetSection("IdentityServer:ApiScopes"))
                 .AddInMemoryClients(Configuration.GetSection("IdentityServer:Clients"))
                 .AddAspNetIdentity<User>();
+            services.AddTransient<IProfileService, ProfileService>();
 
             services.AddRazorPages();
 
