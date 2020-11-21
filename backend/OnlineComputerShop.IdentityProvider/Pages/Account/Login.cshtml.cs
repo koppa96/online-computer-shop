@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using OnlineComputerShop.Dal.Entities;
 
@@ -20,6 +21,7 @@ namespace OnlineComputerShop.IdentityProvider.Pages.Account
         private readonly IUserClaimsPrincipalFactory<User> claimsPrincipalFactory;
         private readonly UserManager<User> userManager;
         private readonly IWebHostEnvironment environment;
+        private readonly IConfiguration configuration;
 
         [Required(ErrorMessage = "Kötelező")]
         [BindProperty]
@@ -41,12 +43,14 @@ namespace OnlineComputerShop.IdentityProvider.Pages.Account
             IIdentityServerInteractionService interactionService,
             IUserClaimsPrincipalFactory<User> claimsPrincipalFactory,
             UserManager<User> userManager,
-            IWebHostEnvironment environment)
+            IWebHostEnvironment environment,
+            IConfiguration configuration)
         {
             this.interactionService = interactionService;
             this.claimsPrincipalFactory = claimsPrincipalFactory;
             this.userManager = userManager;
             this.environment = environment;
+            this.configuration = configuration;
         }
 
         public void OnGet(string returnUrl)
@@ -64,23 +68,31 @@ namespace OnlineComputerShop.IdentityProvider.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = await userManager.FindByNameAsync(Username);
+                var context = await interactionService.GetAuthorizationContextAsync(ReturnUrl);
                 if (user != null && (environment.IsDevelopment() || await userManager.CheckPasswordAsync(user, Password)))
                 {
-                    var signInProperties = new AuthenticationProperties
+                    if (context.Client.ClientId != configuration.GetValue<string>("AdminAppClientId") || await userManager.IsInRoleAsync(user, "Admin"))
                     {
-                        ExpiresUtc = DateTimeOffset.UtcNow.AddDays(1),
-                        AllowRefresh = true,
-                        RedirectUri = ReturnUrl,
-                        IsPersistent = RememberMe
-                    };
+                        var signInProperties = new AuthenticationProperties
+                        {
+                            ExpiresUtc = DateTimeOffset.UtcNow.AddDays(1),
+                            AllowRefresh = true,
+                            RedirectUri = ReturnUrl,
+                            IsPersistent = RememberMe
+                        };
 
-                    var claimsPrincipal = await claimsPrincipalFactory.CreateAsync(user);
-                    await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, claimsPrincipal, signInProperties);
-                    HttpContext.User = claimsPrincipal;
+                        var claimsPrincipal = await claimsPrincipalFactory.CreateAsync(user);
+                        await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, claimsPrincipal, signInProperties);
+                        HttpContext.User = claimsPrincipal;
 
-                    if (interactionService.IsValidReturnUrl(ReturnUrl))
+                        if (interactionService.IsValidReturnUrl(ReturnUrl))
+                        {
+                            return Redirect(ReturnUrl);
+                        }
+                    }
+                    else
                     {
-                        return Redirect(ReturnUrl);
+                        Errors.Add("Az admin alkalmazásba való bejelentkezéshez adminisztrátori jogosultság szükséges!");
                     }
                 }
                 else
