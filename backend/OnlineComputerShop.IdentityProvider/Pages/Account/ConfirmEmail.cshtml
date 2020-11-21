@@ -7,7 +7,7 @@
 
 <main class="container vh-100">
     <div class="row h-100 justify-content-center align-items-center">
-        <div class="col-12 col-md-9 col-lg-7 p-4 mdl-card mdl-shadow--8dp card-round">
+        <div class="col-12 col-md-9 col-lg-7 p-4 nb-card">
             @if (Model.ConfirmSuccessful)
             {
                 <div class="w-100 d-flex align-items-center flex-grow-1">
@@ -45,10 +45,8 @@
 
                             <div class="row">
                                 <div class="col-12">
-                                    <label class="pure-material-textfield-outlined w-100">
-                                        <input placeholder=" " asp-for="Email" />
-                                        <span>E-mail cím</span>
-                                    </label>
+                                    <label asp-for="Email">E-mail</label><br>
+                                    <input class="nb-textbox w-100" type="email" placeholder="Az e-mail címed" asp-for="Email" />
                                     <span asp-validation-for="Email" class="text-danger"></span>
                                 </div>
                             </div>
@@ -56,9 +54,9 @@
                                 <div class="col-12 d-flex @(Model.Resend ? "justify-content-between" :  "justify-content-end")">
                                     @if (Model.Resend)
                                     {
-                                        <button name="action" value="cancel" class="poppins mdl-button mdl-js-button mdl-button--primary mdl-js-ripple-effect">Vissza a bejelentkezéshez</button>
+                                        <button name="action" value="cancel" class="button-ghost">Vissza a bejelentkezéshez</button>
                                     }
-                                    <button name="action" value="send" class="poppins mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">Újraküldés</button>
+                                    <button name="action" value="send" class="button-full">Újraküldés</button>
                                 </div>
                             </div>
                         </form>
