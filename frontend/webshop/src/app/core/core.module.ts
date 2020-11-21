@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { NbActionsModule, NbButtonModule, NbCardModule, NbIconModule, NbToggleModule, NbTooltipModule, NbUserModule } from '@nebular/theme';
+import { FormsModule } from '@angular/forms';
+import { NbActionsModule, NbButtonModule, NbCardModule, NbIconModule, NbInputModule, NbToggleModule, NbTooltipModule, NbUserModule } from '@nebular/theme';
+import { DialogComponent } from './components/dialog/dialog.component';
 import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
 
@@ -13,9 +15,11 @@ import { HomeComponent } from './components/home/home.component';
     NbButtonModule,
     NbCardModule,
     NbTooltipModule,
-    NbUserModule
+    NbUserModule,
+    NbInputModule,
+    FormsModule
   ],
-  declarations: [HeaderComponent, HomeComponent],
+  declarations: [HeaderComponent, HomeComponent, DialogComponent],
   exports: [HeaderComponent, HomeComponent]
 })
 export class CoreModule { }
