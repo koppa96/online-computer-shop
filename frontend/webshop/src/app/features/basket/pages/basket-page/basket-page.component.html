@@ -3,16 +3,16 @@
     <h4>Kosár</h4>
   </nb-card-header>
   <nb-card-body>
-    <div class="empty-basket" *ngIf="basketItems.length === 0">
+    <div class="empty-basket" *ngIf="!(basketItems$ | async)">
       <h5>A kosarad jelenleg üres.</h5>
     </div>
-    <nb-list *ngIf="basketItems.length > 0">
-      <nb-list-item *ngFor="let item of basketItems">
+    <nb-list>
+      <nb-list-item *ngFor="let item of basketItems$ | async">
         <app-basket-item [item]="item" (deleteClicked)="deleteItem(item)" (increaseClicked)="changeQuantity(item, 1)" (decreaseClicked)="changeQuantity(item, -1)"></app-basket-item>
       </nb-list-item>
     </nb-list>
   </nb-card-body>
   <nb-card-footer>
-    <app-basket-footer [sum]="sum" [isEmpty]="basketItems.length === 0" (deleteItemsClicked)="deleteItems()"></app-basket-footer>
+    <app-basket-footer [sum]="sum" [isEmpty]="!(basketItems$ | async)" (deleteItemsClicked)="deleteItems()"></app-basket-footer>
   </nb-card-footer>
 </nb-card>

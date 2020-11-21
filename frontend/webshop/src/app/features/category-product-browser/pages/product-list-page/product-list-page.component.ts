@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
 import { OAuthService } from 'angular-oauth2-oidc';

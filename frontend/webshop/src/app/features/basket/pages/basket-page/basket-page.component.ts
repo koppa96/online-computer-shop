@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { AfterViewInit, Component } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 import { BasketItemEditCommand, BasketItemListResponse, BasketItemsClient } from 'src/app/shared/clients';
 
 @Component({
@@ -8,25 +8,30 @@ import { BasketItemEditCommand, BasketItemListResponse, BasketItemsClient } from
   templateUrl: './basket-page.component.html',
   styleUrls: ['./basket-page.component.scss']
 })
-export class BasketPageComponent {
+export class BasketPageComponent implements AfterViewInit {
   sum = 0;
-  basketItems: BasketItemListResponse[] = [];
+  loadItems$: Subject<void>;
+  basketItems$: Observable<BasketItemListResponse[]>;
 
   constructor(private client: BasketItemsClient) {
-    this.client.listItems().subscribe(res => {
-      this.basketItems = res;
-      this.calculateSumValue();
-    });
+    this.loadItems$ = new Subject<void>();
+    this.basketItems$ = this.loadItems$.pipe(
+      switchMap(() => this.client.listItems()),
+      tap(items => this.calculateSumValue(items))
+    );
   }
 
-  calculateSumValue() {
-    this.sum =  this.basketItems.reduce((prev, curr) => prev + curr.quantity * curr.pricePerPiece, 0);
+  ngAfterViewInit() {
+    this.loadItems$.next();
+  }
+
+  calculateSumValue(items: BasketItemListResponse[]) {
+    this.sum =  items.reduce((prev, curr) => prev + curr.quantity * curr.pricePerPiece, 0);
   }
 
   deleteItem(item: BasketItemListResponse) {
     this.client.removeItem(item.id).subscribe(() => {
-      this.basketItems = this.basketItems.filter(x => x !== item);
-      this.calculateSumValue();
+      this.loadItems$.next();
     });
   }
 
@@ -36,15 +41,11 @@ export class BasketPageComponent {
       productId: item.productId,
       quantity: item.quantity + amount
     })).subscribe(() => {
-      item.quantity += amount;
-      if (item.quantity === 0) {
-        this.basketItems = this.basketItems.filter(x => x !== item);
-      }
-      this.calculateSumValue();
+      this.loadItems$.next();
     });
   }
 
   deleteItems() {
-    this.client.removeItems().subscribe(() => this.basketItems = []);
+    this.client.removeItems().subscribe(() => this.loadItems$.next());
   }
 }
