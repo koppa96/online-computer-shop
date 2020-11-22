@@ -1,0 +1,119 @@
+.order-form {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-template-rows: auto auto auto auto;
+  gap: 25px;
+  margin-bottom: 25px;
+
+  .name-container {
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  .phone-container {
+    grid-row: 2;
+    grid-column: 1;
+  }
+
+  .zip-code-container {
+    grid-row: 3;
+    grid-column: 1;
+  }
+
+  .city-container {
+    grid-row: 3;
+    grid-column: 2;
+  }
+
+  .public-place-container {
+    grid-row: 3;
+    grid-column: 3;
+  }
+
+  .house-number-container {
+    grid-row: 3;
+    grid-column: 4;
+  }
+
+  .staircase-container {
+    grid-row: 4;
+    grid-column: 1;
+  }
+
+  .floor-container {
+    grid-row: 4;
+    grid-column: 2;
+  }
+
+  .door-container {
+    grid-row: 4;
+    grid-column: 3;
+  }
+}
+
+button {
+  display: none;
+}
+
+.address-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.order-list-item {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-rows: auto;
+  width: 100%;
+
+  .item-name {
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  .item-category-name {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    grid-row: 1;
+    grid-column: 2;
+  }
+
+  .item-amount {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    grid-row: 1;
+    grid-column: 3;
+  }
+
+  .item-price {
+    display: inline-block;
+    width: 100%;
+    text-align: right;
+    grid-row: 1;
+    grid-column: 4;
+  }
+}
+
+.sum-container {
+  display: flex;
+  width: 100%;
+  padding: 1rem;
+  justify-content: space-between;
+}
+
+.error {
+  color: #ff3d71;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+  -moz-appearance:textfield; /* Firefox */
+}

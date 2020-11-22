@@ -1,7 +1,9 @@
 import { AfterViewInit, Component } from '@angular/core';
+import { NbToastrService } from '@nebular/theme';
 import { Observable, Subject } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
-import { BasketItemEditCommand, BasketItemListResponse, BasketItemsClient } from 'src/app/shared/clients';
+import { BasketItemEditCommand, BasketItemListResponse, BasketItemsClient, OrderCreateCommand, OrdersClient } from 'src/app/shared/clients';
+import { OrderMetadata } from '../../models/order-metadata.model';
 
 @Component({
   selector: 'app-basket-page',
@@ -11,13 +13,30 @@ import { BasketItemEditCommand, BasketItemListResponse, BasketItemsClient } from
 export class BasketPageComponent implements AfterViewInit {
   sum = 0;
   flipped = false;
-  loadItems$: Subject<void>;
+  loadItems$ = new Subject<void>();
+  validate$ = new Subject<void>();
   basketItems$: Observable<BasketItemListResponse[]>;
+  orderMetadata: OrderMetadata = {
+    name: '',
+    address: {
+      cityName: '',
+      door: '',
+      floor: '',
+      houseNumber: '',
+      publicPlaceName: '',
+      stairCaseNumber: '',
+      zipCode: ''
+    },
+    phoneNumber: ''
+  };
 
-  constructor(private client: BasketItemsClient) {
-    this.loadItems$ = new Subject<void>();
+  constructor(
+    private basketClient: BasketItemsClient,
+    private ordersClient: OrdersClient,
+    private toastrService: NbToastrService
+  ) {
     this.basketItems$ = this.loadItems$.pipe(
-      switchMap(() => this.client.listItems()),
+      switchMap(() => this.basketClient.listItems()),
       tap(items => this.calculateSumValue(items))
     );
   }
@@ -27,17 +46,17 @@ export class BasketPageComponent implements AfterViewInit {
   }
 
   calculateSumValue(items: BasketItemListResponse[]) {
-    this.sum =  items.reduce((prev, curr) => prev + curr.quantity * curr.pricePerPiece, 0);
+    this.sum = items.reduce((prev, curr) => prev + curr.quantity * curr.pricePerPiece, 0);
   }
 
   deleteItem(item: BasketItemListResponse) {
-    this.client.removeItem(item.id).subscribe(() => {
+    this.basketClient.removeItem(item.id).subscribe(() => {
       this.loadItems$.next();
     });
   }
 
   changeQuantity(item: BasketItemListResponse, amount: number) {
-    this.client.editItem(item.id, new BasketItemEditCommand({
+    this.basketClient.editItem(item.id, new BasketItemEditCommand({
       id: item.id,
       productId: item.productId,
       quantity: item.quantity + amount
@@ -47,6 +66,35 @@ export class BasketPageComponent implements AfterViewInit {
   }
 
   deleteItems() {
-    this.client.removeItems().subscribe(() => this.loadItems$.next());
+    this.basketClient.removeItems().subscribe(() => this.loadItems$.next());
+  }
+
+  validityResult(result: boolean) {
+    if (result) {
+      this.createOrder();
+    }
+  }
+
+  createOrder() {
+    let addressStr = `${this.orderMetadata.address.zipCode} ${this.orderMetadata.address.cityName}, ${this.orderMetadata.address.publicPlaceName} ${this.orderMetadata.address.houseNumber}.`;
+    if (this.orderMetadata.address.stairCaseNumber) {
+      addressStr = addressStr.concat(` ${this.orderMetadata.address.stairCaseNumber} lépcsőház`);
+    }
+    if (this.orderMetadata.address.floor) {
+      addressStr = addressStr.concat(` ${this.orderMetadata.address.floor}. emelet`);
+    }
+    if (this.orderMetadata.address.door) {
+      addressStr = addressStr.concat(` ${this.orderMetadata.address.door}. ajtó`);
+    }
+
+    this.ordersClient.createOrder(new OrderCreateCommand({
+      name: this.orderMetadata.name,
+      phoneNumber: this.orderMetadata.phoneNumber,
+      address: addressStr
+    })).subscribe(() => {
+      this.loadItems$.next();
+      this.flipped = false;
+      this.toastrService.success('Sikeresen megkaptuk a rendelést! Hamarosan e-mailben jelentkezünk a szállítási részletekkel.', 'Siker');
+    });
   }
 }
