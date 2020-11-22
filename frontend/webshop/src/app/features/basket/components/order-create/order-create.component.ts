@@ -29,7 +29,6 @@ export class OrderCreateComponent implements AfterViewInit, OnDestroy {
   }
 
   onSubmit(form: NgForm) {
-    console.log(form);
     this.validityChange.emit(form.status === 'VALID');
   }
 }
