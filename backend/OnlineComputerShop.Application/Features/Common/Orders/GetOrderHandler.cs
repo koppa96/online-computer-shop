@@ -18,7 +18,7 @@ namespace OnlineComputerShop.Application.Features.Common.Orders
 
     public class OrderGetResponse
     {
-        public Guid UserName { get; set; }
+        public string UserName { get; set; }
         public string Address { get; set; }
         public Order.OrderState State { get; set; }
 
