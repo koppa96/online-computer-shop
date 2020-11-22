@@ -70,6 +70,7 @@ namespace OnlineComputerShop.Application.Features.Common.Products
                 .Include(x => x.PropertyValues)
                     .ThenInclude(x => x.PropertyType)
                 .Include(x => x.ProductSockets)
+                    .ThenInclude(x => x.Socket)
                 .Include(x => x.Comments)
                 .ThenInclude(x => x.User)
                 .SingleOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
