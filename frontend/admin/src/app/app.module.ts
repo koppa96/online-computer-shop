@@ -4,7 +4,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NbThemeModule, NbLayoutModule, NbSidebarModule, NbMenuModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbSidebarModule, NbMenuModule, NbDialogModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
@@ -12,6 +12,7 @@ import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { API_BASE_URL } from './shared/clients';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+
 
 export function initializeAuthentication(oauthService: OAuthService) {
   return () => {
@@ -25,13 +26,14 @@ export function initializeAuthentication(oauthService: OAuthService) {
       scope: 'openid profile adminapi.readwrite',
       useSilentRefresh: true
     });
+    oauthService.setupAutomaticSilentRefresh();
     return oauthService.loadDiscoveryDocumentAndTryLogin();
   };
 }
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     CoreModule,
@@ -42,6 +44,7 @@ export function initializeAuthentication(oauthService: OAuthService) {
     NbSidebarModule.forRoot(),
     NbThemeModule.forRoot({ name: 'default' }),
     NbMenuModule.forRoot(),
+    NbDialogModule.forRoot(),
     NbLayoutModule,
     NbEvaIconsModule,
     OAuthModule.forRoot(),

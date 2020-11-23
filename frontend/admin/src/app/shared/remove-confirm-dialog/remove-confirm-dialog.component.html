@@ -1,0 +1,15 @@
+<nb-card>
+    <nb-card-header>
+        <h6>Biztosan törli az elemet?</h6>
+    </nb-card-header>
+    <nb-card-footer>
+        <div class="footer-container">
+            <button nbButton hero status="danger" (click)="onCancel()">
+                Mégse
+            </button>
+            <button nbButton hero status="primary" (click)="onConfirm()">
+                Törlés
+            </button>
+        </div>
+    </nb-card-footer>
+</nb-card>

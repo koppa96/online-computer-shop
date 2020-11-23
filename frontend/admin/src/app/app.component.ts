@@ -13,19 +13,23 @@ export class AppComponent implements OnInit {
 
   menuItems: NbMenuItem[] = [
     {
-      title: 'Kategóriák'
+      title: 'Kategóriák',
+      icon: 'grid-outline',
+      link: '/categories'
     },
     {
-      title: 'Termékek'
+      title: 'Csatlakozók',
+      icon: 'swap-outline',
+      link: '/sockets'
     },
     {
-      title: 'Socketek'
+      title: 'Rendelések',
+      icon: 'car-outline',
+      link: '/orders'
     },
     {
-      title: 'Rendelések'
-    },
-    {
-      title: 'Felhasználókezelés'
+      title: 'Felhasználókezelés',
+      icon: 'people-outline'
     },
   ];
   constructor(
