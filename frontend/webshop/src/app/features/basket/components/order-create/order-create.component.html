@@ -1,16 +1,102 @@
 <div>
-  <div>
-    <label for="name">Megrendelő neve</label><br>
-    <input id="name" name="name" type="text" nbInput [(ngModel)]="name" (ngModelChange)="nameChanged.emit($event)">
+  <p>Mindjárt készen vagyunk! A megrendelés befejezéséhez kérjük add meg a szükséges adatokat és ellenőrizd a
+    megrendelésed tartalmát. Ha valami nincs rendben, a kosárra visszanavigálva szerkesztheted a megrendelésed
+    tartalmát.</p>
+  <h4>Számlázási és szállítási adatok</h4>
+  <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+    <div class="order-form">
+      <div class="name-container">
+        <label for="name">Megrendelő neve</label><br>
+        <input id="name" name="name" type="text" required nbInput fullWidth [(ngModel)]="data.name"
+          placeholder="Példa Megrendelő" #name="ngModel">
+        <span
+          *ngIf="form.submitted && name.errors && name.errors.required || (name.invalid && (!name.pristine || name.touched))"
+          class="error">Kötelező</span>
+      </div>
+
+      <div class="phone-container">
+        <label for="phone">Telefonszám</label><br>
+        <input id="phone" name="phone" type="tel" required nbInput fullWidth [(ngModel)]="data.phoneNumber"
+          placeholder="+36201234567" #phone="ngModel">
+        <span
+          *ngIf="form.submitted && phone.errors && phone.errors.required || (phone.invalid && (!phone.pristine || phone.touched))"
+          class="error">Kötelező</span>
+      </div>
+
+      <div class="zip-code-container">
+        <label for="zipCode">Irányítószám</label><br>
+        <input id="zipCode" name="zipCode" type="text" required nbInput fullWidth [(ngModel)]="data.address.zipCode"
+          placeholder="1234" #zipCode="ngModel">
+        <span
+          *ngIf="form.submitted && zipCode.errors && zipCode.errors.required || (zipCode.invalid && (!zipCode.pristine || zipCode.touched))"
+          class="error">Kötelező</span>
+      </div>
+
+      <div class="city-container">
+        <label for="city">Településnév</label><br>
+        <input id="city" name="city" type="text" required nbInput fullWidth [(ngModel)]="data.address.cityName"
+          placeholder="Budapest" #cityName="ngModel">
+        <span
+          *ngIf="form.submitted && cityName.errors && cityName.errors.required || (cityName.invalid && (!cityName.pristine || cityName.touched))"
+          class="error">Kötelező</span>
+      </div>
+
+      <div class="public-place-container">
+        <label for="publicPlace">Közterület neve</label><br>
+        <input id="publicPlace" name="publicPlace" type="text" required nbInput fullWidth
+          [(ngModel)]="data.address.publicPlaceName" placeholder="Példa utca" #publicPlaceName="ngModel">
+        <span
+          *ngIf="form.submitted && publicPlaceName.errors && publicPlaceName.errors.required || (publicPlaceName.invalid && (!publicPlaceName.pristine || publicPlaceName.touched))"
+          class="error">Kötelező</span>
+      </div>
+
+      <div class="house-number-container">
+        <label for="houseNumber">Házszám</label><br>
+        <input id="houseNumber" name="houseNumber" type="number" required nbInput min="1" fullWidth
+          [(ngModel)]="data.address.houseNumber" placeholder="14" #houseNumber="ngModel">
+        <span
+          *ngIf="form.submitted && houseNumber.errors && houseNumber.errors.required || (houseNumber.invalid && (!houseNumber.pristine || houseNumber.touched))"
+          class="error">Kötelező</span>
+      </div>
+
+      <div class="staircase-container">
+        <label for="stairCaseNumber">Lépcsőház</label><br>
+        <input id="stairCaseNumber" name="stairCaseNumber" type="text" nbInput fullWidth
+          [(ngModel)]="data.address.stairCaseNumber" placeholder="A">
+      </div>
+
+      <div class="floor-container">
+        <label for="floor">Emelet</label><br>
+        <input id="floor" name="floor" type="number" nbInput fullWidth [(ngModel)]="data.address.floor" placeholder="2">
+      </div>
+
+      <div class="door-container">
+        <label for="door">Ajtó</label><br>
+        <input id="door" name="door" type="number" nbInput fullWidth [(ngModel)]="data.address.door" placeholder="8">
+      </div>
+    </div>
+    <button #submit type="submit"></button>
+  </form>
+
+  <h4>Megrendelt termékek</h4>
+  <div class="order-list-item padding-fix">
+    <strong class="item-name">Termék</strong>
+    <strong class="item-category-name">Kategória</strong>
+    <strong class="item-amount">Mennyiség</strong>
+    <strong class="item-price">Részösszeg</strong>
   </div>
-  
-  <div>
-    <label for="address">Szállítási cím</label><br>
-    <input id="address" name="address" type="text" nbInput [(ngModel)]="address" (ngModelChange)="addressChanged.emit($event)">
-  </div>
-  
-  <div>
-    <label for="phone">Telefonszám</label><br>
-    <input id="phone" name="phone" type="tel" nbInput [(ngModel)]="phoneNumber" (ngModelChange)="phoneNumberChanged.emit($event)">
+  <nb-list>
+    <nb-list-item *ngFor="let item of items">
+      <div class="order-list-item">
+        <strong class="item-name">{{ item.productName }}</strong>
+        <span class="item-category-name">{{ item.categoryName }}</span>
+        <span class="item-amount">{{ item.quantity }} darab</span>
+        <strong class="item-price">{{ item.quantity * item.pricePerPiece }} Ft</strong>
+      </div>
+    </nb-list-item>
+  </nb-list>
+  <div class="sum-container padding-fix">
+    <strong>Végösszeg</strong>
+    <strong>{{ sum }} Ft</strong>
   </div>
 </div>

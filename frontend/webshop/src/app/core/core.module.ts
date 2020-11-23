@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { NbActionsModule, NbButtonModule, NbCardModule, NbIconModule, NbInputModule, NbToggleModule, NbTooltipModule, NbUserModule } from '@nebular/theme';
 import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
+import { ContactComponent } from './pages/contact/contact.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,7 @@ import { HomeComponent } from './components/home/home.component';
     NbInputModule,
     FormsModule
   ],
-  declarations: [HeaderComponent, HomeComponent],
-  exports: [HeaderComponent, HomeComponent]
+  declarations: [HeaderComponent, HomeComponent, ContactComponent],
+  exports: [HeaderComponent, HomeComponent, ContactComponent]
 })
 export class CoreModule { }

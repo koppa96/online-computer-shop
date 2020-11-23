@@ -1,0 +1,28 @@
+.contacts-container {
+  display: flex;
+
+  .mapouter {
+    position: relative;
+    text-align: right;
+    height: 500px;
+    width: 600px;
+    margin-right: 20px;
+  }
+
+  .gmap_canvas {
+    overflow: hidden;
+    background: none !important;
+    height: 500px;
+    width: 600px;
+  }
+
+  .contact-info {
+    h6 {
+      margin: 0;
+      
+      &:not(:first-child) {
+        margin-top: 50px;
+      }
+    }
+  }
+}

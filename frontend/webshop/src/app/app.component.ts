@@ -34,7 +34,8 @@ export class AppComponent {
     },
     {
       title: 'Elérhetőségek',
-      icon: 'email-outline'
+      icon: 'email-outline',
+      link: '/contact'
     },
     {
       title: 'Garancia',
