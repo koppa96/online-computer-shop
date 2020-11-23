@@ -1,0 +1,25 @@
+<nb-card>
+    <nb-card-header>
+        <div class="header-container">
+            <h4>Csatlakozók</h4>
+            <button nbButton hero (click)="onNewSocketItem()" status="primary">Új felvétele</button>
+        </div>
+    </nb-card-header>
+    <nb-card-body>
+        <nb-list>
+            <nb-list-item *ngFor="let item of socketListItems$ | async">
+                <div class="list-item-container">
+                    <h6>{{item.name}}</h6>
+                    <div class="list-item-buttons-container">
+                        <button nbButton status="primary" ghost (click)="onEditSocketItem(item)" nbTooltip="Módosítás">
+                            <nb-icon icon="edit-outline"></nb-icon>
+                        </button>
+                        <button nbButton status="danger" ghost (click)="onRemoveSocketItem(item)" nbTooltip="Törlés">
+                            <nb-icon icon="trash-2-outline"></nb-icon>
+                        </button>
+                    </div>
+                </div>
+            </nb-list-item>
+        </nb-list>
+    </nb-card-body>
+</nb-card>

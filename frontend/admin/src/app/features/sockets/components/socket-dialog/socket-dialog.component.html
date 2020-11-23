@@ -1,0 +1,21 @@
+<nb-card>
+    <nb-card-header>
+        <h6>Csatlakozó neve</h6>
+    </nb-card-header>
+    <nb-card-body>
+        <input nbInput [(ngModel)]="value">
+    </nb-card-body>
+    <nb-card-footer>
+        <div class="footer-container">
+            <button nbButton hero status="danger" (click)="onCancel()">
+                Mégse
+            </button>
+            <button *ngIf="isNewElement" nbButton hero status="primary" (click)="onCreate()">
+                Felvétel
+            </button>
+            <button *ngIf="!isNewElement" nbButton hero status="primary" (click)="onCreate()">
+                Módosítás
+            </button>
+        </div>
+    </nb-card-footer>
+</nb-card>
