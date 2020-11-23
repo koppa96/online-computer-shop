@@ -16,6 +16,7 @@ namespace OnlineComputerShop.Application.Features.Admin.Categories
     public class CategoryEditCommand : IRequest
     {
         public Guid Id { get; set; }
+        public int? ConfiguratorOrder { get; set; }
         public string Name { get; set; }
 
         public List<PropertyTypeEditCommand> PropertyTypes { get; set; }
@@ -55,6 +56,7 @@ namespace OnlineComputerShop.Application.Features.Admin.Categories
                 throw new EntityNotFoundException("No category with the given id was found.");
             
             category.Name = request.Name;
+            category.ConfiguratorOrder = request.ConfiguratorOrder;
             // Property types
             // Remove property types to be removed
             context.PropertyTypes.RemoveRange(

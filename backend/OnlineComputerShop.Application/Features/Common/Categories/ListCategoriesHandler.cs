@@ -17,6 +17,7 @@ namespace OnlineComputerShop.Application.Features.Common.Categories
     public class CategoryListResponse
     {
         public Guid Id { get; set; }
+        public int? ConfiguratorOrder { get; set; }
         public string Name { get; set; }
     }
     
@@ -34,10 +35,6 @@ namespace OnlineComputerShop.Application.Features.Common.Categories
         public async Task<IEnumerable<CategoryListResponse>> Handle(CategoryListQuery request, CancellationToken cancellationToken)
         {
             var categories = await context.Categories.ToListAsync(cancellationToken);
-
-            // Ezek ekvivalensek
-            // return categories.Select(mapper.Map<CategoryListResponse>);
-            // return categories.Select(x => mapper.Map<CategoryListResponse>(x));
             return mapper.Map<List<CategoryListResponse>>(categories);
         }
     }

@@ -1921,7 +1921,7 @@ export enum OrderState {
 }
 
 export class OrderGetResponse implements IOrderGetResponse {
-    userName?: string;
+    userName?: string | undefined;
     address?: string | undefined;
     state?: OrderState;
     dateTimeOfOrder?: Date;
@@ -1973,7 +1973,7 @@ export class OrderGetResponse implements IOrderGetResponse {
 }
 
 export interface IOrderGetResponse {
-    userName?: string;
+    userName?: string | undefined;
     address?: string | undefined;
     state?: OrderState;
     dateTimeOfOrder?: Date;
