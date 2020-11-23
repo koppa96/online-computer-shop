@@ -48,6 +48,17 @@ namespace OnlineComputerShop.Api.Controllers.Admin
             return mediator.Send(new SocketRemoveCommand { Id = socketId }, cancellationToken);
         }
 
+        [HttpPut("{socketId}")]
+        public Task EditSocket(Guid socketId, [FromBody] SocketEditCommand socketEditCommand, CancellationToken cancellationToken)
+        {
+            if (socketId != socketEditCommand.Id)
+            {
+                throw new Exception();
+            }
+
+            return mediator.Send(socketEditCommand, cancellationToken);
+        }
+
 
     }
 }
