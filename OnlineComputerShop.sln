@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29521.150
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineComputerShop.Api", "backend\OnlineComputerShop.Api\OnlineComputerShop.Api.csproj", "{A6F9C658-E283-4F76-AD11-8527A0C28441}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineComputerShop.Api", "backend\OnlineComputerShop.Api\OnlineComputerShop.Api.csproj", "{A6F9C658-E283-4F76-AD11-8527A0C28441}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineComputerShop.IdentityProvider", "backend\OnlineComputerShop.IdentityProvider\OnlineComputerShop.IdentityProvider.csproj", "{38D24977-5653-416D-BEC4-D3F9D6FD6DFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineComputerShop.IdentityProvider", "backend\OnlineComputerShop.IdentityProvider\OnlineComputerShop.IdentityProvider.csproj", "{38D24977-5653-416D-BEC4-D3F9D6FD6DFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineComputerShop.Application", "backend\OnlineComputerShop.Application\OnlineComputerShop.Application.csproj", "{5414B14D-2FC1-4F0B-A858-96CA7B2D4DD1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineComputerShop.Application", "backend\OnlineComputerShop.Application\OnlineComputerShop.Application.csproj", "{5414B14D-2FC1-4F0B-A858-96CA7B2D4DD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineComputerShop.Dal", "backend\OnlineComputerShop.Dal\OnlineComputerShop.Dal.csproj", "{A0D67B85-5D6E-4FE1-B3A9-9554D2F2A508}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineComputerShop.Dal", "backend\OnlineComputerShop.Dal\OnlineComputerShop.Dal.csproj", "{A0D67B85-5D6E-4FE1-B3A9-9554D2F2A508}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{15400C11-1837-4AE4-9BCE-B04517258D1B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{A0D67B85-5D6E-4FE1-B3A9-9554D2F2A508}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0D67B85-5D6E-4FE1-B3A9-9554D2F2A508}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0D67B85-5D6E-4FE1-B3A9-9554D2F2A508}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15400C11-1837-4AE4-9BCE-B04517258D1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15400C11-1837-4AE4-9BCE-B04517258D1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15400C11-1837-4AE4-9BCE-B04517258D1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15400C11-1837-4AE4-9BCE-B04517258D1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
