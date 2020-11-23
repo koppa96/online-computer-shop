@@ -1035,6 +1035,7 @@ export interface IBasketItemEditCommand {
 
 export class CategoryListResponse implements ICategoryListResponse {
     id?: string;
+    configuratorOrder?: number | undefined;
     name?: string | undefined;
 
     constructor(data?: ICategoryListResponse) {
@@ -1049,6 +1050,7 @@ export class CategoryListResponse implements ICategoryListResponse {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
+            this.configuratorOrder = _data["configuratorOrder"];
             this.name = _data["name"];
         }
     }
@@ -1063,6 +1065,7 @@ export class CategoryListResponse implements ICategoryListResponse {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
+        data["configuratorOrder"] = this.configuratorOrder;
         data["name"] = this.name;
         return data; 
     }
@@ -1070,6 +1073,7 @@ export class CategoryListResponse implements ICategoryListResponse {
 
 export interface ICategoryListResponse {
     id?: string;
+    configuratorOrder?: number | undefined;
     name?: string | undefined;
 }
 

@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { merge, Observable, Subject } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { CategoriesClient, CategoryListResponse, ProductListResponse } from 'src/app/shared/clients';
 
 @Component({
   selector: 'app-assembler-slot',
@@ -6,10 +9,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./assembler-slot.component.scss']
 })
 export class AssemblerSlotComponent implements OnInit {
+  @Input() category: CategoryListResponse;
+  @Input() selectedSockets: string[];
+  @Input() refreshList$: Observable<void>;
 
-  constructor() { }
+  @Output() productSelected = new EventEmitter<ProductListResponse>();
 
-  ngOnInit(): void {
+  products$: Observable<ProductListResponse[]>;
+  init$ = new Subject<void>();
+  selectedProduct: ProductListResponse;
+
+  constructor(private client: CategoriesClient) { }
+
+  ngOnInit() {
+    this.products$ = merge(this.refreshList$, this.init$).pipe(
+      switchMap(() => this.client.listProducts(this.category.id, this.selectedSockets))
+    );
   }
-
 }

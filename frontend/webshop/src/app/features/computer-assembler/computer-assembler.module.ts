@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ComputerAssemblerPageComponent } from './pages/computer-assembler-page/computer-assembler-page.component';
 import { AssemblerSlotComponent } from './components/assembler-slot/assembler-slot.component';
 import { ComputerAssemblerRoutingModule } from './computer-assembler-routing.module';
+import { NbCardModule, NbListModule, NbSelectModule } from '@nebular/theme';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,10 @@ import { ComputerAssemblerRoutingModule } from './computer-assembler-routing.mod
   ],
   imports: [
     CommonModule,
-    ComputerAssemblerRoutingModule
+    ComputerAssemblerRoutingModule,
+    NbCardModule,
+    NbSelectModule,
+    NbListModule
   ]
 })
 export class ComputerAssemblerModule { }
