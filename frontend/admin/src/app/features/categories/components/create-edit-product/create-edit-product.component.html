@@ -1,0 +1,19 @@
+<h6>Név</h6>
+<input nbInput fullWidth id="name" name="name" [(ngModel)]="product.name" />
+
+<h6>Leírás</h6>
+<textarea nbInput fullWidth [(ngModel)]="product.description" rows="10"></textarea>
+
+<h6>Egységár</h6>
+<input nbInput fullWidth type="number" [(ngModel)]="product.price">
+
+<h6>Tulajdonságok</h6>
+<div class="properties-container" *ngFor="let property of product.properties">
+    <label>{{property.propertyTypeName}}</label>
+    <input nbInput fullWidth [(ngModel)]="property.value" />
+</div>
+
+<h6>Csatlakozók</h6>
+<nb-select multiple [(selected)]="product.sockets">
+    <nb-option *ngFor="let socket of sockets" [value]="socket.socketId">{{socket.socketName}}</nb-option>
+</nb-select>

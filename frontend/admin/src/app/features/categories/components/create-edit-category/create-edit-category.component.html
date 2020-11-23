@@ -1,0 +1,20 @@
+<h6>Név</h6>
+<input nbInput fullWidth id="name" name="name" [(ngModel)]="category.name" />
+
+<div class="properties-header-container">
+    <h6>Tulajdonságok</h6>
+    <button nbButton status="primary" ghost (click)="onAddProperty()">
+        <nb-icon icon="plus-outline"></nb-icon>
+    </button>
+</div>
+<div class="property-container" *ngFor="let property of category.properties">
+    <input nbInput fullWidth [(ngModel)]="property.name">
+    <button nbButton status="danger" ghost (click)="onDeleteProperty(property)" nbTooltip="Törlés">
+        <nb-icon icon="trash-2-outline"></nb-icon>
+    </button>
+</div>
+
+<h6>Csatlakozók</h6>
+<nb-select multiple [(selected)]="category.socketIds">
+    <nb-option *ngFor="let socket of sockets" [value]="socket.id">{{socket.name}}</nb-option>
+</nb-select>
