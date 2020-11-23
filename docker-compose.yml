@@ -2,17 +2,26 @@ version: '3.4'
 
 services:
   onlinecomputershop.api:
+    container_name: onlinecomputershop.api
     image: ${DOCKER_REGISTRY-}onlinecomputershopapi
     build:
       context: .
       dockerfile: backend/OnlineComputerShop.Api/Dockerfile
 
   onlinecomputershop.identityprovider:
+    container_name: onlinecomputershop.identityprovider
     image: ${DOCKER_REGISTRY-}onlinecomputershopidentityprovider
     build:
       context: .
       dockerfile: backend/OnlineComputerShop.IdentityProvider/Dockerfile
 
   onlinecomputershop.mssql:
-    container_name: eschool.mssql
+    container_name: onlinecomputershop.mssql
     image: mcr.microsoft.com/mssql/server:2017-latest
+
+  onlinecomputershop.webshop:
+    container_name: onlinecomputershop.webshop
+    image: ${DOCKER_REGISTRY-}onlinecomptershopwebshop
+    build:
+      context: ./frontend/webshop
+      dockerfile: Dockerfile
