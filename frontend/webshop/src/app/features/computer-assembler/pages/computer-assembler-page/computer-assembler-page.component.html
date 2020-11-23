@@ -1,1 +1,23 @@
-<p>computer-assembler-page works!</p>
+<nb-card>
+  <nb-card-header>
+    <h4>Számítógép összerakó</h4>
+  </nb-card-header>
+  <nb-card-body>
+    <h6>Kötelezően kiválasztandó alkatrészek</h6>
+    <p>Ezeket az alkatrészeket felülről lefelé szereplő sorrendben kell kiválasztanod, mielőtt bármely opcionális alkatrészt kiválasztanád,
+      így bizonyosan kompatibilisek lesznek az alkatrészeid. A számítógép összerakó csak kompatibilis alkatrészeket fog listázni, tehát ha esetleg módosítod az alaplapodat,
+      de már van egy processzorod kiválasztva, akkor csak az azzal a processzorral kompatibilis alaplapokat fogja listázni.</p>
+    <nb-list>
+      <nb-list-item *ngFor="let item of mandatoryItems">
+        {{ item.category.name }}
+      </nb-list-item>
+    </nb-list>
+
+    <h6>Opcionális alkatrészek</h6>
+    <nb-list>
+      <nb-list-item *ngFor="let item of optionalItems">
+        {{ item.category.name }}
+      </nb-list-item>
+    </nb-list>
+  </nb-card-body>
+</nb-card>

@@ -1288,6 +1288,7 @@ export interface IAdministratorListResponse {
 
 export class CategoryListResponse implements ICategoryListResponse {
     id?: string;
+    configuratorOrder?: number | undefined;
     name?: string | undefined;
 
     constructor(data?: ICategoryListResponse) {
@@ -1302,6 +1303,7 @@ export class CategoryListResponse implements ICategoryListResponse {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
+            this.configuratorOrder = _data["configuratorOrder"];
             this.name = _data["name"];
         }
     }
@@ -1316,6 +1318,7 @@ export class CategoryListResponse implements ICategoryListResponse {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
+        data["configuratorOrder"] = this.configuratorOrder;
         data["name"] = this.name;
         return data; 
     }
@@ -1323,11 +1326,13 @@ export class CategoryListResponse implements ICategoryListResponse {
 
 export interface ICategoryListResponse {
     id?: string;
+    configuratorOrder?: number | undefined;
     name?: string | undefined;
 }
 
 export class CategoryGetResponse implements ICategoryGetResponse {
     id?: string;
+    configuratorOrder?: number | undefined;
     name?: string | undefined;
     propertyTypes?: PropertyTypeGetResponse[] | undefined;
     categorySockets?: CategorySocketGetResponse[] | undefined;
@@ -1344,6 +1349,7 @@ export class CategoryGetResponse implements ICategoryGetResponse {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
+            this.configuratorOrder = _data["configuratorOrder"];
             this.name = _data["name"];
             if (Array.isArray(_data["propertyTypes"])) {
                 this.propertyTypes = [] as any;
@@ -1368,6 +1374,7 @@ export class CategoryGetResponse implements ICategoryGetResponse {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
+        data["configuratorOrder"] = this.configuratorOrder;
         data["name"] = this.name;
         if (Array.isArray(this.propertyTypes)) {
             data["propertyTypes"] = [];
@@ -1385,6 +1392,7 @@ export class CategoryGetResponse implements ICategoryGetResponse {
 
 export interface ICategoryGetResponse {
     id?: string;
+    configuratorOrder?: number | undefined;
     name?: string | undefined;
     propertyTypes?: PropertyTypeGetResponse[] | undefined;
     categorySockets?: CategorySocketGetResponse[] | undefined;
@@ -1472,6 +1480,7 @@ export interface ICategorySocketGetResponse {
 
 export class CategoryCreateCommand implements ICategoryCreateCommand {
     name?: string | undefined;
+    configuratorOrder?: number | undefined;
     propertyTypes?: string[] | undefined;
     socketIds?: string[] | undefined;
 
@@ -1487,6 +1496,7 @@ export class CategoryCreateCommand implements ICategoryCreateCommand {
     init(_data?: any) {
         if (_data) {
             this.name = _data["name"];
+            this.configuratorOrder = _data["configuratorOrder"];
             if (Array.isArray(_data["propertyTypes"])) {
                 this.propertyTypes = [] as any;
                 for (let item of _data["propertyTypes"])
@@ -1510,6 +1520,7 @@ export class CategoryCreateCommand implements ICategoryCreateCommand {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
+        data["configuratorOrder"] = this.configuratorOrder;
         if (Array.isArray(this.propertyTypes)) {
             data["propertyTypes"] = [];
             for (let item of this.propertyTypes)
@@ -1526,12 +1537,14 @@ export class CategoryCreateCommand implements ICategoryCreateCommand {
 
 export interface ICategoryCreateCommand {
     name?: string | undefined;
+    configuratorOrder?: number | undefined;
     propertyTypes?: string[] | undefined;
     socketIds?: string[] | undefined;
 }
 
 export class CategoryEditCommand implements ICategoryEditCommand {
     id?: string;
+    configuratorOrder?: number | undefined;
     name?: string | undefined;
     propertyTypes?: PropertyTypeEditCommand[] | undefined;
     categorySockets?: CategorySocketEditCommand[] | undefined;
@@ -1548,6 +1561,7 @@ export class CategoryEditCommand implements ICategoryEditCommand {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
+            this.configuratorOrder = _data["configuratorOrder"];
             this.name = _data["name"];
             if (Array.isArray(_data["propertyTypes"])) {
                 this.propertyTypes = [] as any;
@@ -1572,6 +1586,7 @@ export class CategoryEditCommand implements ICategoryEditCommand {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
+        data["configuratorOrder"] = this.configuratorOrder;
         data["name"] = this.name;
         if (Array.isArray(this.propertyTypes)) {
             data["propertyTypes"] = [];
@@ -1589,6 +1604,7 @@ export class CategoryEditCommand implements ICategoryEditCommand {
 
 export interface ICategoryEditCommand {
     id?: string;
+    configuratorOrder?: number | undefined;
     name?: string | undefined;
     propertyTypes?: PropertyTypeEditCommand[] | undefined;
     categorySockets?: CategorySocketEditCommand[] | undefined;
