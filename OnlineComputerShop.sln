@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29521.150
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineComputerShop.Api", "OnlineComputerShop.Api\OnlineComputerShop.Api.csproj", "{A6F9C658-E283-4F76-AD11-8527A0C28441}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineComputerShop.Api", "backend\OnlineComputerShop.Api\OnlineComputerShop.Api.csproj", "{A6F9C658-E283-4F76-AD11-8527A0C28441}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineComputerShop.IdentityProvider", "OnlineComputerShop.IdentityProvider\OnlineComputerShop.IdentityProvider.csproj", "{38D24977-5653-416D-BEC4-D3F9D6FD6DFC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineComputerShop.IdentityProvider", "backend\OnlineComputerShop.IdentityProvider\OnlineComputerShop.IdentityProvider.csproj", "{38D24977-5653-416D-BEC4-D3F9D6FD6DFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineComputerShop.Application", "OnlineComputerShop.Application\OnlineComputerShop.Application.csproj", "{5414B14D-2FC1-4F0B-A858-96CA7B2D4DD1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineComputerShop.Application", "backend\OnlineComputerShop.Application\OnlineComputerShop.Application.csproj", "{5414B14D-2FC1-4F0B-A858-96CA7B2D4DD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineComputerShop.Dal", "OnlineComputerShop.Dal\OnlineComputerShop.Dal.csproj", "{A0D67B85-5D6E-4FE1-B3A9-9554D2F2A508}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineComputerShop.Dal", "backend\OnlineComputerShop.Dal\OnlineComputerShop.Dal.csproj", "{A0D67B85-5D6E-4FE1-B3A9-9554D2F2A508}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
