@@ -1,0 +1,21 @@
+<nb-card>
+    <nb-card-header>
+        <div class="header-container">
+            <h4>Új termék</h4>
+            <a nbButton [routerLink]="['..']" hero status="danger">Vissza</a>
+
+
+        </div>
+    </nb-card-header>
+    <nb-card-body>
+        <div class="body-container">
+            <app-create-edit-product [(product)]="product" [(sockets)]="categorySockets"></app-create-edit-product>
+        </div>
+
+    </nb-card-body>
+    <nb-card-footer>
+        <div class="footer-container">
+            <button nbButton hero (click)="onSave()" status="primary">Mentés</button>
+        </div>
+    </nb-card-footer>
+</nb-card>

@@ -1,0 +1,33 @@
+<nb-card>
+    <nb-card-header>
+        <div class="header-container">
+            <h4>Termékek</h4>
+            <div>
+                <button nbButton [routerLink]="['../..']" hero status="danger">Vissza</button>
+                <a nbButton [routerLink]="['new-product']" hero status="primary">Új felvétele</a>
+            </div>
+
+
+
+        </div>
+    </nb-card-header>
+    <nb-card-body>
+
+        <nb-list>
+            <nb-list-item *ngFor="let item of productListItems$ | async">
+                <div class="list-item-container">
+                    <h6>{{item.name}}</h6>
+                    <div class="list-item-buttons-container">
+                        <a nbButton status="primary" ghost [routerLink]="['edit-product', item.id]"
+                            nbTooltip="Módosítás">
+                            <nb-icon icon="edit-outline"></nb-icon>
+                        </a>
+                        <button nbButton status="danger" ghost (click)="onRemoveProductItem(item)" nbTooltip="Törlés">
+                            <nb-icon icon="trash-2-outline"></nb-icon>
+                        </button>
+                    </div>
+                </div>
+            </nb-list-item>
+        </nb-list>
+    </nb-card-body>
+</nb-card>

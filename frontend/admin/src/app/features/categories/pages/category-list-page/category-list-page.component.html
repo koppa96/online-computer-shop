@@ -1,0 +1,37 @@
+<nb-card>
+    <nb-card-header>
+        <div class="header-container">
+            <h4>Kategóriák</h4>
+            <a nbButton [routerLink]="['new-category']" hero status="primary">Új felvétele</a>
+
+
+        </div>
+    </nb-card-header>
+    <nb-card-body>
+
+        <nb-list>
+            <nb-list-item *ngFor="let item of categoryListItems$ | async">
+                <div class="list-item-container">
+                    <h6>{{item.name}}</h6>
+                    <div class="list-item-buttons-container">
+                        <a nbButton status="primary" ghost [routerLink]="[item.id, 'products']"
+                            nbTooltip="Termékek listázása">
+                            <nb-icon icon="list-outline"></nb-icon>
+                        </a>
+                        <a nbButton status="primary" ghost [routerLink]="[item.id, 'products', 'new-product']"
+                            nbTooltip="Termék hozzáadása">
+                            <nb-icon icon="plus-outline"></nb-icon>
+                        </a>
+                        <a nbButton status="primary" ghost [routerLink]="['edit-category', item.id]"
+                            nbTooltip="Módosítás">
+                            <nb-icon icon="edit-outline"></nb-icon>
+                        </a>
+                        <button nbButton status="danger" ghost (click)="onRemoveCategoryItem(item)" nbTooltip="Törlés">
+                            <nb-icon icon="trash-2-outline"></nb-icon>
+                        </button>
+                    </div>
+                </div>
+            </nb-list-item>
+        </nb-list>
+    </nb-card-body>
+</nb-card>
