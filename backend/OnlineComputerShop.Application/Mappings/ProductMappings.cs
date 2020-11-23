@@ -19,7 +19,8 @@ namespace OnlineComputerShop.Application.Mappings
             CreateMap<Product, ProductListResponse>();
             CreateMap<ProductCreateCommand, Product>();
             CreateMap<PropertyValue, ProductGetResponse.PropertyValueResponse>()
-                .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.PropertyType.Name));
+                .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.PropertyType.Name))
+                .ForMember(dst => dst.PropertyTypeId, opt => opt.MapFrom(src => src.PropertyTypeId));
             CreateMap<ProductSocket, ProductGetResponse.ProductSocketResponse>()
                 .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.Socket.Name));
             CreateMap<ProductCreateCommand.PropertyValueCreateCommand, PropertyValue>();
