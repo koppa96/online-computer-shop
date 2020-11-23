@@ -30,7 +30,7 @@ namespace OnlineComputerShop.Application.Features.Common.Products
 
         public class PropertyValueResponse
         {
-            public Guid Id { get; set; }
+            public Guid PropertyTypeId { get; set; }
             public string Name { get; set; }
             public string Value { get; set; }
         }

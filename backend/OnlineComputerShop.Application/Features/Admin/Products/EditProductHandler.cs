@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using OnlineComputerShop.Dal;
 using OnlineComputerShop.Dal.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -45,14 +47,24 @@ namespace OnlineComputerShop.Application.Features.Admin.Products
 
         public async Task<Unit> Handle(ProductEditCommand request, CancellationToken cancellationToken)
         {
-            var product = await context.Products.FindAsync(request.Id);
+            var product = await context.Products
+                .Include(x => x.PropertyValues)
+                .Include(x => x.ProductSockets)
+                .SingleOrDefaultAsync(x => x.Id == request.Id);
             if (product != null)
             {
                 context.PropertyValues.RemoveRange(product.PropertyValues);
+                context.ProductSockets.RemoveRange(product.ProductSockets);
                 product.Name = request.Name;
                 product.Price = request.Price;
+               
                 product.ProductSockets = mapper.Map<List<ProductSocket>>(request.ProductSockets);
-                product.PropertyValues = mapper.Map<List<PropertyValue>>(request.PropertyValues);
+                context.PropertyValues.AddRange(request.PropertyValues.Select(x => new PropertyValue { 
+                    ProductId = product.Id,
+                    PropertyTypeId = x.PropertyTypeId,
+                    Value = x.Value
+                }));
+                //product.PropertyValues = mapper.Map<List<PropertyValue>>(request.PropertyValues);
 
             } else
             {
