@@ -1,0 +1,65 @@
+version: '3.4'
+
+services:
+  onlinecomputershop.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - KESTREL__Certificates__Default__Path=/app/cert/shop.pfx
+      - KESTREL__Certificates__Default__Password=Password123
+      - ConnectionStrings__DefaultConnection=Server=onlinecomputershop.mssql;Database=OnlineComputershopDb;User Id=SA;Password=Password123;
+    ports:
+      - "5000:80"
+      - "5001:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ./cert:/app/cert
+    networks:
+      - online_computer_shop_network
+    depends_on:
+      - onlinecomputershop.mssql
+
+  onlinecomputershop.identityprovider:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - KESTREL__Certificates__Default__Path=/app/cert/shop.pfx
+      - KESTREL__Certificates__Default__Password=Password123
+      - ConnectionStrings__DefaultConnection=Server=onlinecomputershop.mssql;Database=OnlineComputershopDb;User Id=SA;Password=Password123;
+    ports:
+      - "5100:80"
+      - "5101:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ./cert:/app/cert
+    networks:
+      - online_computer_shop_network
+    depends_on:
+      - onlinecomputershop.mssql
+
+  onlinecomputershop.mssql:
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Password123
+    ports:
+      - "5200:1433"
+    volumes:
+      - online_computer_shop_mssql_data:/var/opt/mssql
+    networks:
+      - online_computer_shop_network
+
+  onlinecomputershop.webshop:
+    ports:
+      - "4200:80"
+    volumes:
+      - ./cert:/etc/nginx/ssl
+    networks:
+      - online_computer_shop_network
+
+networks:
+  online_computer_shop_network:
+
+volumes:
+  online_computer_shop_mssql_data:
