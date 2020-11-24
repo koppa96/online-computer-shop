@@ -39,6 +39,8 @@ namespace OnlineComputerShop.Application.Features.Common.Products
         {
             public Guid SocketId { get; set; }
             public string Name { get; set; }
+            public ProvidesUses ProvidesUses { get; set; }
+            public int NumberOfSocket { get; set; }
         }
 
         public class CommentResponse

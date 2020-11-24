@@ -30,6 +30,8 @@ namespace OnlineComputerShop.Application.Features.Admin.Products
         public class ProductSocketEditCommand
         {
             public Guid SocketId { get; set; }
+            public ProvidesUses ProvidesUses { get; set; }
+            public int NumberOfSocket { get; set; }
         }
     }
 
