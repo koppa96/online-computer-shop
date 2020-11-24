@@ -20,7 +20,7 @@ export class NewProductPageComponent {
     price: 0,
     categoryId: '',
     properties: [],
-    sockets: []
+    productSockets: []
   };
   categorySockets: CategorySocketGetResponse[] = [];
   loadItems$: Subject<void>;
@@ -51,7 +51,7 @@ export class NewProductPageComponent {
               value: ''
             }
           )),
-          sockets: []
+          productSockets: []
         };
       }
     });
@@ -69,8 +69,10 @@ export class NewProductPageComponent {
         name: this.product.name,
         description: this.product.description,
         price: this.product.price,
-        productSockets: this.product.sockets.map(x => new ProductSocketCreateCommand({
-          socketId: x
+        productSockets: this.product.productSockets.map(x => new ProductSocketCreateCommand({
+          socketId: x.socketId,
+          numberOfSocket: x.numberOfSocket,
+          providesUses: x.providesUses
         })),
         propertyValues: this.product.properties.map(x => new PropertyValueCreateCommand({
           propertyTypeId: x.propertyTypeId,

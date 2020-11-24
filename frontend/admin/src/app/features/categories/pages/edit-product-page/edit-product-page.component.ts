@@ -36,7 +36,7 @@ export class EditProductPageComponent {
       price: 0,
       categoryId: '',
       properties: [],
-      sockets: []
+      productSockets: []
     };
     this.loadItems$ = new Subject<void>();
     this.productItem$ = this.loadItems$.pipe(
@@ -46,7 +46,7 @@ export class EditProductPageComponent {
       switchMap(() => this.categoriesClient.getCategory(this.categoryId))
     );
 
-    this.productItem$.subscribe(x =>
+    this.productItem$.subscribe(x => {
       this.product = {
         id: x.id,
         name: x.name,
@@ -54,8 +54,15 @@ export class EditProductPageComponent {
         price: x.price,
         categoryId: x.categoryId,
         properties: x.propertyValues.map(p => ({ propertyTypeId: p.propertyTypeId, propertyTypeName: p.name, value: p.value })),
-        sockets: x.productSockets.map(p => p.socketId)
-      }
+        productSockets: x.productSockets.map(p => ({
+          socketId: p.socketId,
+          name: p.name,
+          providesUses: p.providesUses,
+          numberOfSocket: p.numberOfSocket
+        }))
+      };
+      console.log(this.product);
+    }
     );
 
     this.categoryItem$.subscribe(x =>
@@ -76,8 +83,10 @@ export class EditProductPageComponent {
         name: this.product.name,
         description: this.product.description,
         price: this.product.price,
-        productSockets: this.product.sockets.map(x => new ProductSocketEditCommand({
-          socketId: x
+        productSockets: this.product.productSockets.map(x => new ProductSocketEditCommand({
+          socketId: x.socketId,
+          providesUses: x.providesUses,
+          numberOfSocket: x.numberOfSocket
         })),
         propertyValues: this.product.properties.map(x => {
           console.log(x.value);
