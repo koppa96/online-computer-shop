@@ -2,8 +2,8 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
 import { OAuthService } from 'angular-oauth2-oidc';
-import { merge, Observable, of } from 'rxjs';
-import { startWith } from 'rxjs/operators';
+import { merge, Observable, of, Subject } from 'rxjs';
+import { startWith, switchMap } from 'rxjs/operators';
 import { BasketItemAddCommand, BasketItemsClient, CategoriesClient, ProductListResponse } from 'src/app/shared/clients';
 
 @Component({
@@ -13,6 +13,7 @@ import { BasketItemAddCommand, BasketItemsClient, CategoriesClient, ProductListR
 })
 export class ProductListPageComponent implements OnInit {
   isLoggedIn = false;
+  loadItems$ = new Subject<void>();
   products$: Observable<ProductListResponse[]>;
 
   constructor(
@@ -21,12 +22,14 @@ export class ProductListPageComponent implements OnInit {
     private route: ActivatedRoute,
     private oauthService: OAuthService,
     private toastrService: NbToastrService
-  ) { }
+  ) {
+    this.products$ = this.route.params.pipe(
+      switchMap(params => this.categoriesClient.listProducts(params.categoryId))
+    );
+  }
 
   ngOnInit(): void {
     this.isLoggedIn = this.oauthService.hasValidAccessToken();
-    const categoryId = this.route.snapshot.params.categoryId;
-    this.products$ = this.categoriesClient.listProducts(categoryId);
   }
 
   addToCart(product: ProductListResponse) {
