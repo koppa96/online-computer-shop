@@ -9,11 +9,61 @@
 
 <h6>Tulajdonságok</h6>
 <div class="properties-container" *ngFor="let property of product.properties">
-    <label>{{property.propertyTypeName}}</label>
-    <input nbInput fullWidth [(ngModel)]="property.value" />
+    <nb-card>
+        <nb-card-body>
+
+            <label>{{property.propertyTypeName}}</label>
+            <input nbInput fullWidth [(ngModel)]="property.value" />
+        </nb-card-body>
+    </nb-card>
+
 </div>
 
-<h6>Csatlakozók</h6>
-<nb-select multiple [(selected)]="product.sockets">
-    <nb-option *ngFor="let socket of sockets" [value]="socket.socketId">{{socket.socketName}}</nb-option>
-</nb-select>
+<div class="sockets-header-container">
+    <h6>Csatlakozók</h6>
+    <button nbButton status="primary" ghost (click)="onAddProductSocket()" nbTooltip="Új felvétele">
+        <nb-icon icon="plus-outline"></nb-icon>
+    </button>
+</div>
+
+
+<div class="productSocket-container" *ngFor="let productSocket of product.productSockets; index as i">
+
+    <nb-card>
+        <nb-card-header>
+            <div class="productSocket-container-header">
+                <h6>Csatlakozó #{{i + 1}}</h6>
+                <button nbButton status="danger" ghost (click)="onDeleteProductSocket(productSocket)"
+                    nbTooltip="Törlés">
+                    <nb-icon icon="trash-2-outline"></nb-icon>
+                </button>
+            </div>
+
+        </nb-card-header>
+        <nb-card-body>
+
+
+            <label>Csatlakozó típusa</label>
+            <nb-select fullWidth placeholder="Válassz csatlakozót" [(selected)]="productSocket.socketId">
+                <nb-option *ngFor="let socket of sockets" [value]="socket.socketId">{{socket.socketName}}
+                </nb-option>
+            </nb-select>
+
+
+
+            <label>Nyújt/Használ</label>
+            <nb-select fullWidth placeholder="Nyújt/Használ" [(selected)]="productSocket.providesUses">
+                <nb-option [value]="0">Nyújt</nb-option>
+                <nb-option [value]="1">Használ</nb-option>
+            </nb-select>
+
+
+
+            <label>Csatlakozók száma</label>
+            <input nbInput fullWidth type="number" [(ngModel)]="productSocket.numberOfSocket">
+
+
+        </nb-card-body>
+    </nb-card>
+
+</div>

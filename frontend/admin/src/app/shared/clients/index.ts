@@ -1244,6 +1244,57 @@ export class SocketsClient {
         }
         return _observableOf<void>(<any>null);
     }
+
+    editSocket(socketId: string, socketEditCommand: SocketEditCommand): Observable<void> {
+        let url_ = this.baseUrl + "/api/admin/Sockets/{socketId}";
+        if (socketId === undefined || socketId === null)
+            throw new Error("The parameter 'socketId' must be defined.");
+        url_ = url_.replace("{socketId}", encodeURIComponent("" + socketId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(socketEditCommand);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processEditSocket(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processEditSocket(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processEditSocket(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
 }
 
 export class AdministratorListResponse implements IAdministratorListResponse {
@@ -1288,7 +1339,6 @@ export interface IAdministratorListResponse {
 
 export class CategoryListResponse implements ICategoryListResponse {
     id?: string;
-    configuratorOrder?: number | undefined;
     name?: string | undefined;
 
     constructor(data?: ICategoryListResponse) {
@@ -1303,7 +1353,6 @@ export class CategoryListResponse implements ICategoryListResponse {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.configuratorOrder = _data["configuratorOrder"];
             this.name = _data["name"];
         }
     }
@@ -1318,7 +1367,6 @@ export class CategoryListResponse implements ICategoryListResponse {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["configuratorOrder"] = this.configuratorOrder;
         data["name"] = this.name;
         return data; 
     }
@@ -1326,13 +1374,11 @@ export class CategoryListResponse implements ICategoryListResponse {
 
 export interface ICategoryListResponse {
     id?: string;
-    configuratorOrder?: number | undefined;
     name?: string | undefined;
 }
 
 export class CategoryGetResponse implements ICategoryGetResponse {
     id?: string;
-    configuratorOrder?: number | undefined;
     name?: string | undefined;
     propertyTypes?: PropertyTypeGetResponse[] | undefined;
     categorySockets?: CategorySocketGetResponse[] | undefined;
@@ -1349,7 +1395,6 @@ export class CategoryGetResponse implements ICategoryGetResponse {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.configuratorOrder = _data["configuratorOrder"];
             this.name = _data["name"];
             if (Array.isArray(_data["propertyTypes"])) {
                 this.propertyTypes = [] as any;
@@ -1374,7 +1419,6 @@ export class CategoryGetResponse implements ICategoryGetResponse {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["configuratorOrder"] = this.configuratorOrder;
         data["name"] = this.name;
         if (Array.isArray(this.propertyTypes)) {
             data["propertyTypes"] = [];
@@ -1392,7 +1436,6 @@ export class CategoryGetResponse implements ICategoryGetResponse {
 
 export interface ICategoryGetResponse {
     id?: string;
-    configuratorOrder?: number | undefined;
     name?: string | undefined;
     propertyTypes?: PropertyTypeGetResponse[] | undefined;
     categorySockets?: CategorySocketGetResponse[] | undefined;
@@ -1480,7 +1523,6 @@ export interface ICategorySocketGetResponse {
 
 export class CategoryCreateCommand implements ICategoryCreateCommand {
     name?: string | undefined;
-    configuratorOrder?: number | undefined;
     propertyTypes?: string[] | undefined;
     socketIds?: string[] | undefined;
 
@@ -1496,7 +1538,6 @@ export class CategoryCreateCommand implements ICategoryCreateCommand {
     init(_data?: any) {
         if (_data) {
             this.name = _data["name"];
-            this.configuratorOrder = _data["configuratorOrder"];
             if (Array.isArray(_data["propertyTypes"])) {
                 this.propertyTypes = [] as any;
                 for (let item of _data["propertyTypes"])
@@ -1520,7 +1561,6 @@ export class CategoryCreateCommand implements ICategoryCreateCommand {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
-        data["configuratorOrder"] = this.configuratorOrder;
         if (Array.isArray(this.propertyTypes)) {
             data["propertyTypes"] = [];
             for (let item of this.propertyTypes)
@@ -1537,14 +1577,12 @@ export class CategoryCreateCommand implements ICategoryCreateCommand {
 
 export interface ICategoryCreateCommand {
     name?: string | undefined;
-    configuratorOrder?: number | undefined;
     propertyTypes?: string[] | undefined;
     socketIds?: string[] | undefined;
 }
 
 export class CategoryEditCommand implements ICategoryEditCommand {
     id?: string;
-    configuratorOrder?: number | undefined;
     name?: string | undefined;
     propertyTypes?: PropertyTypeEditCommand[] | undefined;
     categorySockets?: CategorySocketEditCommand[] | undefined;
@@ -1561,7 +1599,6 @@ export class CategoryEditCommand implements ICategoryEditCommand {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.configuratorOrder = _data["configuratorOrder"];
             this.name = _data["name"];
             if (Array.isArray(_data["propertyTypes"])) {
                 this.propertyTypes = [] as any;
@@ -1586,7 +1623,6 @@ export class CategoryEditCommand implements ICategoryEditCommand {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["configuratorOrder"] = this.configuratorOrder;
         data["name"] = this.name;
         if (Array.isArray(this.propertyTypes)) {
             data["propertyTypes"] = [];
@@ -1604,7 +1640,6 @@ export class CategoryEditCommand implements ICategoryEditCommand {
 
 export interface ICategoryEditCommand {
     id?: string;
-    configuratorOrder?: number | undefined;
     name?: string | undefined;
     propertyTypes?: PropertyTypeEditCommand[] | undefined;
     categorySockets?: CategorySocketEditCommand[] | undefined;
@@ -1848,6 +1883,8 @@ export interface IPropertyValueCreateCommand {
 
 export class ProductSocketCreateCommand implements IProductSocketCreateCommand {
     socketId?: string;
+    providesUses?: ProvidesUses;
+    numberOfSocket?: number;
 
     constructor(data?: IProductSocketCreateCommand) {
         if (data) {
@@ -1861,6 +1898,8 @@ export class ProductSocketCreateCommand implements IProductSocketCreateCommand {
     init(_data?: any) {
         if (_data) {
             this.socketId = _data["socketId"];
+            this.providesUses = _data["providesUses"];
+            this.numberOfSocket = _data["numberOfSocket"];
         }
     }
 
@@ -1874,12 +1913,21 @@ export class ProductSocketCreateCommand implements IProductSocketCreateCommand {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["socketId"] = this.socketId;
+        data["providesUses"] = this.providesUses;
+        data["numberOfSocket"] = this.numberOfSocket;
         return data; 
     }
 }
 
 export interface IProductSocketCreateCommand {
     socketId?: string;
+    providesUses?: ProvidesUses;
+    numberOfSocket?: number;
+}
+
+export enum ProvidesUses {
+    Provides = 0,
+    Uses = 1,
 }
 
 export class OrderListResponse implements IOrderListResponse {
@@ -2221,7 +2269,7 @@ export interface IProductGetResponse {
 }
 
 export class PropertyValueResponse implements IPropertyValueResponse {
-    id?: string;
+    propertyTypeId?: string;
     name?: string | undefined;
     value?: string | undefined;
 
@@ -2236,7 +2284,7 @@ export class PropertyValueResponse implements IPropertyValueResponse {
 
     init(_data?: any) {
         if (_data) {
-            this.id = _data["id"];
+            this.propertyTypeId = _data["propertyTypeId"];
             this.name = _data["name"];
             this.value = _data["value"];
         }
@@ -2251,7 +2299,7 @@ export class PropertyValueResponse implements IPropertyValueResponse {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
+        data["propertyTypeId"] = this.propertyTypeId;
         data["name"] = this.name;
         data["value"] = this.value;
         return data; 
@@ -2259,7 +2307,7 @@ export class PropertyValueResponse implements IPropertyValueResponse {
 }
 
 export interface IPropertyValueResponse {
-    id?: string;
+    propertyTypeId?: string;
     name?: string | undefined;
     value?: string | undefined;
 }
@@ -2267,6 +2315,8 @@ export interface IPropertyValueResponse {
 export class ProductSocketResponse implements IProductSocketResponse {
     socketId?: string;
     name?: string | undefined;
+    providesUses?: ProvidesUses;
+    numberOfSocket?: number;
 
     constructor(data?: IProductSocketResponse) {
         if (data) {
@@ -2281,6 +2331,8 @@ export class ProductSocketResponse implements IProductSocketResponse {
         if (_data) {
             this.socketId = _data["socketId"];
             this.name = _data["name"];
+            this.providesUses = _data["providesUses"];
+            this.numberOfSocket = _data["numberOfSocket"];
         }
     }
 
@@ -2295,6 +2347,8 @@ export class ProductSocketResponse implements IProductSocketResponse {
         data = typeof data === 'object' ? data : {};
         data["socketId"] = this.socketId;
         data["name"] = this.name;
+        data["providesUses"] = this.providesUses;
+        data["numberOfSocket"] = this.numberOfSocket;
         return data; 
     }
 }
@@ -2302,6 +2356,8 @@ export class ProductSocketResponse implements IProductSocketResponse {
 export interface IProductSocketResponse {
     socketId?: string;
     name?: string | undefined;
+    providesUses?: ProvidesUses;
+    numberOfSocket?: number;
 }
 
 export class CommentResponse implements ICommentResponse {
@@ -2474,6 +2530,8 @@ export interface IPropertyValueEditCommand {
 
 export class ProductSocketEditCommand implements IProductSocketEditCommand {
     socketId?: string;
+    providesUses?: ProvidesUses;
+    numberOfSocket?: number;
 
     constructor(data?: IProductSocketEditCommand) {
         if (data) {
@@ -2487,6 +2545,8 @@ export class ProductSocketEditCommand implements IProductSocketEditCommand {
     init(_data?: any) {
         if (_data) {
             this.socketId = _data["socketId"];
+            this.providesUses = _data["providesUses"];
+            this.numberOfSocket = _data["numberOfSocket"];
         }
     }
 
@@ -2500,12 +2560,16 @@ export class ProductSocketEditCommand implements IProductSocketEditCommand {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["socketId"] = this.socketId;
+        data["providesUses"] = this.providesUses;
+        data["numberOfSocket"] = this.numberOfSocket;
         return data; 
     }
 }
 
 export interface IProductSocketEditCommand {
     socketId?: string;
+    providesUses?: ProvidesUses;
+    numberOfSocket?: number;
 }
 
 export class SocketCreateCommand implements ISocketCreateCommand {
@@ -2678,6 +2742,46 @@ export interface ICategorySocketGetResponse2 {
     id?: string;
     categoryId?: string;
     categoryName?: string | undefined;
+}
+
+export class SocketEditCommand implements ISocketEditCommand {
+    id?: string;
+    name?: string | undefined;
+
+    constructor(data?: ISocketEditCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+        }
+    }
+
+    static fromJS(data: any): SocketEditCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new SocketEditCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        return data; 
+    }
+}
+
+export interface ISocketEditCommand {
+    id?: string;
+    name?: string | undefined;
 }
 
 export class ApiException extends Error {

@@ -3,3 +3,4 @@ cert/
 bin/
 obj/
 .idea/
+/frontend/admin/workspace.code-workspace

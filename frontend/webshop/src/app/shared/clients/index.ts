@@ -1035,7 +1035,6 @@ export interface IBasketItemEditCommand {
 
 export class CategoryListResponse implements ICategoryListResponse {
     id?: string;
-    configuratorOrder?: number | undefined;
     name?: string | undefined;
 
     constructor(data?: ICategoryListResponse) {
@@ -1050,7 +1049,6 @@ export class CategoryListResponse implements ICategoryListResponse {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.configuratorOrder = _data["configuratorOrder"];
             this.name = _data["name"];
         }
     }
@@ -1065,7 +1063,6 @@ export class CategoryListResponse implements ICategoryListResponse {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["configuratorOrder"] = this.configuratorOrder;
         data["name"] = this.name;
         return data; 
     }
@@ -1073,7 +1070,6 @@ export class CategoryListResponse implements ICategoryListResponse {
 
 export interface ICategoryListResponse {
     id?: string;
-    configuratorOrder?: number | undefined;
     name?: string | undefined;
 }
 
@@ -1468,7 +1464,7 @@ export interface IProductGetResponse {
 }
 
 export class PropertyValueResponse implements IPropertyValueResponse {
-    id?: string;
+    propertyTypeId?: string;
     name?: string | undefined;
     value?: string | undefined;
 
@@ -1483,7 +1479,7 @@ export class PropertyValueResponse implements IPropertyValueResponse {
 
     init(_data?: any) {
         if (_data) {
-            this.id = _data["id"];
+            this.propertyTypeId = _data["propertyTypeId"];
             this.name = _data["name"];
             this.value = _data["value"];
         }
@@ -1498,7 +1494,7 @@ export class PropertyValueResponse implements IPropertyValueResponse {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
+        data["propertyTypeId"] = this.propertyTypeId;
         data["name"] = this.name;
         data["value"] = this.value;
         return data; 
@@ -1506,7 +1502,7 @@ export class PropertyValueResponse implements IPropertyValueResponse {
 }
 
 export interface IPropertyValueResponse {
-    id?: string;
+    propertyTypeId?: string;
     name?: string | undefined;
     value?: string | undefined;
 }
@@ -1514,6 +1510,8 @@ export interface IPropertyValueResponse {
 export class ProductSocketResponse implements IProductSocketResponse {
     socketId?: string;
     name?: string | undefined;
+    providesUses?: ProvidesUses;
+    numberOfSocket?: number;
 
     constructor(data?: IProductSocketResponse) {
         if (data) {
@@ -1528,6 +1526,8 @@ export class ProductSocketResponse implements IProductSocketResponse {
         if (_data) {
             this.socketId = _data["socketId"];
             this.name = _data["name"];
+            this.providesUses = _data["providesUses"];
+            this.numberOfSocket = _data["numberOfSocket"];
         }
     }
 
@@ -1542,6 +1542,8 @@ export class ProductSocketResponse implements IProductSocketResponse {
         data = typeof data === 'object' ? data : {};
         data["socketId"] = this.socketId;
         data["name"] = this.name;
+        data["providesUses"] = this.providesUses;
+        data["numberOfSocket"] = this.numberOfSocket;
         return data; 
     }
 }
@@ -1549,6 +1551,13 @@ export class ProductSocketResponse implements IProductSocketResponse {
 export interface IProductSocketResponse {
     socketId?: string;
     name?: string | undefined;
+    providesUses?: ProvidesUses;
+    numberOfSocket?: number;
+}
+
+export enum ProvidesUses {
+    Provides = 0,
+    Uses = 1,
 }
 
 export class CommentResponse implements ICommentResponse {
