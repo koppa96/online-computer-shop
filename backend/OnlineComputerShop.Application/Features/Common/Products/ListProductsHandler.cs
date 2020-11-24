@@ -16,7 +16,6 @@ namespace OnlineComputerShop.Application.Features.Common.Products
     public class ProductListQuery : IRequest<IEnumerable<ProductListResponse>>
     {
         public Guid CategoryId { get; set; }
-        public List<Guid> SocketIds { get; set; }
     }
 
     public class ProductListResponse
@@ -40,22 +39,10 @@ namespace OnlineComputerShop.Application.Features.Common.Products
 
         public async Task<IEnumerable<ProductListResponse>> Handle(ProductListQuery request, CancellationToken cancellationToken)
         {
-            List<Product> products = null;
-            if (request.SocketIds == null || request.SocketIds.Count == 0)
-            {
-                products = await context.Products
+            var products = await context.Products
                     .Where(x => x.CategoryId == request.CategoryId)
                     .ToListAsync(cancellationToken);
-            }
-            else
-            {
-                products = await context.Products
-                    .Include(x => x.ProductSockets)
-                    .Where(x => x.CategoryId == request.CategoryId && x.ProductSockets
-                    .Any(ps => request.SocketIds.Contains(ps.SocketId)))
-                    .ToListAsync(cancellationToken);
-            }
-            
+
             return mapper.Map<List<ProductListResponse>>(products);
         }
     }

@@ -58,9 +58,9 @@ namespace OnlineComputerShop.Api.Controllers.Admin
         }
 
         [HttpGet("{categoryId}/products")]
-        public Task<IEnumerable<ProductListResponse>> ListProducts(Guid categoryId, [FromQuery] List<Guid> socketIds, CancellationToken cancellationToken)
+        public Task<IEnumerable<ProductListResponse>> ListProducts(Guid categoryId, CancellationToken cancellationToken)
         {
-            return mediator.Send(new ProductListQuery { CategoryId = categoryId, SocketIds = socketIds }, cancellationToken);
+            return mediator.Send(new ProductListQuery { CategoryId = categoryId }, cancellationToken);
         }
 
         [HttpPost("{categoryId}/products")]

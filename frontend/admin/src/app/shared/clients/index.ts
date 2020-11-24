@@ -433,13 +433,11 @@ export class CategoriesClient {
         return _observableOf<void>(<any>null);
     }
 
-    listProducts(categoryId: string, socketIds: string[] | null | undefined): Observable<ProductListResponse[]> {
-        let url_ = this.baseUrl + "/api/admin/Categories/{categoryId}/products?";
+    listProducts(categoryId: string): Observable<ProductListResponse[]> {
+        let url_ = this.baseUrl + "/api/admin/Categories/{categoryId}/products";
         if (categoryId === undefined || categoryId === null)
             throw new Error("The parameter 'categoryId' must be defined.");
         url_ = url_.replace("{categoryId}", encodeURIComponent("" + categoryId));
-        if (socketIds !== undefined && socketIds !== null)
-            socketIds && socketIds.forEach(item => { url_ += "socketIds=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
