@@ -386,13 +386,11 @@ export class CategoriesClient {
         return _observableOf<CategoryListResponse[]>(<any>null);
     }
 
-    listProducts(categoryId: string, socketIds: string[] | null | undefined): Observable<ProductListResponse[]> {
-        let url_ = this.baseUrl + "/api/webshop/Categories/{categoryId}/products?";
+    listProducts(categoryId: string): Observable<ProductListResponse[]> {
+        let url_ = this.baseUrl + "/api/webshop/Categories/{categoryId}/products";
         if (categoryId === undefined || categoryId === null)
             throw new Error("The parameter 'categoryId' must be defined.");
         url_ = url_.replace("{categoryId}", encodeURIComponent("" + categoryId));
-        if (socketIds !== undefined && socketIds !== null)
-            socketIds && socketIds.forEach(item => { url_ += "socketIds=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -441,6 +439,68 @@ export class CategoriesClient {
             }));
         }
         return _observableOf<ProductListResponse[]>(<any>null);
+    }
+
+    listProductsForComputerAssembler(categoryId: string, providedSockets: ProvidedSocketCommand[] | null | undefined): Observable<ComputerAssemblerProductListResponse[]> {
+        let url_ = this.baseUrl + "/api/webshop/Categories/{categoryId}/computer-assembler-product-list?";
+        if (categoryId === undefined || categoryId === null)
+            throw new Error("The parameter 'categoryId' must be defined.");
+        url_ = url_.replace("{categoryId}", encodeURIComponent("" + categoryId));
+        if (providedSockets !== undefined && providedSockets !== null)
+            providedSockets && providedSockets.forEach((item, index) => {
+                for (let attr in item)
+        			if (item.hasOwnProperty(attr)) {
+        				url_ += "providedSockets[" + index + "]." + attr + "=" + encodeURIComponent("" + (<any>item)[attr]) + "&";
+        			}
+            });
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processListProductsForComputerAssembler(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processListProductsForComputerAssembler(<any>response_);
+                } catch (e) {
+                    return <Observable<ComputerAssemblerProductListResponse[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ComputerAssemblerProductListResponse[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processListProductsForComputerAssembler(response: HttpResponseBase): Observable<ComputerAssemblerProductListResponse[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ComputerAssemblerProductListResponse.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ComputerAssemblerProductListResponse[]>(<any>null);
     }
 }
 
@@ -1121,6 +1181,155 @@ export interface IProductListResponse {
     price?: number;
 }
 
+export class ComputerAssemblerProductListResponse implements IComputerAssemblerProductListResponse {
+    id?: string;
+    name?: string | undefined;
+    pricePerPiece?: number;
+    productSockets?: ProductSocketResponse[] | undefined;
+
+    constructor(data?: IComputerAssemblerProductListResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.pricePerPiece = _data["pricePerPiece"];
+            if (Array.isArray(_data["productSockets"])) {
+                this.productSockets = [] as any;
+                for (let item of _data["productSockets"])
+                    this.productSockets!.push(ProductSocketResponse.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ComputerAssemblerProductListResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new ComputerAssemblerProductListResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["pricePerPiece"] = this.pricePerPiece;
+        if (Array.isArray(this.productSockets)) {
+            data["productSockets"] = [];
+            for (let item of this.productSockets)
+                data["productSockets"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IComputerAssemblerProductListResponse {
+    id?: string;
+    name?: string | undefined;
+    pricePerPiece?: number;
+    productSockets?: ProductSocketResponse[] | undefined;
+}
+
+export class ProductSocketResponse implements IProductSocketResponse {
+    socketId?: string;
+    socketName?: string | undefined;
+    providesUses?: ProvidesUses;
+    numberOfSocket?: number;
+
+    constructor(data?: IProductSocketResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.socketId = _data["socketId"];
+            this.socketName = _data["socketName"];
+            this.providesUses = _data["providesUses"];
+            this.numberOfSocket = _data["numberOfSocket"];
+        }
+    }
+
+    static fromJS(data: any): ProductSocketResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProductSocketResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["socketId"] = this.socketId;
+        data["socketName"] = this.socketName;
+        data["providesUses"] = this.providesUses;
+        data["numberOfSocket"] = this.numberOfSocket;
+        return data; 
+    }
+}
+
+export interface IProductSocketResponse {
+    socketId?: string;
+    socketName?: string | undefined;
+    providesUses?: ProvidesUses;
+    numberOfSocket?: number;
+}
+
+export enum ProvidesUses {
+    Provides = 0,
+    Uses = 1,
+}
+
+export class ProvidedSocketCommand implements IProvidedSocketCommand {
+    socketId?: string;
+    numberOfSocket?: number;
+
+    constructor(data?: IProvidedSocketCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.socketId = _data["socketId"];
+            this.numberOfSocket = _data["numberOfSocket"];
+        }
+    }
+
+    static fromJS(data: any): ProvidedSocketCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProvidedSocketCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["socketId"] = this.socketId;
+        data["numberOfSocket"] = this.numberOfSocket;
+        return data; 
+    }
+}
+
+export interface IProvidedSocketCommand {
+    socketId?: string;
+    numberOfSocket?: number;
+}
+
 export class CommentEditCommand implements ICommentEditCommand {
     id?: string;
     text?: string | undefined;
@@ -1379,7 +1588,7 @@ export class ProductGetResponse implements IProductGetResponse {
     categoryId?: string;
     category?: string | undefined;
     propertyValues?: PropertyValueResponse[] | undefined;
-    productSockets?: ProductSocketResponse[] | undefined;
+    productSockets?: ProductSocketResponse2[] | undefined;
     comments?: CommentResponse[] | undefined;
 
     constructor(data?: IProductGetResponse) {
@@ -1407,7 +1616,7 @@ export class ProductGetResponse implements IProductGetResponse {
             if (Array.isArray(_data["productSockets"])) {
                 this.productSockets = [] as any;
                 for (let item of _data["productSockets"])
-                    this.productSockets!.push(ProductSocketResponse.fromJS(item));
+                    this.productSockets!.push(ProductSocketResponse2.fromJS(item));
             }
             if (Array.isArray(_data["comments"])) {
                 this.comments = [] as any;
@@ -1459,7 +1668,7 @@ export interface IProductGetResponse {
     categoryId?: string;
     category?: string | undefined;
     propertyValues?: PropertyValueResponse[] | undefined;
-    productSockets?: ProductSocketResponse[] | undefined;
+    productSockets?: ProductSocketResponse2[] | undefined;
     comments?: CommentResponse[] | undefined;
 }
 
@@ -1507,13 +1716,13 @@ export interface IPropertyValueResponse {
     value?: string | undefined;
 }
 
-export class ProductSocketResponse implements IProductSocketResponse {
+export class ProductSocketResponse2 implements IProductSocketResponse2 {
     socketId?: string;
     name?: string | undefined;
     providesUses?: ProvidesUses;
     numberOfSocket?: number;
 
-    constructor(data?: IProductSocketResponse) {
+    constructor(data?: IProductSocketResponse2) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -1531,9 +1740,9 @@ export class ProductSocketResponse implements IProductSocketResponse {
         }
     }
 
-    static fromJS(data: any): ProductSocketResponse {
+    static fromJS(data: any): ProductSocketResponse2 {
         data = typeof data === 'object' ? data : {};
-        let result = new ProductSocketResponse();
+        let result = new ProductSocketResponse2();
         result.init(data);
         return result;
     }
@@ -1548,16 +1757,11 @@ export class ProductSocketResponse implements IProductSocketResponse {
     }
 }
 
-export interface IProductSocketResponse {
+export interface IProductSocketResponse2 {
     socketId?: string;
     name?: string | undefined;
     providesUses?: ProvidesUses;
     numberOfSocket?: number;
-}
-
-export enum ProvidesUses {
-    Provides = 0,
-    Uses = 1,
 }
 
 export class CommentResponse implements ICommentResponse {
