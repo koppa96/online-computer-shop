@@ -1,1 +1,32 @@
-<app-assembler-slot [categories]="categories$ | async" [availableSockets]="availableSockets"></app-assembler-slot>
+<nb-card>
+  <nb-card-header>
+    <h4>Számítógép összerakó</h4>
+  </nb-card-header>
+  <nb-card-body>
+    <p>A számítógép összerakóban összeállíthatod álmaid számítógépét. Az összerakóval összeállított számítógépek
+      garantáltan egymással kompatibilis alkatrészeket fognak tartalmazni. A kompatbilitást az eszközök csatlakozói
+      alapján ellenőrizzük. Fontos, hogy először olyan alkatrészt válassz, amely nem igyel csatlakozót (pl. alaplap),
+      hiszen azok a termékek itt nem kerülnek listázásra, amelyeket nem tudnál bedugni valahova.</p>
+  </nb-card-body>
+  <nb-card-footer>
+    <h6>Szabad csatlakozók</h6>
+    <nb-list>
+      <nb-list-item *ngFor="let item of sockets">
+        <div class="available-socket-item">
+          <strong>{{ item.name }}</strong>
+          <span>{{ item.freeCount }}</span>
+        </div>
+      </nb-list-item>
+    </nb-list>
+  </nb-card-footer>
+</nb-card>
+<app-assembler-slot *ngFor="let product of products;" [(selectedProduct)]="product.selectedProduct"
+  [categories]="categories$ | async" [sockets]="sockets" (deleteThis)="deleteSlot(product.index)"
+  (selectedProductChange)="calculateSockets()">
+</app-assembler-slot>
+<div class="add-button-container">
+  <button nbButton hero status="success" (click)="addSlot()">
+    <nb-icon icon="plus-outline"></nb-icon>
+    Alkatrész hely hozzáadása
+  </button>
+</div>

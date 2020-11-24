@@ -1,24 +1,59 @@
 <nb-card>
   <nb-card-header>
     <div class="header-container">
-      <h5>Kategória:</h5>
-      <nb-select placeholder="Válassz kategóriát" [(selected)]="selectedCategoryId"
-        (selectedChange)="this.loadProducts$.next()">
-        <nb-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</nb-option>
-      </nb-select>
+      <div class="header-form-container">
+        <h5>Kategória:</h5>
+        <nb-select placeholder="Válassz kategóriát" [(selected)]="selectedCategoryId"
+          (selectedChange)="this.loadProducts$.next()" [disabled]="selectedProduct">
+          <nb-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</nb-option>
+        </nb-select>
+      </div>
+      <button nbButton hero status="danger" (click)="deleteThis.emit()">
+        <nb-icon icon="trash-2-outline"></nb-icon>
+        Alkatrész hely törlése
+      </button>
     </div>
   </nb-card-header>
   <nb-card-body>
-    <nb-list *ngIf="!selectedCategoryId">
+    <div class="centered" *ngIf="!selectedCategoryId">
+      <h6>Válassz kategóriát a termék választó megjelenítéséhez!</h6>
+    </div>
+    <div class="centered" *ngIf="!((products$ | async)?.length)">
+      <h6 *ngIf="selectedCategoryId">Ebben a kategóriában nem találtunk termékeket amelyek elhelyezhetők a
+        konfigurációban.</h6>
+    </div>
+    <nb-list *ngIf="!selectedProduct">
       <nb-list-item *ngFor="let product of products$ | async">
-        <div class="product-list">
+        <div class="product-list-item">
           <h6>{{ product.name }}</h6>
           <div class="action-container">
-            <button nbButton hero status="primary">Részletek</button>
-            <button nbButton hero status="danger">Eltávolítás</button>
+            <button nbButton hero status="primary">
+              <nb-icon icon="file-text-outline"></nb-icon>
+              Részletek
+            </button>
+            <button nbButton hero status="success" (click)="selectProduct(product)">
+              <nb-icon icon="plus-outline"></nb-icon>
+              Kiválasztás
+            </button>
           </div>
         </div>
       </nb-list-item>
     </nb-list>
+    <div *ngIf="selectedProduct">
+      <h5>Kiválasztott termék:</h5>
+      <div class="product-list-item">
+        <h6>{{ selectedProduct.name }}</h6>
+        <div class="action-container">
+          <button nbButton hero status="primary">
+            <nb-icon icon="file-text-outline"></nb-icon>
+            Részletek
+          </button>
+          <button nbButton hero status="danger" (click)="deselectProduct()">
+            <nb-icon icon="trash-2-outline"></nb-icon>
+            Termék eltávolítása a helyről
+          </button>
+        </div>
+      </div>
+    </div>
   </nb-card-body>
 </nb-card>

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CategoriesClient, CategoryListResponse, ProvidedSocketQuery } from 'src/app/shared/clients';
-import { ComputerAssemblerItem } from '../../models/computer-assembler.model';
+import { CategoriesClient, CategoryListResponse, ComputerAssemblerProductListResponse, ProductSocketResponse, ProvidedSocketQuery, ProvidesUses } from 'src/app/shared/clients';
+import { SocketModel } from '../../models/socket.model';
+import 'linq-extensions';
 
 @Component({
   selector: 'app-computer-assembler-page',
@@ -10,7 +11,9 @@ import { ComputerAssemblerItem } from '../../models/computer-assembler.model';
 })
 export class ComputerAssemblerPageComponent implements OnInit {
   categories$: Observable<CategoryListResponse[]>;
-  availableSockets: ProvidedSocketQuery[] = [];
+  sockets: SocketModel[] = [];
+
+  products: { index: number; selectedProduct: ComputerAssemblerProductListResponse }[] = [];
 
   constructor(private client: CategoriesClient) {
     this.categories$ = this.client.listCategories();
@@ -19,4 +22,27 @@ export class ComputerAssemblerPageComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  addSlot() {
+    this.products.push({
+      index: this.products.length,
+      selectedProduct: null
+    });
+  }
+
+  deleteSlot(index: number) {
+    this.products.splice(index, 1);
+    this.calculateSockets();
+  }
+
+  calculateSockets() {
+    this.sockets = this.products.where(x => !!x.selectedProduct)
+      .selectMany(x => x.selectedProduct.productSockets || [])
+      .groupBy(x => x.socketId)
+      .select(x => ({
+        id: x.key,
+        name: x.first().socketName,
+        freeCount: x.aggregate(0, (acc, ps) => ps.providesUses === ProvidesUses.Provides ? acc += ps.numberOfSocket : acc -= ps.numberOfSocket)
+      }))
+      .toArray();
+  }
 }

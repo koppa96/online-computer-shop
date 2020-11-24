@@ -24,6 +24,7 @@
     "@nebular/theme": "^6.2.1",
     "angular-oauth2-oidc": "^10.0.3",
     "eva-icons": "^1.1.2",
+    "linq-extensions": "^1.0.4",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"

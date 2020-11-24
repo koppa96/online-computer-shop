@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ComputerAssemblerPageComponent } from './pages/computer-assembler-page/computer-assembler-page.component';
 import { AssemblerSlotComponent } from './components/assembler-slot/assembler-slot.component';
 import { ComputerAssemblerRoutingModule } from './computer-assembler-routing.module';
-import { NbButtonModule, NbCardModule, NbListModule, NbSelectModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbIconModule, NbListModule, NbSelectModule } from '@nebular/theme';
 
 @NgModule({
   declarations: [
@@ -16,7 +16,8 @@ import { NbButtonModule, NbCardModule, NbListModule, NbSelectModule } from '@neb
     NbCardModule,
     NbSelectModule,
     NbListModule,
-    NbButtonModule
+    NbButtonModule,
+    NbIconModule
   ]
 })
 export class ComputerAssemblerModule { }
