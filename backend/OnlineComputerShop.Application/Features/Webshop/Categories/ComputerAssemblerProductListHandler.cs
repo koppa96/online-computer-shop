@@ -14,9 +14,9 @@ namespace OnlineComputerShop.Application.Features.Webshop.Categories
     public class ComputerAssemblerProductListQuery : IRequest<IEnumerable<ComputerAssemblerProductListResponse>>
     {
         public Guid CategoryId { get; set; }
-        public IEnumerable<ProvidedSocketCommand> ProvidedSockets { get; set; }
-
-        public class ProvidedSocketCommand
+        public IEnumerable<ProvidedSocketQuery> ProvidedSockets { get; set; }
+        
+        public class ProvidedSocketQuery
         {
             public Guid SocketId { get; set; }
             public int NumberOfSocket { get; set; }

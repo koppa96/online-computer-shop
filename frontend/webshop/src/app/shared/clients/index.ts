@@ -441,29 +441,26 @@ export class CategoriesClient {
         return _observableOf<ProductListResponse[]>(<any>null);
     }
 
-    listProductsForComputerAssembler(categoryId: string, providedSockets: ProvidedSocketCommand[] | null | undefined): Observable<ComputerAssemblerProductListResponse[]> {
-        let url_ = this.baseUrl + "/api/webshop/Categories/{categoryId}/computer-assembler-product-list?";
+    listProductsForComputerAssembler(categoryId: string, providedSockets: ProvidedSocketQuery[]): Observable<ComputerAssemblerProductListResponse[]> {
+        let url_ = this.baseUrl + "/api/webshop/Categories/{categoryId}/computer-assembler-product-list";
         if (categoryId === undefined || categoryId === null)
             throw new Error("The parameter 'categoryId' must be defined.");
         url_ = url_.replace("{categoryId}", encodeURIComponent("" + categoryId));
-        if (providedSockets !== undefined && providedSockets !== null)
-            providedSockets && providedSockets.forEach((item, index) => {
-                for (let attr in item)
-        			if (item.hasOwnProperty(attr)) {
-        				url_ += "providedSockets[" + index + "]." + attr + "=" + encodeURIComponent("" + (<any>item)[attr]) + "&";
-        			}
-            });
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(providedSockets);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Content-Type": "application/json",
                 "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
             return this.processListProductsForComputerAssembler(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -1290,11 +1287,11 @@ export enum ProvidesUses {
     Uses = 1,
 }
 
-export class ProvidedSocketCommand implements IProvidedSocketCommand {
+export class ProvidedSocketQuery implements IProvidedSocketQuery {
     socketId?: string;
     numberOfSocket?: number;
 
-    constructor(data?: IProvidedSocketCommand) {
+    constructor(data?: IProvidedSocketQuery) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -1310,9 +1307,9 @@ export class ProvidedSocketCommand implements IProvidedSocketCommand {
         }
     }
 
-    static fromJS(data: any): ProvidedSocketCommand {
+    static fromJS(data: any): ProvidedSocketQuery {
         data = typeof data === 'object' ? data : {};
-        let result = new ProvidedSocketCommand();
+        let result = new ProvidedSocketQuery();
         result.init(data);
         return result;
     }
@@ -1325,7 +1322,7 @@ export class ProvidedSocketCommand implements IProvidedSocketCommand {
     }
 }
 
-export interface IProvidedSocketCommand {
+export interface IProvidedSocketQuery {
     socketId?: string;
     numberOfSocket?: number;
 }

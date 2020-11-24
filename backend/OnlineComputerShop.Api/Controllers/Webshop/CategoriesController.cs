@@ -38,9 +38,9 @@ namespace OnlineComputerShop.Api.Controllers.Webshop
             }, cancellationToken);
         }
 
-        [HttpGet("{categoryId}/computer-assembler-product-list")]
+        [HttpPost("{categoryId}/computer-assembler-product-list")]
         public Task<IEnumerable<ComputerAssemblerProductListResponse>> ListProductsForComputerAssembler(Guid categoryId,
-            [FromQuery] List<ComputerAssemblerProductListQuery.ProvidedSocketCommand> providedSockets, CancellationToken cancellationToken)
+            [FromBody] List<ComputerAssemblerProductListQuery.ProvidedSocketQuery> providedSockets, CancellationToken cancellationToken)
         {
             return mediator.Send(new ComputerAssemblerProductListQuery
             {
