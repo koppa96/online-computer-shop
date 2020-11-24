@@ -3,15 +3,26 @@ import { CommonModule } from '@angular/common';
 
 import { OrdersRoutingModule } from './orders-routing.module';
 
-import { OrderDetailsPageComponent } from './order-details-page/order-details-page.component';
-import { OrderListPageComponent } from './order-list-page/order-list-page.component';
+import { OrderDetailsPageComponent } from './pages/order-details-page/order-details-page.component';
+import { OrderListPageComponent } from './pages/order-list-page/order-list-page.component';
+import { NbButtonModule, NbCardModule, NbDialogModule, NbIconModule, NbInputModule, NbListModule, NbTooltipModule } from '@nebular/theme';
+import { FormsModule } from '@angular/forms';
+import { OrderStateToStringPipe } from './pipes/order-state-to-string.pipe';
 
 
 @NgModule({
-  declarations: [OrderDetailsPageComponent, OrderListPageComponent],
+  declarations: [OrderDetailsPageComponent, OrderListPageComponent, OrderStateToStringPipe],
   imports: [
     CommonModule,
-    OrdersRoutingModule
+    OrdersRoutingModule,
+    NbCardModule,
+    NbButtonModule,
+    NbListModule,
+    NbDialogModule.forChild(),
+    NbInputModule,
+    NbIconModule,
+    FormsModule,
+    NbTooltipModule
   ]
 })
 export class OrdersModule { }
