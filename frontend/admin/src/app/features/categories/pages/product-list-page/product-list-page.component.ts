@@ -26,7 +26,7 @@ export class ProductListPageComponent implements AfterViewInit {
     const categoryId = this.activatedRoute.snapshot.paramMap.get('categoryId');
     this.loadItems$ = new Subject<void>();
     this.productListItems$ = this.loadItems$.pipe(
-      switchMap(() => this.categoriesClient.listProducts(categoryId, []))
+      switchMap(() => this.categoriesClient.listProducts(categoryId))
     );
 
   }
