@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using OnlineComputerShop.Application.Features.Webshop.Categories;
 
 namespace OnlineComputerShop.Api.Controllers.Webshop
 {
@@ -29,12 +30,22 @@ namespace OnlineComputerShop.Api.Controllers.Webshop
         }
 
         [HttpGet("{categoryId}/products")]
-        public Task<IEnumerable<ProductListResponse>> ListProducts(Guid categoryId, [FromQuery] List<Guid> socketIds, CancellationToken cancellationToken)
+        public Task<IEnumerable<ProductListResponse>> ListProducts(Guid categoryId, CancellationToken cancellationToken)
         {
             return mediator.Send(new ProductListQuery
             { 
+                CategoryId = categoryId
+            }, cancellationToken);
+        }
+
+        [HttpGet("{categoryId}/computer-assembler-product-list")]
+        public Task<IEnumerable<ComputerAssemblerProductListResponse>> ListProductsForComputerAssembler(Guid categoryId,
+            [FromQuery] List<ComputerAssemblerProductListQuery.ProvidedSocketCommand> providedSockets, CancellationToken cancellationToken)
+        {
+            return mediator.Send(new ComputerAssemblerProductListQuery
+            {
                 CategoryId = categoryId,
-                SocketIds = socketIds
+                ProvidedSockets = providedSockets
             }, cancellationToken);
         }
     }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OnlineComputerShop.Dal.Entities;
+using OnlineComputerShop.Dal.Seed;
 
 namespace OnlineComputerShop.Dal
 {
@@ -29,6 +30,15 @@ namespace OnlineComputerShop.Dal
         {
             base.OnModelCreating(builder);
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            
+            // TODO: Remove seed data before production deployment
+            builder.Entity<Category>().HasData(CategorySeed.Entities);
+            builder.Entity<Socket>().HasData(SocketSeed.Entities);
+            builder.Entity<CategorySocket>().HasData(CategorySocketSeed.Entities);
+            builder.Entity<PropertyType>().HasData(PropertyTypeSeed.Entities);
+            builder.Entity<Product>().HasData(ProductSeed.Entities);
+            builder.Entity<PropertyValue>().HasData(PropertyValueSeed.Entities);
+            builder.Entity<ProductSocket>().HasData(ProductSocketSeed.Entities);
         }
     }
 }

@@ -3,6 +3,7 @@ using OnlineComputerShop.Application.Features.Admin.Products;
 using OnlineComputerShop.Application.Features.Common.Products;
 using OnlineComputerShop.Dal.Entities;
 using System.Linq;
+using OnlineComputerShop.Application.Features.Webshop.Categories;
 
 namespace OnlineComputerShop.Application.Mappings
 {
@@ -28,6 +29,10 @@ namespace OnlineComputerShop.Application.Mappings
             CreateMap<ProductEditCommand, Product>();
             CreateMap<ProductEditCommand.ProductSocketEditCommand, ProductSocket>();
             CreateMap<ProductEditCommand.PropertyValueEditCommand, PropertyValue>();
+
+            CreateMap<Product, ComputerAssemblerProductListResponse>();
+            CreateMap<ProductSocket, ComputerAssemblerProductListResponse.ProductSocketResponse>()
+                .ForMember(dst => dst.SocketName, opt => opt.MapFrom(src => src.Socket.Name));
         }
     }
 }
