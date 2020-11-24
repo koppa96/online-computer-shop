@@ -17,7 +17,6 @@ namespace OnlineComputerShop.Application.Features.Common.Categories
     public class CategoryListResponse
     {
         public Guid Id { get; set; }
-        public int? ConfiguratorOrder { get; set; }
         public string Name { get; set; }
     }
     

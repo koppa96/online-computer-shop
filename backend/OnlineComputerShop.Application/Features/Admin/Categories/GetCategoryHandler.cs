@@ -19,7 +19,6 @@ namespace OnlineComputerShop.Application.Features.Admin.Categories
     public class CategoryGetResponse
     {
         public Guid Id { get; set; }
-        public int? ConfiguratorOrder { get; set; }
         public string Name { get; set; }
         public List<PropertyTypeGetResponse> PropertyTypes { get; set; }
         public List<CategorySocketGetResponse> CategorySockets { get; set; }

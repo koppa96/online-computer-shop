@@ -6,7 +6,6 @@ namespace OnlineComputerShop.Dal.Entities
     public class Category
     {
         public Guid Id { get; set; }
-        public int? ConfiguratorOrder { get; set; }
         public string Name { get; set; }
 
         public virtual ICollection<PropertyType> PropertyTypes { get; set; }

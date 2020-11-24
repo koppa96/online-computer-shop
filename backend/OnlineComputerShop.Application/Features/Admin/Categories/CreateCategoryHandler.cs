@@ -14,7 +14,6 @@ namespace OnlineComputerShop.Application.Features.Admin.Categories
     public class CategoryCreateCommand : IRequest
     {
         public string Name { get; set; }
-        public int? ConfiguratorOrder { get; set; }
         public List<string> PropertyTypes { get; set; }
         public List<Guid> SocketIds { get; set; }
     }
@@ -34,7 +33,6 @@ namespace OnlineComputerShop.Application.Features.Admin.Categories
             context.Categories.Add(new Category
             {
                 Name = request.Name,
-                ConfiguratorOrder = request.ConfiguratorOrder,
                 PropertyTypes = request.PropertyTypes.Select(x => new PropertyType
                 {
                     Name = x
