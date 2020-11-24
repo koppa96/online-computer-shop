@@ -1,1 +1,24 @@
-
+<nb-card>
+  <nb-card-header>
+    <div class="header-container">
+      <h5>Kategória:</h5>
+      <nb-select placeholder="Válassz kategóriát" [(selected)]="selectedCategoryId"
+        (selectedChange)="this.loadProducts$.next()">
+        <nb-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</nb-option>
+      </nb-select>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <nb-list *ngIf="!selectedCategoryId">
+      <nb-list-item *ngFor="let product of products$ | async">
+        <div class="product-list">
+          <h6>{{ product.name }}</h6>
+          <div class="action-container">
+            <button nbButton hero status="primary">Részletek</button>
+            <button nbButton hero status="danger">Eltávolítás</button>
+          </div>
+        </div>
+      </nb-list-item>
+    </nb-list>
+  </nb-card-body>
+</nb-card>
