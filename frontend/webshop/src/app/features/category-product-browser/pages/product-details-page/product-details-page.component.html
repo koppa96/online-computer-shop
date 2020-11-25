@@ -1,9 +1,13 @@
 <div class="grid">
   <nb-card class="main-card">
     <nb-card-header>
-      <h4>
-        {{ (product$ | async)?.name }}
-      </h4>
+      <div class="header-container">
+        <h4>{{ (product$ | async)?.name }}</h4>
+        <a nbButton hero status="danger" routerLink="..">
+          <nb-icon icon="arrow-ios-back-outline"></nb-icon>
+          Vissza
+        </a>
+      </div>
     </nb-card-header>
     <nb-card-body class="body">
       <img src="/assets/placeholder-800x600.png">
