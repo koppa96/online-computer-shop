@@ -1,0 +1,48 @@
+<nb-card>
+    <nb-card-header>
+        <div class="header-container">
+            <h4>Rendelések</h4>
+            <div>
+                <label>Felhasználó:</label>
+                <input nbInput>
+                <button nbButton ghost status="primary">
+                    <nb-icon icon="search-outline" status="primary" nbTooltip="Felhasználó keresése">
+
+                    </nb-icon>
+                </button>
+            </div>
+
+        </div>
+    </nb-card-header>
+    <nb-card-body>
+        <h4>Megrendelt termékek</h4>
+        <div class="order-list-item padding-fix">
+            <strong class="item-id">Rendelés ID</strong>
+            <strong class="item-userName">Felhasználó</strong>
+            <strong class="item-state">Rendelés állapota</strong>
+            <strong class="item-dateTimeOfOrder">Rendelés időpontja</strong>
+            <strong class="item-actions">Műveletek</strong>
+        </div>
+
+        <nb-list>
+            <nb-list-item *ngFor="let item of (orderItems$ | async)">
+                <div class="order-list-item">
+                    <strong class="item-id">{{ item.id }}</strong>
+                    <span class="item-userName">{{ item.userName }}</span>
+                    <span class="item-state">{{ item.state | orderStateToString }}</span>
+                    <strong
+                        class="item-dateTimeOfOrder">{{ item.dateTimeOfOrder | date:'yyyy. MM. dd. HH:mm:ss' }}</strong>
+                    <div class="item-actions-container">
+                        <a nbButton status="primary" ghost [routerLink]='item.id' nbTooltip="Részletek">
+                            <nb-icon icon="list-outline"></nb-icon>
+                        </a>
+                        <button nbButton status="danger" (click)="onRemoveItem(item)" ghost nbTooltip="Törlés">
+                            <nb-icon icon="trash-2-outline"></nb-icon>
+                        </button>
+                    </div>
+                </div>
+            </nb-list-item>
+        </nb-list>
+
+    </nb-card-body>
+</nb-card>
