@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { OrderGetResponse, OrdersClient } from 'src/app/shared/clients';
+import 'linq-extensions';
 
 @Component({
   selector: 'app-order-details-page',
@@ -6,10 +11,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./order-details-page.component.scss']
 })
 export class OrderDetailsPageComponent implements OnInit {
+  order$: Observable<OrderGetResponse>;
+  sum$: Observable<number>;
 
-  constructor() { }
+  constructor(
+    private client: OrdersClient,
+    private route: ActivatedRoute
+  ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    const orderId = this.route.snapshot.params.id;
+    this.order$ = this.client.getOrder(orderId);
+    this.sum$ = this.order$.pipe(
+      map(order => order.orderItems.sumOf(x => x.pricePerPiece * x.quantity))
+    );
   }
 
 }
