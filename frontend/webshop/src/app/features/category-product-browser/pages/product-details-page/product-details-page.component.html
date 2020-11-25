@@ -59,7 +59,11 @@
     <nb-card-body>
       <nb-list>
         <nb-list-item *ngFor="let socket of (product$ | async)?.productSockets">
-          <strong>{{ socket.name }}</strong>
+          <div class="socket-list-item">
+            <strong class="socket-name">{{ socket.name }}</strong>
+            <span class="provides-uses">{{ socket.providesUses | providesUses }}</span>
+            <span class="socket-count">{{ socket.numberOfSocket }}</span>
+          </div>
         </nb-list-item>
       </nb-list>
     </nb-card-body>

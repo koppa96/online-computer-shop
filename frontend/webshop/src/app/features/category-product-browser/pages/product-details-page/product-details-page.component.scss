@@ -73,6 +73,34 @@
 
     nb-card-body {
       padding: 0;
+
+      .socket-list-item {
+        display: grid;
+        grid-template-columns: 33% 33% 33%;
+        grid-template-rows: auto;
+        width: 100%;
+
+        .socket-name {
+          grid-row: 1;
+          grid-column: 1;
+        }
+
+        .provides-uses {
+          grid-row: 1;
+          grid-column: 2;
+          display: inline-block;
+          text-align: center;
+          width: 100%;
+        }
+
+        .socket-count {
+          grid-row: 1;
+          grid-column: 3;
+          display: inline-block;
+          text-align: right;
+          width: 100%;
+        }
+      }
     }
   }
 }

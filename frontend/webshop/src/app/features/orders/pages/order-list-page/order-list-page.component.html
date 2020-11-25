@@ -1,1 +1,28 @@
-<p>order-list-page works!</p>
+<nb-card>
+  <nb-card-header>
+    <h4>Megrendelések</h4>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="order-list-item header">
+      <strong class="order-id">Megrendelés azonosító</strong>
+      <strong class="order-date">Megrendelés időpontja</strong>
+      <strong class="order-state">Megrendelés állapota</strong>
+      <strong class="order-actions">Műveletek</strong>
+    </div>
+    <nb-list>
+      <nb-list-item *ngFor="let item of orders$ | async">
+        <div class="order-list-item">
+          <strong class="order-id">{{ item.id }}</strong>
+          <span class="order-date">{{ item.dateTimeOfOrder | date:'yyyy. MM. dd. hh:mm:ss' }}</span>
+          <span class="order-state">{{ item.state | orderState }}</span>
+          <div class="order-actions">
+            <button nbButton hero status="primary">
+              <nb-icon icon="file-text-outline"></nb-icon>
+              Részletek
+            </button>
+          </div>
+        </div>
+      </nb-list-item>
+    </nb-list>
+  </nb-card-body>
+</nb-card>
