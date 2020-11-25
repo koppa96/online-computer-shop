@@ -16,7 +16,8 @@ namespace OnlineComputerShop.Application.Mappings
             CreateMap<Order, OrderGetResponse>()
                 .ForMember(dst => dst.UserName, opt => opt.MapFrom(src => src.User.UserName));
             CreateMap<OrderItem, OrderGetResponse.OrderItemGetResponse>()
-                .ForMember(dst => dst.ProductName, opt => opt.MapFrom(src => src.Product.Name));
+                .ForMember(dst => dst.ProductName, opt => opt.MapFrom(src => src.Product.Name))
+                .ForMember(dst => dst.CategoryId, opt => opt.MapFrom(src => src.Product.CategoryId));
             CreateMap<Order, Features.Admin.Orders.OrderListResponse>()
                 .ForMember(dst => dst.UserName, opt => opt.MapFrom(src => src.User.UserName));
             CreateMap<Order, Features.Webshop.Orders.OrderListResponse>();

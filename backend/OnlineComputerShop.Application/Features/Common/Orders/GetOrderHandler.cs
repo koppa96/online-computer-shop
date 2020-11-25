@@ -18,6 +18,7 @@ namespace OnlineComputerShop.Application.Features.Common.Orders
 
     public class OrderGetResponse
     {
+        public Guid Id { get; set; }
         public string UserName { get; set; }
         public string Address { get; set; }
         public Order.OrderState State { get; set; }
@@ -29,6 +30,7 @@ namespace OnlineComputerShop.Application.Features.Common.Orders
         public class OrderItemGetResponse
         {
             public Guid Id { get; set; }
+            public Guid CategoryId { get; set; }
             public Guid ProductId { get; set; }
             public string ProductName { get; set; }
             public int Quantity { get; set; }
