@@ -6,9 +6,10 @@ import { CategoryProductBrowserRoutingModule } from './category-product-browser-
 import { ProductListItemComponent } from './components/product-list-item/product-list-item.component';
 import { NbButtonModule, NbCardModule, NbIconModule, NbInputModule, NbListModule, NbUserModule } from '@nebular/theme';
 import { FormsModule } from '@angular/forms';
+import { ProvidesUsesPipe } from './pipes/provides-uses.pipe';
 
 @NgModule({
-  declarations: [ProductListPageComponent, ProductDetailsPageComponent, ProductListItemComponent],
+  declarations: [ProductListPageComponent, ProductDetailsPageComponent, ProductListItemComponent, ProvidesUsesPipe],
   imports: [
     CommonModule,
     CategoryProductBrowserRoutingModule,
