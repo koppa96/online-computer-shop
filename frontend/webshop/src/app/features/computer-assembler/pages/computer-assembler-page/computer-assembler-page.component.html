@@ -6,7 +6,8 @@
     <p>A számítógép összerakóban összeállíthatod álmaid számítógépét. Az összerakóval összeállított számítógépek
       garantáltan egymással kompatibilis alkatrészeket fognak tartalmazni. A kompatbilitást az eszközök csatlakozói
       alapján ellenőrizzük. Fontos, hogy először olyan alkatrészt válassz, amely nem igyel csatlakozót (pl. alaplap),
-      hiszen azok a termékek itt nem kerülnek listázásra, amelyeket nem tudnál bedugni valahova.</p>
+      hiszen azok a termékek itt nem kerülnek listázásra, amelyeket nem tudnál bedugni valahova. A termékek kosárba
+      rakásához bejelentkezés szükséges!</p>
   </nb-card-body>
   <nb-card-footer>
     <h6>Szabad csatlakozók</h6>
@@ -33,7 +34,7 @@
     <nb-icon icon="plus-outline"></nb-icon>
     Alkatrész hely hozzáadása
   </button>
-  <button nbButton hero status="success" (click)="addItemsToCart()">
+  <button *ngIf="isLoggedIn" nbButton hero status="success" (click)="addItemsToCart()">
     <nb-icon icon="shopping-bag-outline"></nb-icon>
     Termékek kosárba helyezése
   </button>

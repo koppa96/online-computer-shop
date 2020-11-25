@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnlineComputerShop.Application.Features.Webshop.BasketItems;
+using OnlineComputerShop.Dal.Entities;
 using OnlineComputerShop.Dal.Exceptions;
 
 namespace OnlineComputerShop.Api.Controllers.Webshop
@@ -36,6 +37,13 @@ namespace OnlineComputerShop.Api.Controllers.Webshop
         {
             return mediator.Send(new BasketItemGetQuery { Id = itemId }, cancellationToken);
         }
+
+        [HttpPost("multi")]
+        public Task AddItems([FromBody] List<BasketItemAddCommand> items, CancellationToken cancellationToken)
+        {
+            return mediator.Send(new MultipleBasketItemAddCommand { Commands = items }, cancellationToken);
+        }
+        
 
         [HttpPost]
         public Task AddItem([FromBody] BasketItemAddCommand basketItemAddCommand, CancellationToken cancellationToken)
