@@ -16,17 +16,18 @@
 }
 
 nb-card-body {
+  padding: 0;
   max-height: 250px;
-
-  .invisible {
-    display: none;
-  }
 
   .centered {
     display: flex;
     width: 100%;
     justify-content: center;
     align-items: center;
+  }
+
+  .selected-product-container {
+    padding: 1rem;
   }
 
   .product-list-item {
@@ -42,8 +43,8 @@ nb-card-body {
     .action-container {
       display: flex;
 
-      button:first-child {
-        margin-right: 10px;
+      button {
+        margin-left: 20px;
       }
     }
   }

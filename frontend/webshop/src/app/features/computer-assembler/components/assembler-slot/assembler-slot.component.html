@@ -4,7 +4,7 @@
       <div class="header-form-container">
         <h5>Kategória:</h5>
         <nb-select placeholder="Válassz kategóriát" [(selected)]="selectedCategoryId"
-          (selectedChange)="this.loadProducts$.next()" [disabled]="selectedProduct">
+          (selectedChange)="selectCategory($event)" [disabled]="selectedProduct">
           <nb-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</nb-option>
         </nb-select>
       </div>
@@ -19,7 +19,8 @@
       <h6>Válassz kategóriát a termék választó megjelenítéséhez!</h6>
     </div>
     <div class="centered" *ngIf="!((products$ | async)?.length)">
-      <h6 *ngIf="selectedCategoryId">Ebben a kategóriában nem találtunk termékeket amelyek elhelyezhetők a
+      <h6 *ngIf="selectedCategoryId && !selectedProduct">Ebben a kategóriában nem találtunk termékeket amelyek
+        elhelyezhetők a
         konfigurációban.</h6>
     </div>
     <nb-list *ngIf="!selectedProduct">
@@ -27,10 +28,11 @@
         <div class="product-list-item">
           <h6>{{ product.name }}</h6>
           <div class="action-container">
-            <button nbButton hero status="primary">
+            <a nbButton hero status="primary"
+              [routerLink]="['/categories', selectedCategoryId, 'products', product.id]">
               <nb-icon icon="file-text-outline"></nb-icon>
               Részletek
-            </button>
+            </a>
             <button nbButton hero status="success" (click)="selectProduct(product)">
               <nb-icon icon="plus-outline"></nb-icon>
               Kiválasztás
@@ -39,15 +41,16 @@
         </div>
       </nb-list-item>
     </nb-list>
-    <div *ngIf="selectedProduct">
+    <div class="selected-product-container" *ngIf="selectedProduct">
       <h5>Kiválasztott termék:</h5>
       <div class="product-list-item">
         <h6>{{ selectedProduct.name }}</h6>
         <div class="action-container">
-          <button nbButton hero status="primary">
+          <a nbButton hero status="primary"
+            [routerLink]="['/categories', selectedCategoryId, 'products', selectedProduct.id]">
             <nb-icon icon="file-text-outline"></nb-icon>
             Részletek
-          </button>
+          </a>
           <button nbButton hero status="danger" (click)="deselectProduct()">
             <nb-icon icon="trash-2-outline"></nb-icon>
             Termék eltávolítása a helyről

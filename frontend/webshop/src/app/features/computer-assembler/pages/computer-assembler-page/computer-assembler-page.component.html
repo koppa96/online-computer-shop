@@ -10,7 +10,10 @@
   </nb-card-body>
   <nb-card-footer>
     <h6>Szabad csatlakozók</h6>
-    <nb-list>
+    <span *ngIf="sockets.length === 0" class="empty-socket-list">Itt látható majd, milyen csatlakozó típusok vannak
+      szabadon a
+      konfigurációdban.</span>
+    <nb-list *ngIf="sockets.length > 0">
       <nb-list-item *ngFor="let item of sockets">
         <div class="available-socket-item">
           <strong>{{ item.name }}</strong>
@@ -21,12 +24,17 @@
   </nb-card-footer>
 </nb-card>
 <app-assembler-slot *ngFor="let product of products;" [(selectedProduct)]="product.selectedProduct"
-  [categories]="categories$ | async" [sockets]="sockets" (deleteThis)="deleteSlot(product.index)"
-  (selectedProductChange)="calculateSockets()">
+  [categories]="categories$ | async" [sockets]="sockets" [(selectedCategoryId)]="product.selectedCategoryId"
+  (deleteThis)="deleteSlot(product.index)" (selectedProductChange)="productSelectonChange()"
+  (selectedCategoryIdChange)="categorySelectionChange()">
 </app-assembler-slot>
 <div class="add-button-container">
-  <button nbButton hero status="success" (click)="addSlot()">
+  <button nbButton hero status="primary" (click)="addSlot()">
     <nb-icon icon="plus-outline"></nb-icon>
     Alkatrész hely hozzáadása
+  </button>
+  <button nbButton hero status="success" (click)="addItemsToCart()">
+    <nb-icon icon="shopping-bag-outline"></nb-icon>
+    Termékek kosárba helyezése
   </button>
 </div>

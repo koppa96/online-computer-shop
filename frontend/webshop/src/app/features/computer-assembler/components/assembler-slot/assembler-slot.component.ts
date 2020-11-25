@@ -1,7 +1,7 @@
-import { AfterViewChecked, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { merge, Observable, Subject } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { CategoriesClient, CategoryListResponse, ComputerAssemblerProductListResponse, ProductListResponse, ProductSocketResponse, ProvidedSocketQuery } from 'src/app/shared/clients';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { delay, switchMap } from 'rxjs/operators';
+import { CategoriesClient, CategoryListResponse, ComputerAssemblerProductListResponse, ProvidedSocketQuery } from 'src/app/shared/clients';
 import { SocketModel } from '../../models/socket.model';
 
 @Component({
@@ -9,15 +9,16 @@ import { SocketModel } from '../../models/socket.model';
   templateUrl: './assembler-slot.component.html',
   styleUrls: ['./assembler-slot.component.scss']
 })
-export class AssemblerSlotComponent implements OnInit {
+export class AssemblerSlotComponent implements AfterViewInit {
   @Input() categories: CategoryListResponse[];
   @Input() sockets: SocketModel[];
 
+  @Input() selectedCategoryId: string;
   @Input() selectedProduct: ComputerAssemblerProductListResponse;
   @Output() selectedProductChange = new EventEmitter<ComputerAssemblerProductListResponse>();
+  @Output() selectedCategoryIdChange = new EventEmitter<string>();
   @Output() deleteThis = new EventEmitter<void>();
 
-  selectedCategoryId: string;
   loadProducts$ = new Subject<void>();
   products$: Observable<ComputerAssemblerProductListResponse[]>;
 
@@ -31,8 +32,15 @@ export class AssemblerSlotComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
+  ngAfterViewInit() {
+    if (this.selectedCategoryId) {
+      this.loadProducts$.next();
+    }
+  }
 
+  selectCategory(categoryId: string) {
+    this.loadProducts$.next();
+    this.selectedCategoryIdChange.next(categoryId);
   }
 
   selectProduct(product: ComputerAssemblerProductListResponse) {
@@ -43,5 +51,8 @@ export class AssemblerSlotComponent implements OnInit {
   deselectProduct() {
     this.selectedProduct = null;
     this.selectedProductChange.emit(null);
+    setTimeout(() => {
+      this.loadProducts$.next();
+    }, 1);
   }
 }

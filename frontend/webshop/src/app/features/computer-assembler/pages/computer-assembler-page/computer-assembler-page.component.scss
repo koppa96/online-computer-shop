@@ -3,15 +3,28 @@ h6 {
 }
 
 nb-card-footer {
+  padding: 0;
+
   h6 {
-    margin-top: 0;
+    margin: 1rem;
   }
+}
+
+.empty-socket-list {
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  margin: 1rem;
 }
 
 .add-button-container {
   display: flex;
   justify-content: center;
   width: 100%;
+
+  button {
+    margin: 0 20px;
+  }
 }
 
 .available-socket-item {
