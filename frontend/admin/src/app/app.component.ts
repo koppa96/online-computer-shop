@@ -29,7 +29,8 @@ export class AppComponent implements OnInit {
     },
     {
       title: 'Felhasználókezelés',
-      icon: 'people-outline'
+      icon: 'people-outline',
+      link: '/user-management'
     },
   ];
   constructor(

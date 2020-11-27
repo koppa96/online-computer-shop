@@ -17,163 +17,6 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 @Injectable({
     providedIn: 'root'
 })
-export class AdministratorsClient {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
-    }
-
-    listAdministrators(): Observable<AdministratorListResponse[]> {
-        let url_ = this.baseUrl + "/api/admin/Administrators";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processListAdministrators(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processListAdministrators(<any>response_);
-                } catch (e) {
-                    return <Observable<AdministratorListResponse[]>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<AdministratorListResponse[]>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processListAdministrators(response: HttpResponseBase): Observable<AdministratorListResponse[]> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(AdministratorListResponse.fromJS(item));
-            }
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<AdministratorListResponse[]>(<any>null);
-    }
-
-    createAdministrator(): Observable<void> {
-        let url_ = this.baseUrl + "/api/admin/Administrators";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateAdministrator(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreateAdministrator(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processCreateAdministrator(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    removeAdministrator(administratorId: string): Observable<void> {
-        let url_ = this.baseUrl + "/api/admin/Administrators/{administratorId}";
-        if (administratorId === undefined || administratorId === null)
-            throw new Error("The parameter 'administratorId' must be defined.");
-        url_ = url_.replace("{administratorId}", encodeURIComponent("" + administratorId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processRemoveAdministrator(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processRemoveAdministrator(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processRemoveAdministrator(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-}
-
-@Injectable({
-    providedIn: 'root'
-})
 export class CategoriesClient {
     private http: HttpClient;
     private baseUrl: string;
@@ -1295,44 +1138,164 @@ export class SocketsClient {
     }
 }
 
-export class AdministratorListResponse implements IAdministratorListResponse {
-    id?: string;
-    userName?: string | undefined;
+@Injectable({
+    providedIn: 'root'
+})
+export class UsersClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(data?: IAdministratorListResponse) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    listUsers(): Observable<UserListResponse[]> {
+        let url_ = this.baseUrl + "/api/admin/Users";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processListUsers(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processListUsers(<any>response_);
+                } catch (e) {
+                    return <Observable<UserListResponse[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<UserListResponse[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processListUsers(response: HttpResponseBase): Observable<UserListResponse[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(UserListResponse.fromJS(item));
             }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
         }
+        return _observableOf<UserListResponse[]>(<any>null);
     }
 
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.userName = _data["userName"];
+    createAdministrator(userId: string): Observable<void> {
+        let url_ = this.baseUrl + "/api/admin/Users/{userId}";
+        if (userId === undefined || userId === null)
+            throw new Error("The parameter 'userId' must be defined.");
+        url_ = url_.replace("{userId}", encodeURIComponent("" + userId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateAdministrator(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateAdministrator(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateAdministrator(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
         }
+        return _observableOf<void>(<any>null);
     }
 
-    static fromJS(data: any): AdministratorListResponse {
-        data = typeof data === 'object' ? data : {};
-        let result = new AdministratorListResponse();
-        result.init(data);
-        return result;
+    removeAdministrator(userId: string): Observable<void> {
+        let url_ = this.baseUrl + "/api/admin/Users/{userId}";
+        if (userId === undefined || userId === null)
+            throw new Error("The parameter 'userId' must be defined.");
+        url_ = url_.replace("{userId}", encodeURIComponent("" + userId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRemoveAdministrator(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRemoveAdministrator(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
     }
 
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["userName"] = this.userName;
-        return data; 
-    }
-}
+    protected processRemoveAdministrator(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
-export interface IAdministratorListResponse {
-    id?: string;
-    userName?: string | undefined;
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
 }
 
 export class CategoryListResponse implements ICategoryListResponse {
@@ -1983,6 +1946,7 @@ export enum OrderState {
 }
 
 export class OrderGetResponse implements IOrderGetResponse {
+    id?: string;
     userName?: string | undefined;
     address?: string | undefined;
     state?: OrderState;
@@ -2000,6 +1964,7 @@ export class OrderGetResponse implements IOrderGetResponse {
 
     init(_data?: any) {
         if (_data) {
+            this.id = _data["id"];
             this.userName = _data["userName"];
             this.address = _data["address"];
             this.state = _data["state"];
@@ -2021,6 +1986,7 @@ export class OrderGetResponse implements IOrderGetResponse {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
         data["userName"] = this.userName;
         data["address"] = this.address;
         data["state"] = this.state;
@@ -2035,6 +2001,7 @@ export class OrderGetResponse implements IOrderGetResponse {
 }
 
 export interface IOrderGetResponse {
+    id?: string;
     userName?: string | undefined;
     address?: string | undefined;
     state?: OrderState;
@@ -2044,6 +2011,7 @@ export interface IOrderGetResponse {
 
 export class OrderItemGetResponse implements IOrderItemGetResponse {
     id?: string;
+    categoryId?: string;
     productId?: string;
     productName?: string | undefined;
     quantity?: number;
@@ -2061,6 +2029,7 @@ export class OrderItemGetResponse implements IOrderItemGetResponse {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
+            this.categoryId = _data["categoryId"];
             this.productId = _data["productId"];
             this.productName = _data["productName"];
             this.quantity = _data["quantity"];
@@ -2078,6 +2047,7 @@ export class OrderItemGetResponse implements IOrderItemGetResponse {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
+        data["categoryId"] = this.categoryId;
         data["productId"] = this.productId;
         data["productName"] = this.productName;
         data["quantity"] = this.quantity;
@@ -2088,6 +2058,7 @@ export class OrderItemGetResponse implements IOrderItemGetResponse {
 
 export interface IOrderItemGetResponse {
     id?: string;
+    categoryId?: string;
     productId?: string;
     productName?: string | undefined;
     quantity?: number;
@@ -2780,6 +2751,50 @@ export class SocketEditCommand implements ISocketEditCommand {
 export interface ISocketEditCommand {
     id?: string;
     name?: string | undefined;
+}
+
+export class UserListResponse implements IUserListResponse {
+    id?: string;
+    userName?: string | undefined;
+    isAdmin?: boolean;
+
+    constructor(data?: IUserListResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.userName = _data["userName"];
+            this.isAdmin = _data["isAdmin"];
+        }
+    }
+
+    static fromJS(data: any): UserListResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserListResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["userName"] = this.userName;
+        data["isAdmin"] = this.isAdmin;
+        return data; 
+    }
+}
+
+export interface IUserListResponse {
+    id?: string;
+    userName?: string | undefined;
+    isAdmin?: boolean;
 }
 
 export class ApiException extends Error {

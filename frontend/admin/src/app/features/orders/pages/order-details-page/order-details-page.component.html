@@ -37,7 +37,17 @@
                 <nb-list-item>
                     <div class="order-item-detail-container">
                         <h6>Rendelés állapota</h6>
-                        <p>{{orderDetails.state | orderStateToString}}</p>
+                        <div>
+                            <nb-select [(selected)]="orderDetails.state">
+                                <nb-option [value]="0">Nincs kiszállítva</nb-option>
+                                <nb-option [value]="1">Kiszállítva</nb-option>
+                                <nb-option [value]="2">Kifizetve</nb-option>
+                            </nb-select>
+                            <button nbButton ghost (click)="onStateSave()" nbTooltip="Mentés">
+                                <nb-icon icon="save-outline"></nb-icon>
+                            </button>
+                        </div>
+
                     </div>
                 </nb-list-item>
             </nb-card>
@@ -61,8 +71,7 @@
             </nb-list-item>
         </nb-list>
         <div class="sum-container padding-fix">
-            <strong>Végösszeg</strong>
-            <strong>{{ sum }} Ft</strong>
+            <strong>Végösszeg: {{ sum }} Ft</strong>
         </div>
 
 

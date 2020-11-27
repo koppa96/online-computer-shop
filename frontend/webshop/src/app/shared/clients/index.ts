@@ -1470,6 +1470,7 @@ export enum OrderState {
 }
 
 export class OrderGetResponse implements IOrderGetResponse {
+    id?: string;
     userName?: string | undefined;
     address?: string | undefined;
     state?: OrderState;
@@ -1487,6 +1488,7 @@ export class OrderGetResponse implements IOrderGetResponse {
 
     init(_data?: any) {
         if (_data) {
+            this.id = _data["id"];
             this.userName = _data["userName"];
             this.address = _data["address"];
             this.state = _data["state"];
@@ -1508,6 +1510,7 @@ export class OrderGetResponse implements IOrderGetResponse {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
         data["userName"] = this.userName;
         data["address"] = this.address;
         data["state"] = this.state;
@@ -1522,6 +1525,7 @@ export class OrderGetResponse implements IOrderGetResponse {
 }
 
 export interface IOrderGetResponse {
+    id?: string;
     userName?: string | undefined;
     address?: string | undefined;
     state?: OrderState;
@@ -1531,6 +1535,7 @@ export interface IOrderGetResponse {
 
 export class OrderItemGetResponse implements IOrderItemGetResponse {
     id?: string;
+    categoryId?: string;
     productId?: string;
     productName?: string | undefined;
     quantity?: number;
@@ -1548,6 +1553,7 @@ export class OrderItemGetResponse implements IOrderItemGetResponse {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
+            this.categoryId = _data["categoryId"];
             this.productId = _data["productId"];
             this.productName = _data["productName"];
             this.quantity = _data["quantity"];
@@ -1565,6 +1571,7 @@ export class OrderItemGetResponse implements IOrderItemGetResponse {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
+        data["categoryId"] = this.categoryId;
         data["productId"] = this.productId;
         data["productName"] = this.productName;
         data["quantity"] = this.quantity;
@@ -1575,6 +1582,7 @@ export class OrderItemGetResponse implements IOrderItemGetResponse {
 
 export interface IOrderItemGetResponse {
     id?: string;
+    categoryId?: string;
     productId?: string;
     productName?: string | undefined;
     quantity?: number;

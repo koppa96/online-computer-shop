@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { OrderGetResponse, OrderItemGetResponse, OrdersClient } from 'src/app/shared/clients';
+import { OrderGetResponse, OrderItemGetResponse, OrdersClient, OrderStateEditCommand } from 'src/app/shared/clients';
 
 @Component({
   selector: 'app-order-details-page',
@@ -13,6 +13,7 @@ export class OrderDetailsPageComponent implements AfterViewInit {
 
   orderId: string;
   orderDetails: OrderGetResponse;
+  sum = 0;
 
   loadItems$: Subject<void>;
   orderDetailItems$: Observable<OrderGetResponse>;
@@ -40,11 +41,27 @@ export class OrderDetailsPageComponent implements AfterViewInit {
 
     this.orderDetailItems$.subscribe(x => {
       this.orderDetails = x;
+      this.calculateSum(this.orderDetails.orderItems);
     }
     );
   }
+
   ngAfterViewInit(): void {
     this.loadItems$.next();
+  }
+
+  onStateSave() {
+    this.ordersClient.editOrderState(
+      this.orderId,
+      new OrderStateEditCommand({ id: this.orderId, state: this.orderDetails.state })
+    ).subscribe(() => this.loadItems$.next());
+  }
+
+  calculateSum(orderItems: OrderItemGetResponse[]) {
+    this.sum = 0;
+    orderItems.forEach(item => {
+      this.sum += item.quantity * item.pricePerPiece;
+    });
   }
 
 

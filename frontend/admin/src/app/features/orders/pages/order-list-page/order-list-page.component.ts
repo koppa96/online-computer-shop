@@ -15,13 +15,13 @@ export class OrderListPageComponent implements AfterViewInit {
   loadItems$: Subject<void>;
   orderItems$: Observable<OrderListResponse[]>;
 
-  userName: string;
+  userName = '';
+  clicked = false;
 
   constructor(
     private ordersClient: OrdersClient,
     private dialogService: NbDialogService
   ) {
-    this.userName = 'hulye_kocsog_vagyok';
     this.loadItems$ = new Subject<void>();
     this.orderItems$ = this.loadItems$.pipe(
       switchMap(() => this.ordersClient.listOrders(this.userName))
@@ -30,6 +30,11 @@ export class OrderListPageComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.loadItems$.next();
+  }
+
+  onUserSearch() {
+    this.clicked = true;
     this.loadItems$.next();
   }
 

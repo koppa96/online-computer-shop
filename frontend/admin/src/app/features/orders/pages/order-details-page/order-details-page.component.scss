@@ -65,7 +65,10 @@ h6 {
     }
   }
 
-
+.sum-container {
+  display: flex;
+  justify-content: flex-end;
+}
 
 .padding-fix {
     padding: 1rem;

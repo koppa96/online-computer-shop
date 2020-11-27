@@ -4,18 +4,15 @@
             <h4>Rendelések</h4>
             <div>
                 <label>Felhasználó:</label>
-                <input nbInput>
-                <button nbButton ghost status="primary">
-                    <nb-icon icon="search-outline" status="primary" nbTooltip="Felhasználó keresése">
-
-                    </nb-icon>
+                <input nbInput (keydown.enter)="onUserSearch()" [(ngModel)]="userName">
+                <button nbButton ghost (click)="onUserSearch()" status="primary">
+                    <nb-icon icon="search-outline" status="primary" nbTooltip="Felhasználó keresése"></nb-icon>
                 </button>
             </div>
 
         </div>
     </nb-card-header>
     <nb-card-body>
-        <h4>Megrendelt termékek</h4>
         <div class="order-list-item padding-fix">
             <strong class="item-id">Rendelés ID</strong>
             <strong class="item-userName">Felhasználó</strong>
@@ -43,6 +40,8 @@
                 </div>
             </nb-list-item>
         </nb-list>
+
+        <h6 *ngIf="(clicked && !((orderItems$ | async)?.length))">A keresett felhasználó nem található</h6>
 
     </nb-card-body>
 </nb-card>
