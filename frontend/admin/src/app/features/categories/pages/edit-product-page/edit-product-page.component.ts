@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { CategoriesClient, CategoryGetResponse, CategorySocketGetResponse, ProductEditCommand, ProductGetResponse, ProductsClient, ProductSocketEditCommand, PropertyValueEditCommand } from 'src/app/shared/clients';
+import { CategoriesClient, CategoryGetResponse, CategorySocketGetResponse, CommentResponse, CommentsClient, ProductEditCommand, ProductGetResponse, ProductsClient, ProductSocketEditCommand, PropertyValueEditCommand } from 'src/app/shared/clients';
 import { ProductEditCreateModel } from '../../models/product-create-edit.model';
 
 @Component({
@@ -10,7 +10,7 @@ import { ProductEditCreateModel } from '../../models/product-create-edit.model';
   templateUrl: './edit-product-page.component.html',
   styleUrls: ['./edit-product-page.component.scss']
 })
-export class EditProductPageComponent {
+export class EditProductPageComponent implements AfterViewInit {
 
   productId: string;
   categoryId: string;
@@ -25,7 +25,8 @@ export class EditProductPageComponent {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private productsClient: ProductsClient,
-    private categoriesClient: CategoriesClient
+    private categoriesClient: CategoriesClient,
+    private commentsClient: CommentsClient
   ) {
     this.productId = this.activatedRoute.snapshot.paramMap.get('productId');
     this.categoryId = this.activatedRoute.snapshot.paramMap.get('categoryId');
@@ -61,7 +62,6 @@ export class EditProductPageComponent {
           numberOfSocket: p.numberOfSocket
         }))
       };
-      console.log(this.product);
     }
     );
 
@@ -69,8 +69,11 @@ export class EditProductPageComponent {
       this.categorySockets = x.categorySockets
     );
 
-    this.loadItems$.next();
 
+
+  }
+  ngAfterViewInit(): void {
+    this.loadItems$.next();
   }
 
   onSave() {
@@ -89,7 +92,6 @@ export class EditProductPageComponent {
           numberOfSocket: x.numberOfSocket
         })),
         propertyValues: this.product.properties.map(x => {
-          console.log(x.value);
           return new PropertyValueEditCommand({
             propertyTypeId: x.propertyTypeId,
             value: x.value
@@ -97,9 +99,12 @@ export class EditProductPageComponent {
         })
       })
     ).subscribe(x => this.router.navigate(['../..'], { relativeTo: this.activatedRoute }));
-    console.log(this.product);
   }
 
+  onRemoveComment(comment: CommentResponse) {
+    this.commentsClient.removeComment(comment.id)
+      .subscribe(() => this.loadItems$.next());
+  }
 
 
 

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { CategoriesRoutingModule } from './categories-routing.module';
 import { CategoryListPageComponent } from './pages/category-list-page/category-list-page.component';
 import { ProductListPageComponent } from './pages/product-list-page/product-list-page.component';
-import { NbButtonModule, NbCardModule, NbDialogModule, NbIconModule, NbInputModule, NbListModule, NbSelectModule, NbTooltipModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbDialogModule, NbIconModule, NbInputModule, NbListModule, NbSelectModule, NbTooltipModule, NbUserModule } from '@nebular/theme';
 import { FormsModule } from '@angular/forms';
 import { NewCategoryPageComponent } from './pages/new-category-page/new-category-page.component';
 import { CreateEditCategoryComponent } from './components/create-edit-category/create-edit-category.component';
@@ -27,7 +27,8 @@ import { EditProductPageComponent } from './pages/edit-product-page/edit-product
     NbInputModule,
     FormsModule,
     NbDialogModule.forChild(),
-    NbSelectModule
+    NbSelectModule,
+    NbUserModule
   ]
 })
 export class CategoriesModule { }

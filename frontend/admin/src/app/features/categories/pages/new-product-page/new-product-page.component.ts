@@ -79,7 +79,7 @@ export class NewProductPageComponent {
           value: x.value
         }))
       })
-    ).subscribe(x => this.router.navigate(['..']));
+    ).subscribe(x => this.router.navigate(['..'], { relativeTo: this.activatedRoute }));
     console.log(this.product);
   }
 

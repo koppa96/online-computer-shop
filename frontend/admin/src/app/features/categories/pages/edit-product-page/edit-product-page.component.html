@@ -10,10 +10,41 @@
     <nb-card-body>
         <div class="body-container">
             <app-create-edit-product [(product)]="product" [(sockets)]="categorySockets"></app-create-edit-product>
-            <app-remove-comment></app-remove-comment>
+
+        </div>
+
+        <div class="comments-container">
+            <h5>Megjegyzések</h5>
+            <div *ngIf="!(productItem$ | async)?.comments" class="empty-list-container">
+                <h6>Még nem érkezett megjegyzés a termékhez.</h6>
+            </div>
+            <nb-card *ngFor="let comment of (productItem$ | async)?.comments" class="comment-card">
+                <nb-card-header>
+                    <div class="comment-header-container">
+                        <nb-user [name]="comment.userName"></nb-user>
+                        <button nbButton (click)="onRemoveComment(comment)" nbTooltip="Megjegyzés törlése" ghost
+                            status="danger">
+                            <nb-icon icon="trash-2-outline"></nb-icon>
+                        </button>
+                    </div>
+                </nb-card-header>
+                <nb-card-body>
+                    <div class="comment-body-container">
+                        <p>{{ comment.text }}</p>
+                    </div>
+                </nb-card-body>
+                <nb-card-footer>
+                    <div class="comment-footer-container">
+                        <p>{{comment.dateTimeOfCreation | date:"yyyy. MM. dd HH:mm:ss"}}</p>
+                    </div>
+                </nb-card-footer>
+            </nb-card>
         </div>
 
     </nb-card-body>
+
+
+
     <nb-card-footer>
         <div class="footer-container">
             <button nbButton hero (click)="onSave()" status="primary">Mentés</button>
