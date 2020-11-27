@@ -5,7 +5,7 @@ import { OrdersRoutingModule } from './orders-routing.module';
 
 import { OrderDetailsPageComponent } from './pages/order-details-page/order-details-page.component';
 import { OrderListPageComponent } from './pages/order-list-page/order-list-page.component';
-import { NbButtonModule, NbCardModule, NbDialogModule, NbIconModule, NbInputModule, NbListModule, NbTooltipModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbDialogModule, NbIconModule, NbInputModule, NbListModule, NbSelectModule, NbTooltipModule } from '@nebular/theme';
 import { FormsModule } from '@angular/forms';
 import { OrderStateToStringPipe } from './pipes/order-state-to-string.pipe';
 
@@ -22,7 +22,8 @@ import { OrderStateToStringPipe } from './pipes/order-state-to-string.pipe';
     NbInputModule,
     NbIconModule,
     FormsModule,
-    NbTooltipModule
+    NbTooltipModule,
+    NbSelectModule
   ]
 })
 export class OrdersModule { }
