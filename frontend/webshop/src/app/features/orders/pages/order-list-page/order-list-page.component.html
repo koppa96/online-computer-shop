@@ -16,10 +16,10 @@
           <span class="order-date">{{ item.dateTimeOfOrder | date:'yyyy. MM. dd. hh:mm:ss' }}</span>
           <span class="order-state">{{ item.state | orderState }}</span>
           <div class="order-actions">
-            <button nbButton hero status="primary">
+            <a nbButton hero status="primary" [routerLink]="['../', item.id]">
               <nb-icon icon="file-text-outline"></nb-icon>
-              Részletek
-            </button>
+              Rendelés részletei
+            </a>
           </div>
         </div>
       </nb-list-item>

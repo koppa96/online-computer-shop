@@ -1,1 +1,74 @@
-<p>order-details-page works!</p>
+<nb-card>
+  <nb-card-header>
+    <div class="header-container">
+      <h4>Rendelés részletei</h4>
+      <a nbButton [routerLink]="['..']" hero status="danger">
+        <nb-icon icon="arrow-ios-back-outline"></nb-icon>
+        Vissza
+      </a>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="body-container">
+      <nb-card>
+        <nb-list-item>
+          <div class="order-item-detail-container">
+            <h6>Rendelés azonosítója</h6>
+            <p>{{ (order$ | async)?.id }}</p>
+          </div>
+        </nb-list-item>
+        <nb-list-item>
+          <div class="order-item-detail-container">
+            <h6>Felhasználónév</h6>
+            <p>{{ (order$ | async)?.userName }}</p>
+          </div>
+        </nb-list-item>
+        <nb-list-item>
+          <div class="order-item-detail-container">
+            <h6>Számlázási és szállítási cím</h6>
+            <p>{{ (order$ | async)?.address}}</p>
+          </div>
+        </nb-list-item>
+        <nb-list-item>
+          <div class="order-item-detail-container">
+            <h6>Rendelés időpontja</h6>
+            <p>{{ (order$ | async)?.dateTimeOfOrder | date:"yyyy. MM. dd HH:mm:ss"}}</p>
+          </div>
+        </nb-list-item>
+        <nb-list-item>
+          <div class="order-item-detail-container">
+            <h6>Rendelés állapota</h6>
+            <p>{{ (order$ | async)?.state | orderState}}</p>
+          </div>
+        </nb-list-item>
+      </nb-card>
+    </div>
+
+    <h4>Megrendelt termékek</h4>
+    <div class="order-list-item padding-fix">
+      <strong class="item-name">Termék</strong>
+      <strong class="item-amount">Mennyiség</strong>
+      <strong class="item-price">Részösszeg</strong>
+    </div>
+    <nb-list>
+      <nb-list-item *ngFor="let item of (order$ | async)?.orderItems">
+        <div class="order-list-item">
+          <strong class="item-name">{{ item.productName }}</strong>
+          <span class="item-amount">{{ item.quantity }} darab</span>
+          <strong class="item-price">{{ item.quantity * item.pricePerPiece }} Ft</strong>
+          <div class="item-actions">
+            <a nbButton hero status="primary" [disabled]="!item.productId"
+              [routerLink]="['/categories', item.categoryId, 'products', item.productId]">
+              <nb-icon icon="file-text-outline"></nb-icon>
+              Termék részletei
+            </a>
+          </div>
+        </div>
+      </nb-list-item>
+    </nb-list>
+    <div class="sum-container padding-fix">
+      <strong>Végösszeg</strong>
+      <strong>{{ sum$ | async }} Ft</strong>
+    </div>
+  </nb-card-body>
+</nb-card>

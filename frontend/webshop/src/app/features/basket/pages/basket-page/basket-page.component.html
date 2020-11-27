@@ -5,7 +5,7 @@
         <h4>Kosár</h4>
       </nb-card-header>
       <nb-card-body class="basket-list">
-        <div class="empty-basket" *ngIf="!(basketItems$ | async)">
+        <div class="empty-basket" *ngIf="!((basketItems$ | async)?.length)">
           <h5>A kosarad jelenleg üres.</h5>
         </div>
         <nb-list>

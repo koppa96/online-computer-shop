@@ -58,6 +58,7 @@ namespace OnlineComputerShop.Application.Features.Admin.Products
                 context.PropertyValues.RemoveRange(product.PropertyValues);
                 context.ProductSockets.RemoveRange(product.ProductSockets);
                 product.Name = request.Name;
+                product.Description = request.Description;
                 product.Price = request.Price;
                
                 product.ProductSockets = mapper.Map<List<ProductSocket>>(request.ProductSockets);

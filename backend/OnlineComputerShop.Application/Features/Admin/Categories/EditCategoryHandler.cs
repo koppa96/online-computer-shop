@@ -81,6 +81,7 @@ namespace OnlineComputerShop.Application.Features.Admin.Categories
             context.CategorySockets.RemoveRange(category.CategorySockets);
             context.CategorySockets.AddRange(request.CategorySockets.Select(x => new CategorySocket
             {
+                CategoryId = category.Id,
                 SocketId = x.SocketId
             }));
             

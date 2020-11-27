@@ -55,6 +55,7 @@ namespace OnlineComputerShop.Api
             {
                 config.AddPolicy("Admin", builder => builder.RequireAuthenticatedUser()
                     .RequireClaim("scope", "adminapi.readwrite")
+                    .RequireClaim("user_role", "Admin")
                     .AddAuthenticationSchemes("Admin"));
                 
                 config.AddPolicy("Webshop", builder => builder.RequireAuthenticatedUser()

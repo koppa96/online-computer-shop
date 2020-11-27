@@ -60,7 +60,7 @@ namespace OnlineComputerShop.Application.Features.Webshop.Categories
             var relevantProducts = products.Where(p => 
                     p.ProductSockets.All(x => x.ProvidesUses == ProvidesUses.Provides) ||
                     p.ProductSockets.Any(ps => ps.ProvidesUses == ProvidesUses.Uses && request.ProvidedSockets.Any(s =>
-                        s.SocketId == ps.SocketId && s.NumberOfSocket <= ps.NumberOfSocket)))
+                        s.SocketId == ps.SocketId && s.NumberOfSocket >= ps.NumberOfSocket)))
                 .ToList();
 
             return mapper.Map<List<ComputerAssemblerProductListResponse>>(relevantProducts);

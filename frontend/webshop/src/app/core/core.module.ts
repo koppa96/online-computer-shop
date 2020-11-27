@@ -5,6 +5,7 @@ import { NbActionsModule, NbButtonModule, NbCardModule, NbIconModule, NbInputMod
 import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
 import { ContactComponent } from './pages/contact/contact.component';
+import { WarrantyComponent } from './pages/warranty/warranty.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,7 @@ import { ContactComponent } from './pages/contact/contact.component';
     NbInputModule,
     FormsModule
   ],
-  declarations: [HeaderComponent, HomeComponent, ContactComponent],
+  declarations: [HeaderComponent, HomeComponent, ContactComponent, WarrantyComponent],
   exports: [HeaderComponent, HomeComponent, ContactComponent]
 })
 export class CoreModule { }

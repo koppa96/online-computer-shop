@@ -39,7 +39,8 @@ export class AppComponent {
     },
     {
       title: 'Garancia',
-      icon: 'file-text-outline'
+      icon: 'file-text-outline',
+      link: '/warranty'
     }
   ];
 
