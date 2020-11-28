@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using OnlineComputerShop.Application.Services.Interfaces;
 using OnlineComputerShop.Dal;
 using OnlineComputerShop.Dal.Entities;
+using OnlineComputerShop.Dal.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,17 @@ namespace OnlineComputerShop.Application.Features.Webshop.BasketItems
                 .Include(x => x.BasketItems)
                 .SingleOrDefaultAsync(x => x.Id == identityService.GetUserId(), cancellationToken);
 
+            var product = await context.Products.FindAsync(request.ProductId);
+            if (product == null)
+            {
+                throw new EntityNotFoundException("Product with requested ID is not found");
+            }
+
+            if (product.Quantity < request.Quantity)
+            {
+                throw new ValidationException("Requested quantity of product is more than available quantity in stock");
+            }
+
             var existingBasketItem = user.BasketItems.SingleOrDefault(x => x.ProductId == request.ProductId);
             if (existingBasketItem == null)
             {
@@ -48,7 +60,8 @@ namespace OnlineComputerShop.Application.Features.Webshop.BasketItems
             {
                 existingBasketItem.Quantity += request.Quantity;
             }
-            
+            product.Quantity -= request.Quantity;
+
             await context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }

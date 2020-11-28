@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using OnlineComputerShop.Dal;
+using OnlineComputerShop.Dal.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -26,9 +28,18 @@ namespace OnlineComputerShop.Application.Features.Webshop.BasketItems
 
         public async Task<Unit> Handle(BasketItemRemoveCommand request, CancellationToken cancellationToken)
         {
-            var item = await context.BasketItems.FindAsync(request.Id);
-            if (item != null)
-                context.BasketItems.Remove(item);
+            var basketItem = await context.BasketItems
+                .Include(x => x.Product)
+                .SingleOrDefaultAsync(x => x.Id == request.Id);
+
+            if (basketItem == null)
+            {
+                throw new EntityNotFoundException("BasketItem with requested ID is not found");
+            }
+
+            context.BasketItems.Remove(basketItem);
+            basketItem.Product.Quantity += basketItem.Quantity;
+
             await context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }

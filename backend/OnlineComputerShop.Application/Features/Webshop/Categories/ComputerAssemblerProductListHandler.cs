@@ -28,6 +28,7 @@ namespace OnlineComputerShop.Application.Features.Webshop.Categories
         public Guid Id { get; set; }
         public string Name { get; set; }
         public int PricePerPiece { get; set; }
+        public int Quantity { get; set; }
         public IEnumerable<ProductSocketResponse> ProductSockets { get; set; }
         
         public class ProductSocketResponse

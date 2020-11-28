@@ -24,6 +24,7 @@ namespace OnlineComputerShop.Application.Features.Common.Products
         public string Name { get; set; }
         public string Description { get; set; }
         public int Price { get; set; }
+        public int Quantity { get; set; }
     }
 
     public class ListProductsHandler : IRequestHandler<ProductListQuery, IEnumerable<ProductListResponse>>
