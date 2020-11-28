@@ -61,6 +61,7 @@ namespace OnlineComputerShop.Application.Features.Admin.Products
                 product.Name = request.Name;
                 product.Description = request.Description;
                 product.Price = request.Price;
+                product.Quantity = request.Quantity;
                
                 product.ProductSockets = mapper.Map<List<ProductSocket>>(request.ProductSockets);
                 context.PropertyValues.AddRange(request.PropertyValues.Select(x => new PropertyValue { 
