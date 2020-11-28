@@ -1687,6 +1687,7 @@ export class ProductListResponse implements IProductListResponse {
     name?: string | undefined;
     description?: string | undefined;
     price?: number;
+    quantity?: number;
 
     constructor(data?: IProductListResponse) {
         if (data) {
@@ -1703,6 +1704,7 @@ export class ProductListResponse implements IProductListResponse {
             this.name = _data["name"];
             this.description = _data["description"];
             this.price = _data["price"];
+            this.quantity = _data["quantity"];
         }
     }
 
@@ -1719,6 +1721,7 @@ export class ProductListResponse implements IProductListResponse {
         data["name"] = this.name;
         data["description"] = this.description;
         data["price"] = this.price;
+        data["quantity"] = this.quantity;
         return data; 
     }
 }
@@ -1728,12 +1731,14 @@ export interface IProductListResponse {
     name?: string | undefined;
     description?: string | undefined;
     price?: number;
+    quantity?: number;
 }
 
 export class ProductCreateCommand implements IProductCreateCommand {
     name?: string | undefined;
     description?: string | undefined;
     price?: number;
+    quantity?: number;
     categoryId?: string;
     propertyValues?: PropertyValueCreateCommand[] | undefined;
     productSockets?: ProductSocketCreateCommand[] | undefined;
@@ -1752,6 +1757,7 @@ export class ProductCreateCommand implements IProductCreateCommand {
             this.name = _data["name"];
             this.description = _data["description"];
             this.price = _data["price"];
+            this.quantity = _data["quantity"];
             this.categoryId = _data["categoryId"];
             if (Array.isArray(_data["propertyValues"])) {
                 this.propertyValues = [] as any;
@@ -1778,6 +1784,7 @@ export class ProductCreateCommand implements IProductCreateCommand {
         data["name"] = this.name;
         data["description"] = this.description;
         data["price"] = this.price;
+        data["quantity"] = this.quantity;
         data["categoryId"] = this.categoryId;
         if (Array.isArray(this.propertyValues)) {
             data["propertyValues"] = [];
@@ -1797,6 +1804,7 @@ export interface IProductCreateCommand {
     name?: string | undefined;
     description?: string | undefined;
     price?: number;
+    quantity?: number;
     categoryId?: string;
     propertyValues?: PropertyValueCreateCommand[] | undefined;
     productSockets?: ProductSocketCreateCommand[] | undefined;
@@ -2150,6 +2158,7 @@ export class ProductGetResponse implements IProductGetResponse {
     name?: string | undefined;
     description?: string | undefined;
     price?: number;
+    quantity?: number;
     categoryId?: string;
     category?: string | undefined;
     propertyValues?: PropertyValueResponse[] | undefined;
@@ -2171,6 +2180,7 @@ export class ProductGetResponse implements IProductGetResponse {
             this.name = _data["name"];
             this.description = _data["description"];
             this.price = _data["price"];
+            this.quantity = _data["quantity"];
             this.categoryId = _data["categoryId"];
             this.category = _data["category"];
             if (Array.isArray(_data["propertyValues"])) {
@@ -2204,6 +2214,7 @@ export class ProductGetResponse implements IProductGetResponse {
         data["name"] = this.name;
         data["description"] = this.description;
         data["price"] = this.price;
+        data["quantity"] = this.quantity;
         data["categoryId"] = this.categoryId;
         data["category"] = this.category;
         if (Array.isArray(this.propertyValues)) {
@@ -2230,6 +2241,7 @@ export interface IProductGetResponse {
     name?: string | undefined;
     description?: string | undefined;
     price?: number;
+    quantity?: number;
     categoryId?: string;
     category?: string | undefined;
     propertyValues?: PropertyValueResponse[] | undefined;
@@ -2386,6 +2398,7 @@ export class ProductEditCommand implements IProductEditCommand {
     name?: string | undefined;
     description?: string | undefined;
     price?: number;
+    quantity?: number;
     categoryId?: string;
     propertyValues?: PropertyValueEditCommand[] | undefined;
     productSockets?: ProductSocketEditCommand[] | undefined;
@@ -2405,6 +2418,7 @@ export class ProductEditCommand implements IProductEditCommand {
             this.name = _data["name"];
             this.description = _data["description"];
             this.price = _data["price"];
+            this.quantity = _data["quantity"];
             this.categoryId = _data["categoryId"];
             if (Array.isArray(_data["propertyValues"])) {
                 this.propertyValues = [] as any;
@@ -2432,6 +2446,7 @@ export class ProductEditCommand implements IProductEditCommand {
         data["name"] = this.name;
         data["description"] = this.description;
         data["price"] = this.price;
+        data["quantity"] = this.quantity;
         data["categoryId"] = this.categoryId;
         if (Array.isArray(this.propertyValues)) {
             data["propertyValues"] = [];
@@ -2452,6 +2467,7 @@ export interface IProductEditCommand {
     name?: string | undefined;
     description?: string | undefined;
     price?: number;
+    quantity?: number;
     categoryId?: string;
     propertyValues?: PropertyValueEditCommand[] | undefined;
     productSockets?: ProductSocketEditCommand[] | undefined;

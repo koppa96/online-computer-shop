@@ -18,6 +18,7 @@ export class NewProductPageComponent {
     name: '',
     description: '',
     price: 0,
+    quantity: 0,
     categoryId: '',
     properties: [],
     productSockets: []
@@ -43,6 +44,7 @@ export class NewProductPageComponent {
           name: '',
           description: '',
           price: 0,
+          quantity: 0,
           categoryId: this.categoryId,
           properties: x.propertyTypes.map(p => (
             {

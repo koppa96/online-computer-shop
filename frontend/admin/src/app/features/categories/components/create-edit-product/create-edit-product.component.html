@@ -7,6 +7,9 @@
 <h6>Egységár</h6>
 <input nbInput fullWidth type="number" [(ngModel)]="product.price">
 
+<h6>Raktáron elérhető mennyiség</h6>
+<input nbInput fullWidth type="number" [(ngModel)]="product.quantity">
+
 <h6>Tulajdonságok</h6>
 <div class="properties-container" *ngFor="let property of product.properties">
     <nb-card>

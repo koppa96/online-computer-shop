@@ -35,6 +35,7 @@ export class EditProductPageComponent implements AfterViewInit {
       name: '',
       description: '',
       price: 0,
+      quantity: 0,
       categoryId: '',
       properties: [],
       productSockets: []
@@ -53,6 +54,7 @@ export class EditProductPageComponent implements AfterViewInit {
         name: x.name,
         description: x.description,
         price: x.price,
+        quantity: x.quantity,
         categoryId: x.categoryId,
         properties: x.propertyValues.map(p => ({ propertyTypeId: p.propertyTypeId, propertyTypeName: p.name, value: p.value })),
         productSockets: x.productSockets.map(p => ({

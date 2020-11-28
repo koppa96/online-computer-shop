@@ -1183,6 +1183,7 @@ export class ProductListResponse implements IProductListResponse {
     name?: string | undefined;
     description?: string | undefined;
     price?: number;
+    quantity?: number;
 
     constructor(data?: IProductListResponse) {
         if (data) {
@@ -1199,6 +1200,7 @@ export class ProductListResponse implements IProductListResponse {
             this.name = _data["name"];
             this.description = _data["description"];
             this.price = _data["price"];
+            this.quantity = _data["quantity"];
         }
     }
 
@@ -1215,6 +1217,7 @@ export class ProductListResponse implements IProductListResponse {
         data["name"] = this.name;
         data["description"] = this.description;
         data["price"] = this.price;
+        data["quantity"] = this.quantity;
         return data; 
     }
 }
@@ -1224,12 +1227,14 @@ export interface IProductListResponse {
     name?: string | undefined;
     description?: string | undefined;
     price?: number;
+    quantity?: number;
 }
 
 export class ComputerAssemblerProductListResponse implements IComputerAssemblerProductListResponse {
     id?: string;
     name?: string | undefined;
     pricePerPiece?: number;
+    quantity?: number;
     productSockets?: ProductSocketResponse[] | undefined;
 
     constructor(data?: IComputerAssemblerProductListResponse) {
@@ -1246,6 +1251,7 @@ export class ComputerAssemblerProductListResponse implements IComputerAssemblerP
             this.id = _data["id"];
             this.name = _data["name"];
             this.pricePerPiece = _data["pricePerPiece"];
+            this.quantity = _data["quantity"];
             if (Array.isArray(_data["productSockets"])) {
                 this.productSockets = [] as any;
                 for (let item of _data["productSockets"])
@@ -1266,6 +1272,7 @@ export class ComputerAssemblerProductListResponse implements IComputerAssemblerP
         data["id"] = this.id;
         data["name"] = this.name;
         data["pricePerPiece"] = this.pricePerPiece;
+        data["quantity"] = this.quantity;
         if (Array.isArray(this.productSockets)) {
             data["productSockets"] = [];
             for (let item of this.productSockets)
@@ -1279,6 +1286,7 @@ export interface IComputerAssemblerProductListResponse {
     id?: string;
     name?: string | undefined;
     pricePerPiece?: number;
+    quantity?: number;
     productSockets?: ProductSocketResponse[] | undefined;
 }
 
@@ -1638,6 +1646,7 @@ export class ProductGetResponse implements IProductGetResponse {
     name?: string | undefined;
     description?: string | undefined;
     price?: number;
+    quantity?: number;
     categoryId?: string;
     category?: string | undefined;
     propertyValues?: PropertyValueResponse[] | undefined;
@@ -1659,6 +1668,7 @@ export class ProductGetResponse implements IProductGetResponse {
             this.name = _data["name"];
             this.description = _data["description"];
             this.price = _data["price"];
+            this.quantity = _data["quantity"];
             this.categoryId = _data["categoryId"];
             this.category = _data["category"];
             if (Array.isArray(_data["propertyValues"])) {
@@ -1692,6 +1702,7 @@ export class ProductGetResponse implements IProductGetResponse {
         data["name"] = this.name;
         data["description"] = this.description;
         data["price"] = this.price;
+        data["quantity"] = this.quantity;
         data["categoryId"] = this.categoryId;
         data["category"] = this.category;
         if (Array.isArray(this.propertyValues)) {
@@ -1718,6 +1729,7 @@ export interface IProductGetResponse {
     name?: string | undefined;
     description?: string | undefined;
     price?: number;
+    quantity?: number;
     categoryId?: string;
     category?: string | undefined;
     propertyValues?: PropertyValueResponse[] | undefined;

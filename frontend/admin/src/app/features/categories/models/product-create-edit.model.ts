@@ -19,6 +19,7 @@ export interface ProductEditCreateModel {
     name: string;
     description: string;
     price: number;
+    quantity: number;
     categoryId: string;
     properties: PropertyValueEditCreateModel[];
     productSockets: ProductSocketEditCreateModel[];
