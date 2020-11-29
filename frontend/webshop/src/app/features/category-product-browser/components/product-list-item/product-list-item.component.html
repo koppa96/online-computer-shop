@@ -12,10 +12,12 @@
           <nb-icon icon="file-text-outline"></nb-icon>
           Részletek
         </a>
-        <button *ngIf="isLoggedIn" nbButton status="success" (click)="cartButtonClicked.emit()" hero>
-          <nb-icon icon="shopping-bag-outline"></nb-icon>
-          Kosárba
-        </button>
+        <div [nbTooltip]="tooltip">
+          <button *ngIf="isLoggedIn" nbButton status="success" (click)="cartButtonClicked.emit()" hero [disabled]="item.quantity === 0">
+            <nb-icon icon="shopping-bag-outline"></nb-icon>
+            Kosárba
+          </button>
+        </div>
       </div>
     </div>
   </div>

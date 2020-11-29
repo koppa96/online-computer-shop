@@ -3,14 +3,18 @@
     <nb-card-header>
       <div class="header-container">
         <h4>{{ (product$ | async)?.name }}</h4>
-        <a nbButton hero status="danger" routerLink="..">
-          <nb-icon icon="arrow-ios-back-outline"></nb-icon>
-          Vissza
-        </a>
-        <button nbButton hero status="success" (click)="addToCart()">
-          <nb-icon icon="shopping-bag-outline"></nb-icon>
-          Kosárba
-        </button>
+        <div class="actions">
+          <button nbButton hero status="danger" (click)="navigateBack()">
+            <nb-icon icon="arrow-ios-back-outline"></nb-icon>
+            Vissza
+          </button>
+          <div [nbTooltip]="tooltip">
+            <button nbButton hero status="success" (click)="addToCart()" [disabled]="!(product$ | async)?.quantity">
+              <nb-icon icon="shopping-bag-outline"></nb-icon>
+              Kosárba
+            </button>
+          </div>
+        </div>
       </div>
     </nb-card-header>
     <nb-card-body class="body">

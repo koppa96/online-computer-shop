@@ -2,8 +2,9 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
 import { Observable, Subject } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
-import { BasketItemAddCommand, BasketItemsClient, CommentCreateCommand, CommentResponse, ProductGetResponse, ProductsClient, PropertyValueResponse } from 'src/app/shared/clients';
+import { switchMap, tap } from 'rxjs/operators';
+import { BasketItemAddCommand, BasketItemsClient, CommentCreateCommand, ProductGetResponse, ProductsClient } from 'src/app/shared/clients';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-product-details-page',
@@ -16,12 +17,14 @@ export class ProductDetailsPageComponent implements OnInit, AfterViewInit {
   commentText: string;
   productId: string;
   product: ProductGetResponse;
+  tooltip: string;
 
   constructor(
     private client: ProductsClient,
     private activatedRoute: ActivatedRoute,
     private basketItemsClient: BasketItemsClient,
-    private toastrService: NbToastrService
+    private toastrService: NbToastrService,
+    private location: Location
   ) { }
 
   ngAfterViewInit(): void {
@@ -32,7 +35,8 @@ export class ProductDetailsPageComponent implements OnInit, AfterViewInit {
     this.productId = this.activatedRoute.snapshot.params.productId;
     this.product$ = this.loadProduct$.pipe(
       switchMap(() => this.client.getProduct(this.productId)),
-      tap(product => this.product = product)
+      tap(product => this.product = product),
+      tap(product => this.tooltip = product.quantity === 0 ? 'A termék nincs készleten' : 'Kosárba tétel')
     );
   }
 
@@ -53,5 +57,9 @@ export class ProductDetailsPageComponent implements OnInit, AfterViewInit {
     })).subscribe(
       () => this.toastrService.success(`A termék: ${this.product.name} sikeresen hozzá lett adva a kosaradhoz.`, 'Siker'),
       () => this.toastrService.danger('Nem sikerült a terméket kosárba helyezni. Lehetséges hogy már nincs készleten.', 'Hiba'));
+  }
+
+  navigateBack() {
+    this.location.back();
   }
 }
