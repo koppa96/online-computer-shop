@@ -23,11 +23,24 @@ namespace OnlineComputerShop.IdentityProvider
             using (var scope = host.Services.CreateScope())
             {
                 var dbContext = scope.ServiceProvider.GetRequiredService<OnlineComputerShopContext>();
-                await dbContext.Database.MigrateAsync();
+                var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+                while (true)
+                {
+                    try
+                    {
+                        await dbContext.Database.MigrateAsync();
+                        break;
+                    }
+                    catch (Exception e)
+                    {
+                        logger.LogError(e, "An error occured while trying to migrate the database.");
+                        await Task.Delay(3000);
+                    }
+                }
 
                 var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
-
                 var adminRole = new IdentityRole<Guid>("Admin");
 
                 if (!dbContext.Roles.Any())
@@ -35,14 +48,15 @@ namespace OnlineComputerShop.IdentityProvider
                     await roleMgr.CreateAsync(adminRole);
                 }
 
-                if (!dbContext.Users.Any(x => x.UserName == "admin"))
+                var configuration = scope.ServiceProvider.GetRequiredService<IConfiguration>();
+                if (!dbContext.Users.Any(x => x.UserName == configuration.GetValue<string>("DefaultAdmin:UserName")))
                 {
                     var user = new User
                     {
-                        UserName = "admin",
-                        Email = "admin@teszt.hu"
+                        UserName = configuration.GetValue<string>("DefaultAdmin:UserName"),
+                        Email = configuration.GetValue<string>("DefaultAdmin:Email")
                     };
-                    await userManager.CreateAsync(user);
+                    await userManager.CreateAsync(user, configuration.GetValue<string>("DefaultAdmin:Password"));
                     await userManager.AddToRoleAsync(user, "Admin");
                 }
             }            

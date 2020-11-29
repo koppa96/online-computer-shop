@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Logging;
 using NSwag;
 using NSwag.AspNetCore;
 using NSwag.Generation.Processors.Security;
@@ -32,6 +33,7 @@ namespace OnlineComputerShop.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            IdentityModelEventSource.ShowPII = true;
             services.AddDbContext<OnlineComputerShopContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -44,11 +46,16 @@ namespace OnlineComputerShop.Api
                 {
                     config.Authority = Configuration.GetValue<string>("Authentication:Authority");
                     config.Audience = Configuration.GetValue<string>("Authentication:AdminAudience");
+                    // Konfigurálhatónak kell lennie, docker és kubernetes clusteren belül nem szükséges https, mert a hívás nem a publikus interneten fog menni
+                    config.RequireHttpsMetadata = Configuration.GetValue<bool>("Authentication:RequireHttpsMetadata");
+
                 })
                 .AddJwtBearer("Webshop", config =>
                 {
                     config.Authority = Configuration.GetValue<string>("Authentication:Authority");
                     config.Audience = Configuration.GetValue<string>("Authentication:WebshopAudience");
+                    // Konfigurálhatónak kell lennie, docker és kubernetes clusteren belül nem szükséges https, mert a hívás nem a publikus interneten fog menni
+                    config.RequireHttpsMetadata = Configuration.GetValue<bool>("Authentication:RequireHttpsMetadata");
                 });
 
             services.AddAuthorization(config =>

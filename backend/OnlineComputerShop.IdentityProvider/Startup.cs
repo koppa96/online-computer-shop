@@ -49,7 +49,6 @@ namespace OnlineComputerShop.IdentityProvider
                 .AddInMemoryApiScopes(Configuration.GetSection("IdentityServer:ApiScopes"))
                 .AddInMemoryClients(Configuration.GetSection("IdentityServer:Clients"))
                 .AddAspNetIdentity<User>();
-            services.AddTransient<ICorsPolicyService, CorsPolicyService>();
             services.AddTransient<IProfileService, ProfileService>();
 
             services.AddRazorPages();
@@ -81,8 +80,6 @@ namespace OnlineComputerShop.IdentityProvider
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseHttpsRedirection();
 
             app.UseStaticFiles();
 

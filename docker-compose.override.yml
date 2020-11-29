@@ -8,7 +8,8 @@ services:
       - KESTREL__Certificates__Default__Path=/app/cert/shop.pfx
       - KESTREL__Certificates__Default__Password=Password123
       - ConnectionStrings__DefaultConnection=Server=onlinecomputershop.mssql;Database=OnlineComputershopDb;User Id=SA;Password=Password123;
-      - Authentication__Authority=https://onlinecomputershop.identityprovider
+      - Authentication__Authority=http://onlinecomputershop.identityprovider
+      - Authentication__RequireHttpsMetadata=false
       - AllowedOrigins__0=https://localhost:4200
       - AllowedOrigins__1=https://localhost:4201
     ports:
@@ -30,13 +31,13 @@ services:
       - KESTREL__Certificates__Default__Path=/app/cert/shop.pfx
       - KESTREL__Certificates__Default__Password=Password123
       - ConnectionStrings__DefaultConnection=Server=onlinecomputershop.mssql;Database=OnlineComputershopDb;User Id=SA;Password=Password123;
-      - IdentityServer__IssuerUri=https://onlinecomputershop.identityprovider
-      - IdentityServer__Clients__0__RedirectUris=https://localhost:4201
-      - IdentityServer__Clients__0__PostLogoutRedirectUris=https://localhost:4201
-      - IdentityServer__Clients__0__AllowedCorsOrigins=https://localhost:4201
-      - IdentityServer__Clients__1__RedirectUris=https://localhost:4200
-      - IdentityServer__Clients__1__PostLogoutRedirectUris=https://localhost:4200
-      - IdentityServer__Clients__1__AllowedCorsOrigins=https://localhost:4200
+      - IdentityServer__IssuerUri=http://onlinecomputershop.identityprovider
+      - IdentityServer__Clients__0__RedirectUris__0=https://localhost:4201
+      - IdentityServer__Clients__0__PostLogoutRedirectUris__0=https://localhost:4201
+      - IdentityServer__Clients__0__AllowedCorsOrigins__0=https://localhost:4201
+      - IdentityServer__Clients__1__RedirectUris__0=https://localhost:4200
+      - IdentityServer__Clients__1__PostLogoutRedirectUris__0=https://localhost:4200
+      - IdentityServer__Clients__1__AllowedCorsOrigins__0=https://localhost:4200
       - AllowedOrigins__0=https://localhost:4200
       - AllowedOrigins__1=https://localhost:4201
     ports:

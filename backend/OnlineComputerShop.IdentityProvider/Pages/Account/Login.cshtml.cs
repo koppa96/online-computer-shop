@@ -69,7 +69,7 @@ namespace OnlineComputerShop.IdentityProvider.Pages.Account
             {
                 var user = await userManager.FindByNameAsync(Username);
                 var context = await interactionService.GetAuthorizationContextAsync(ReturnUrl);
-                if (user != null && (environment.IsDevelopment() || await userManager.CheckPasswordAsync(user, Password)))
+                if (user != null && (await userManager.CheckPasswordAsync(user, Password)))
                 {
                     if (context.Client.ClientId != configuration.GetValue<string>("AdminAppClientId") || await userManager.IsInRoleAsync(user, "Admin"))
                     {
