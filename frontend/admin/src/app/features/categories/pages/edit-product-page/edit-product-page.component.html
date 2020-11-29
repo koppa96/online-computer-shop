@@ -2,7 +2,10 @@
     <nb-card-header>
         <div class="header-container">
             <h4>Termék módosítása</h4>
-            <a nbButton [routerLink]="['../..']" hero status="danger">Vissza</a>
+            <a nbButton [routerLink]="['../..']" hero status="danger">
+                <nb-icon icon="arrow-ios-back-outline"></nb-icon>
+                Vissza
+            </a>
 
 
         </div>
@@ -47,7 +50,10 @@
 
     <nb-card-footer>
         <div class="footer-container">
-            <button nbButton hero (click)="onSave()" status="primary">Mentés</button>
+            <button nbButton hero (click)="onSave()" status="primary">
+                <nb-icon icon="save-outline"></nb-icon>
+                Mentés
+            </button>
         </div>
     </nb-card-footer>
 </nb-card>

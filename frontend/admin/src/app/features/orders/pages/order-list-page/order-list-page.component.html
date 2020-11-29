@@ -41,7 +41,9 @@
             </nb-list-item>
         </nb-list>
 
-        <h6 *ngIf="(clicked && !((orderItems$ | async)?.length))">A keresett felhasználó nem található</h6>
+        <div *ngIf="!((orderItems$ | async)?.length)">
+            <h6 *ngIf="clicked">A keresett felhasználó nem található</h6>
+        </div>
 
     </nb-card-body>
 </nb-card>

@@ -88,6 +88,7 @@ export class EditProductPageComponent implements AfterViewInit {
         name: this.product.name,
         description: this.product.description,
         price: this.product.price,
+        quantity: this.product.quantity,
         productSockets: this.product.productSockets.map(x => new ProductSocketEditCommand({
           socketId: x.socketId,
           providesUses: x.providesUses,

@@ -3,7 +3,10 @@
         <div class="header-container">
             <h4>Termékek</h4>
             <div>
-                <button nbButton [routerLink]="['../..']" hero status="danger">Vissza</button>
+                <button nbButton [routerLink]="['../..']" hero status="danger">
+                    <nb-icon icon="arrow-ios-back-outline"></nb-icon>
+                    Vissza
+                </button>
                 <a nbButton [routerLink]="['new-product']" hero status="primary">Új felvétele</a>
             </div>
 

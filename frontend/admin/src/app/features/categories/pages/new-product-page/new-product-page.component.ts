@@ -71,6 +71,7 @@ export class NewProductPageComponent {
         name: this.product.name,
         description: this.product.description,
         price: this.product.price,
+        quantity: this.product.quantity,
         productSockets: this.product.productSockets.map(x => new ProductSocketCreateCommand({
           socketId: x.socketId,
           numberOfSocket: x.numberOfSocket,

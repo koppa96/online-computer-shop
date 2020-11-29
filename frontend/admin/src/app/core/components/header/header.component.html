@@ -1,15 +1,12 @@
 <div class="header">
-    <h1>Awesome Computer Shop</h1>
-    <nb-actions size="medium">
-      <nb-action>
-        <nb-icon class="small mr" icon="sun-outline"></nb-icon>
-        <nb-toggle [(checked)]="isDarkTheme" (checkedChange)="onThemeSwitch()"></nb-toggle>
-        <nb-icon class="small ml" icon="moon-outline"></nb-icon>
-      </nb-action>
-      <nb-action class="no-padding">
-        <button nbButton ghost (click)="onLogout()">
-          Kijelentkezés
-        </button>
-      </nb-action>
-    </nb-actions>
-  </div>
+  <h1>Awesome Computer Shop</h1>
+  <nb-actions size="medium">
+    <nb-action>
+      <nb-icon class="small mr" icon="sun-outline"></nb-icon>
+      <nb-toggle [(checked)]="isDarkTheme" (checkedChange)="onThemeSwitch()"></nb-toggle>
+      <nb-icon class="small ml" icon="moon-outline"></nb-icon>
+    </nb-action>
+    <nb-action (click)="onLogout()" icon="log-out-outline" nbTooltip="Kijelentkezés" nbTooltipPlacement="bottom">
+    </nb-action>
+  </nb-actions>
+</div>
