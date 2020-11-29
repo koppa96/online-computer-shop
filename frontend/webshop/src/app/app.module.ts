@@ -9,20 +9,28 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
 import { API_BASE_URL } from './shared/clients';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { ConfigService } from './core/config/config.service';
+import { Config } from './core/config';
 
-export function initializeAuthentication(oauthService: OAuthService) {
-  return () => {
+export function initializeApp(
+  http: HttpClient,
+  oauthService: OAuthService,
+  configService: ConfigService
+) {
+  return async () => {
+    configService.config = await http.get<Config>('assets/config.json').toPromise();
+
     oauthService.configure({
-      clientId: 'webshop',
-      issuer: 'https://localhost:5101',
+      clientId: configService.config.oauth.clientId,
+      issuer: configService.config.oauth.issuer,
       postLogoutRedirectUri: window.location.origin,
       redirectUri: window.location.origin,
-      requireHttps: false,
-      responseType: 'code',
-      scope: 'openid profile webshopapi.readwrite',
+      requireHttps: true,
+      responseType: configService.config.oauth.responseType,
+      scope: configService.config.oauth.scope,
       useSilentRefresh: true
     });
     oauthService.setupAutomaticSilentRefresh();
@@ -53,12 +61,16 @@ export function initializeAuthentication(oauthService: OAuthService) {
   providers: [
     {
       provide: API_BASE_URL,
-      useValue: 'https://localhost:5001'
+      useFactory: (configService: ConfigService) => {
+        return configService.config.apiBaseUrl;
+      },
+      deps: [ConfigService],
+      multi: false
     },
     {
       provide: APP_INITIALIZER,
-      useFactory: initializeAuthentication,
-      deps: [OAuthService],
+      useFactory: initializeApp,
+      deps: [HttpClient, OAuthService, ConfigService],
       multi: true
     },
     {

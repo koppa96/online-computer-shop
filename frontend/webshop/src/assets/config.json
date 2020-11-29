@@ -1,0 +1,9 @@
+{
+  "apiBaseUrl": "https://localhost:5001",
+  "oauth": {
+    "clientId": "webshop",
+    "issuer": "https://localhost:5101",
+    "responseType": "code",
+    "scope": "openid profile webshopapi.readwrite"
+  }
+}
