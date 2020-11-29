@@ -12,19 +12,27 @@ import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { API_BASE_URL } from './shared/clients';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { Config } from './core/config';
+import { ConfigService } from './core/config/config.service';
 
+export function initializeApp(
+  http: HttpClient,
+  oauthService: OAuthService,
+  configService: ConfigService
+) {
+  return async () => {
+    configService.config = await http.get<Config>('assets/config.json').toPromise();
 
-export function initializeAuthentication(oauthService: OAuthService) {
-  return () => {
     oauthService.configure({
-      clientId: 'admin',
-      issuer: 'https://localhost:5101',
+      clientId: configService.config.oauth.clientId,
+      issuer: configService.config.oauth.issuer,
       postLogoutRedirectUri: window.location.origin,
       redirectUri: window.location.origin,
-      requireHttps: false,
-      responseType: 'code',
-      scope: 'openid profile adminapi.readwrite',
-      useSilentRefresh: true
+      requireHttps: true,
+      responseType: configService.config.oauth.responseType,
+      scope: configService.config.oauth.scope,
+      useSilentRefresh: true,
+      skipIssuerCheck: true
     });
     oauthService.setupAutomaticSilentRefresh();
     return oauthService.loadDiscoveryDocumentAndTryLogin();
@@ -53,12 +61,16 @@ export function initializeAuthentication(oauthService: OAuthService) {
   providers: [
     {
       provide: API_BASE_URL,
-      useValue: 'https://localhost:5001'
+      useFactory: (configService: ConfigService) => {
+        return configService.config.apiBaseUrl;
+      },
+      deps: [ConfigService],
+      multi: false
     },
     {
       provide: APP_INITIALIZER,
-      useFactory: initializeAuthentication,
-      deps: [OAuthService],
+      useFactory: initializeApp,
+      deps: [HttpClient, OAuthService, ConfigService],
       multi: true
     },
     {

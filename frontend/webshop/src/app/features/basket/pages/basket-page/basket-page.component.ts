@@ -60,9 +60,9 @@ export class BasketPageComponent implements AfterViewInit {
       id: item.id,
       productId: item.productId,
       quantity: item.quantity + amount
-    })).subscribe(() => {
-      this.loadItems$.next();
-    });
+    })).subscribe(
+      () => this.loadItems$.next(),
+      () => this.toastrService.danger('Nem lehetett módosítani a termékmennyiséget. Lehetséges, hogy a termékből nincs elég készleten.', 'Hiba'));
   }
 
   deleteItems() {

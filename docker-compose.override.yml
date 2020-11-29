@@ -8,6 +8,9 @@ services:
       - KESTREL__Certificates__Default__Path=/app/cert/shop.pfx
       - KESTREL__Certificates__Default__Password=Password123
       - ConnectionStrings__DefaultConnection=Server=onlinecomputershop.mssql;Database=OnlineComputershopDb;User Id=SA;Password=Password123;
+      - Authentication__Authority=https://onlinecomputershop.identityprovider
+      - AllowedOrigins__0=https://localhost:4200
+      - AllowedOrigins__1=https://localhost:4201
     ports:
       - "5000:80"
       - "5001:443"
@@ -27,6 +30,15 @@ services:
       - KESTREL__Certificates__Default__Path=/app/cert/shop.pfx
       - KESTREL__Certificates__Default__Password=Password123
       - ConnectionStrings__DefaultConnection=Server=onlinecomputershop.mssql;Database=OnlineComputershopDb;User Id=SA;Password=Password123;
+      - IdentityServer__IssuerUri=https://onlinecomputershop.identityprovider
+      - IdentityServer__Clients__0__RedirectUris=https://localhost:4201
+      - IdentityServer__Clients__0__PostLogoutRedirectUris=https://localhost:4201
+      - IdentityServer__Clients__0__AllowedCorsOrigins=https://localhost:4201
+      - IdentityServer__Clients__1__RedirectUris=https://localhost:4200
+      - IdentityServer__Clients__1__PostLogoutRedirectUris=https://localhost:4200
+      - IdentityServer__Clients__1__AllowedCorsOrigins=https://localhost:4200
+      - AllowedOrigins__0=https://localhost:4200
+      - AllowedOrigins__1=https://localhost:4201
     ports:
       - "5100:80"
       - "5101:443"
@@ -52,11 +64,15 @@ services:
 
   onlinecomputershop.webshop:
     ports:
-      - "4200:80"
+      - "4200:443"
     volumes:
       - ./cert:/etc/nginx/ssl
-    networks:
-      - online_computer_shop_network
+
+  onlinecomputershop.admin:
+    ports:
+      - "4201:443"
+    volumes:
+      - ./cert:/etc/nginx/ssl   
 
 networks:
   online_computer_shop_network:
