@@ -25,3 +25,10 @@ services:
     build:
       context: ./frontend/webshop
       dockerfile: Dockerfile
+
+  onlinecomputershop.admin:
+    container_name: onlinecomputershop.admin
+    image: ${DOCKER_REGISTRY-}onlinecomputershopadmin
+    build:
+      context: ./frontend/admin
+      dockerfile: Dockerfile

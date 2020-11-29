@@ -31,7 +31,8 @@ export function initializeApp(
       requireHttps: true,
       responseType: configService.config.oauth.responseType,
       scope: configService.config.oauth.scope,
-      useSilentRefresh: true
+      useSilentRefresh: true,
+      skipIssuerCheck: true
     });
     oauthService.setupAutomaticSilentRefresh();
     return oauthService.loadDiscoveryDocumentAndTryLogin();

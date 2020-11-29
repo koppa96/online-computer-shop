@@ -38,7 +38,10 @@ namespace OnlineComputerShop.IdentityProvider
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<OnlineComputerShopContext>();
 
-            services.AddIdentityServer()
+            services.AddIdentityServer(config =>
+            {
+                config.IssuerUri = Configuration.GetValue<string>("IdentityServer:IssuerUri");
+            })
                 .AddDeveloperSigningCredential()
                 .AddInMemoryPersistedGrants()
                 .AddInMemoryIdentityResources(Configuration.GetSection("IdentityServer:IdentityResources"))
@@ -46,6 +49,7 @@ namespace OnlineComputerShop.IdentityProvider
                 .AddInMemoryApiScopes(Configuration.GetSection("IdentityServer:ApiScopes"))
                 .AddInMemoryClients(Configuration.GetSection("IdentityServer:Clients"))
                 .AddAspNetIdentity<User>();
+            services.AddTransient<ICorsPolicyService, CorsPolicyService>();
             services.AddTransient<IProfileService, ProfileService>();
 
             services.AddRazorPages();

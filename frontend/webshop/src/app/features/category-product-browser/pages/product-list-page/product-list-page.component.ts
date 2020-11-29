@@ -36,8 +36,8 @@ export class ProductListPageComponent implements OnInit {
     this.basketItemsClient.addItem(new BasketItemAddCommand({
       productId: product.id,
       quantity: 1
-    })).subscribe(() => {
-      this.toastrService.success(`A termék: ${product.name} sikeresen hozzá lett adva a kosaradhoz.`, 'Siker');
-    });
+    })).subscribe(
+      () => this.toastrService.success(`A termék: ${product.name} sikeresen hozzá lett adva a kosaradhoz.`, 'Siker'),
+      () => this.toastrService.danger('Nem sikerült a terméket kosárba helyezni. Lehetséges hogy már nincs készleten.', 'Hiba'));
   }
 }
